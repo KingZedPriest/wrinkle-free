@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from 'sonner';
 
+//Import Needed Utils
+import { cn } from "@/lib/utils"
+
+//Import Needed Components
+import { ThemeProvider } from "@/components/theme-provider";
+
 //Import Styles
 import "../styles/globals.css";
 
@@ -13,13 +19,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <Toaster richColors position="top-right" closeButton />
+      <body className={cn("min-h-screen antialiased text-xs md:text-sm xl:text-base text-textLight dark:text-textDark", inter.className)}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+          <Toaster richColors position="top-right" closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );
