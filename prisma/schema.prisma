@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//Schemas
+model Admin {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  email             String    @unique
+  hashedPassword    String
+  encryptedPassword String
+  name              String
+  profilePicture    String?
+  role              adminRole @default(admin)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+//Enums
+enum adminRole {
+  admin
+  super_admin
+}

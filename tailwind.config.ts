@@ -35,6 +35,8 @@ const config: Config = {
 					500: '#94A3B8',
 					600: "#F0F0F0",
 				},
+				generalBlue: "#065ad8",
+				cloudBlue: "#0874e3",
 				textLight: "#262c35",
 				textDark: "#c8c8c9",
 			},
