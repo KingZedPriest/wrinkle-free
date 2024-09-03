@@ -1,8 +1,5 @@
 import Image from "next/image";
 
-//Component
-import ShapesAnimation from "./ShapeBackground";
-
 //Images
 import logo from "../../public/logo.png";
 
