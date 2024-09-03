@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 //For Signing Up
-export const emailAuthSchema = z
+export const AuthSchema = z
     .object({
         email: z
             .string({ required_error: 'Email is required' })
@@ -11,4 +11,4 @@ export const emailAuthSchema = z
             .min(6, 'Password must have at least 6 characters')
     });
 
-export type EmailAuth = z.infer<typeof emailAuthSchema>;
+export type Auth = z.infer<typeof AuthSchema>;
