@@ -7,3 +7,14 @@
     text-wrap: pretty;
   }
 }
+
+/* For the Sidebar layout */
+.mainWidth {
+  width: calc(100% - 20rem);
+  float: right;
+}
+@media screen and (max-width: 1023px) {
+  .mainWidth {
+    width: 100%;
+  }
+}
