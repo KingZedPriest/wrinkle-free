@@ -8,7 +8,9 @@ export const AuthSchema = z
             .email('Please enter a valid email address'),
         password: z
             .string({ required_error: 'Password is required' })
-            .min(6, 'Password must have at least 6 characters')
+            .min(6, 'Password must have at least 6 characters'),
+        staySignedIn: z
+            .boolean().optional()
     });
 
 export type Auth = z.infer<typeof AuthSchema>;

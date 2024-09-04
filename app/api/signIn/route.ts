@@ -4,11 +4,12 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 
-//Libs
+//Libs, Schemas
 import { signSession } from '@/lib/token';
+import { Auth } from '@/schemas/auth.schema';
 
 export async function POST(request: NextRequest) {
-    const body = await request.json();
+    const body:Auth = await request.json();
 
     try {
 
