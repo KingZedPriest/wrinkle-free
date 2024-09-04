@@ -1,4 +1,4 @@
-//For the button
+//Button
 declare type ButtonProps = {
     type: "submit" | "reset" | "button";
     text: string;
@@ -7,12 +7,12 @@ declare type ButtonProps = {
     classNames?: string;
 };
 
-//For the authentication Error message
+//Auth Error message
 declare type ErrorText = {
     message: string
 }
 
-//For the Admin
+//Admin
 declare type Admin = {
     id: string;
     email: string;
@@ -24,4 +24,12 @@ declare type Admin = {
     suspended: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+//DownBar NavItem
+declare type NavItem = {
+    href: string;
+    icon: React.ElementType;
+    currentPath: string;
+    label: string;
 }
