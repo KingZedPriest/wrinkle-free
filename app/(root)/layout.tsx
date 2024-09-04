@@ -2,7 +2,7 @@
 //Components
 import DownBar from "@/components/Downbar";
 
-export default function UserLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
     return (
         <section>
             {children}
