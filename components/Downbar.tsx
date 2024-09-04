@@ -12,7 +12,7 @@ const navItems = [
     { href: "/dashboard", icon: HomeHashtag, label: "Home" },
     { href: "/orders", icon: AddCircle, label: "Orders" },
     { href: "/search", icon: SearchNormal, label: "Search" },
-    { href: "/admin", icon: Profile2User, label: "Staff" },
+    { href: "/staff", icon: Profile2User, label: "Staff" },
     { href: "/profile", icon: ProfileCircle, label: "Profile" }
 ];
 

@@ -9,7 +9,7 @@ const NavItem = ({ href, icon: Icon, currentPath, label }: NavItem) => {
     return (
         <Link href={href} className={`${isActive && "p-2 rounded-[2rem] bg-dark-600 dark:bg-light-600 text-white dark:text-black"} flex gap-x-1 items-center text-gray-600 w-auto duration-300`}>
             <Icon size="24" className={isActive ? activeClasses : baseClasses} variant={isActive ? "Bold" : "Outline"} />
-            {isActive && <p>{label}</p>}
+            {isActive && <p className="font-semibold">{label}</p>}
         </Link>
     );
 };
