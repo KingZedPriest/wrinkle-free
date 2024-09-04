@@ -26,7 +26,7 @@ declare type Admin = {
     updatedAt: Date;
 }
 
-//DownBar NavItem
+//DownBar and SideBar NavItem
 declare type NavItem = {
     href: string;
     icon: React.ElementType;
