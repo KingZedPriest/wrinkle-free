@@ -11,3 +11,17 @@ declare type ButtonProps = {
 declare type ErrorText = {
     message: string
 }
+
+//For the Admin
+declare type Admin = {
+    id: string;
+    email: string;
+    hashedPassword: string;
+    encryptedPassword: string;
+    name: string;
+    profilePicture?: string;
+    role: string;
+    suspended: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}

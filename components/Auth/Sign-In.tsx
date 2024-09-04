@@ -46,16 +46,17 @@ const SignIn = () => {
     // OnSubmit function
     const onSubmit: SubmitHandler<Auth> = async (data) => {
 
-        const formData = { ...data };
+        toast.message("Authenticating.....")
+        const formData = { ...data, staySignedIn };
 
         await makeApiRequest("/signIn", "post", formData, {
-            onSuccess: () => {
-                toast.success("");
+            onSuccess: (response) => {
+                toast.success(`Welcome ${response.data.name}`);
                 reset();
                 router.replace(`/dashboard`);
             },
-            onError: () => {
-                toast.error("");
+            onError: (error) => {
+                toast.error(error.response.data);
                 reset()
             },
         });
