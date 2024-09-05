@@ -16,8 +16,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 <Header />
                 {children}
             </section>
-            <section className="md:hidden"><DownBar role={"super_admin"} /></section>
-            <section className="hidden md:block"><SideBar role={"super_admin"} /></section>
+            <section className="lg:hidden"><DownBar role={"super_admin"} /></section>
+            <section className="hidden lg:block"><SideBar role={"super_admin"} /></section>
         </main>
 
     )

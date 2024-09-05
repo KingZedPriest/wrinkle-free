@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 //Icons
@@ -11,16 +10,14 @@ import { formatSubheading } from "@/lib/formatSubHeading";
 
 //Components
 import HeaderSearch from "./HeaderSearch";
+import HeaderSub from "./HeaderSub";
 
 const Header = () => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false)
     const pathName = usePathname()
     const updatedPathname = pathName.replace(/^\//, "");
 
-    const toggleOpen = () => {
-        setIsOpen((prev) => !prev)
-    }
+
 
     return (
         <main className="bg-light-700 dark:bg-dark-700 py-3 px-2 md:px-4 xl:px-6">
@@ -30,7 +27,7 @@ const Header = () => {
                     <p><ArrowRight2 size="18" /></p>
                     <p className="text-black dark:text-white font-semibold capitalize">{updatedPathname}</p>
                 </div>
-                <Category2 size="24" variant="Bold" className="cursor-pointer hover:text-generalBlue dark:hover:text-cloudBlue duration-300" onClick={toggleOpen} />
+                <HeaderSub />
             </div>
             <div className="flex justify-between mt-6">
                 <div className="flex flex-col gap-y-3 w-full">
