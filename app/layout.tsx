@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen antialiased text-xs md:text-sm xl:text-base text-textLight dark:text-textDark", inter.className)}>
+      <body className={cn("h-dvh antialiased text-xs md:text-sm xl:text-base text-textLight dark:text-textDark", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
           <Toaster richColors position="top-right" closeButton />

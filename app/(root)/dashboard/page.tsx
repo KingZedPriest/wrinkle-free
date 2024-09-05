@@ -1,5 +1,6 @@
 //Components
 import SummaryBox from "@/components/Dashboard/SummaryBox";
+import Chart from "@/components/Dashboard/Chart";
 
 //Icons
 import { Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";
@@ -21,7 +22,8 @@ const page = () => {
             </div>
             <div className="flex flex-col lg:flex-row gap-5 mt-10">
                 <div className="w-full lg:w-[60%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
-                    <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Todays Transaction</p>
+                    <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Today Transaction</p>
+                    <Chart />
                 </div>
                 <div className="w-full lg:w-[36%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
                     <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Transaction History</p>

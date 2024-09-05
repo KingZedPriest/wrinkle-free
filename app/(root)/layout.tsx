@@ -11,7 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     // const userDetails = await getCurrentUser()
 
     return (
-        <main>
+        <main className="h-dvh overflow-y-auto">
             <section className="mainWidth">
                 <Header />
                 <main className="px-2 md:px-4 xl:px-6">
