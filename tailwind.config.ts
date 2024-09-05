@@ -25,6 +25,7 @@ const config: Config = {
 					400: '#27344D',
 					500: '#2E3D5B',
 					600: '#262626',
+					700: "#1e1e1e",
 				},
 				light: {
 					100: '#FFFFFF',
@@ -34,6 +35,7 @@ const config: Config = {
 					400: '#CBD5E1',
 					500: '#94A3B8',
 					600: "#F0F0F0",
+					700: "#f4f5f7",
 				},
 				generalBlue: "#065ad8",
 				cloudBlue: "#0874e3",

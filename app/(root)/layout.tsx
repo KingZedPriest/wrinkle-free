@@ -10,10 +10,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     // const userDetails = await getCurrentUser()
 
     return (
-        <section className="md:mainWidth">
-            {children}
-            <section className="md:hidden"><DownBar role={"super_admin"}/></section>
-            <section className="hidden md:block"><SideBar role={"super_admin"}/></section>
-        </section>
+        <main>
+            <section className="mainWidth">
+                {children}
+            </section>
+            <section className="md:hidden"><DownBar role={"super_admin"} /></section>
+            <section className="hidden md:block"><SideBar role={"super_admin"} /></section>
+        </main>
+
     )
 }
