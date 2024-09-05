@@ -32,10 +32,10 @@ const Header = () => {
                 </div>
                 <Category2 size="24" variant="Bold" className="cursor-pointer hover:text-generalBlue dark:hover:text-cloudBlue duration-300" onClick={toggleOpen} />
             </div>
-            <div className="flex justify-between">
-                <div className="flex flex-col gap-y-2">
-                    <div>
-                        <p className="font-semibold text-xl md:text-2xl xl:text-3xl capitalize mt-6">{updatedPathname}</p>
+            <div className="flex justify-between mt-6">
+                <div className="flex flex-col gap-y-3 w-full">
+                    <div className="flex flex-col gap-y-1 sm:gap-y-0 sm:flex-row sm:justify-between sm:items-center">
+                        <p className="font-semibold text-xl md:text-2xl xl:text-3xl capitalize">{updatedPathname}</p>
                         <HeaderSearch />
                     </div>
                     <p>{formatSubheading(updatedPathname)}</p>
