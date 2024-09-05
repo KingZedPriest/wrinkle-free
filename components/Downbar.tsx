@@ -9,7 +9,7 @@ import NavItem from "./NavItem";
 import { AddCircle, HomeHashtag, Profile2User, ProfileCircle, SearchNormal } from "iconsax-react";
 
 const navItems = [
-  { href: "/dashboard", icon: HomeHashtag, label: "Home" },
+  { href: "/dashboard", icon: HomeHashtag, label: "Dashboard" },
   { href: "/orders", icon: AddCircle, label: "Orders" },
   { href: "/search", icon: SearchNormal, label: "Search" },
   { href: "/staff", icon: Profile2User, label: "Staff", role: "super_admin" },

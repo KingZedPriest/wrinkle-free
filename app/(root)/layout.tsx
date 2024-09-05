@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/actions/fetch/currentUser";
 
 //Components
 import DownBar from "@/components/Downbar";
+import Header from "@/components/Header";
 import SideBar from "@/components/SideBar";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     return (
         <main>
             <section className="mainWidth">
+                <Header />
                 {children}
             </section>
             <section className="md:hidden"><DownBar role={"super_admin"} /></section>
