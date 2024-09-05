@@ -16,8 +16,16 @@ const page = () => {
         <main className="py-5">
             <div className="flex flex-wrap gap-5">
                 {summaryItems.map((item, index) => (
-                    <SummaryBox key={index} title={item.title} icon={item.icon} color={item.color} amount={item.amount} icon1={item.icon1} percent={item.percent}/>
+                    <SummaryBox key={index} title={item.title} icon={item.icon} color={item.color} amount={item.amount} icon1={item.icon1} percent={item.percent} />
                 ))}
+            </div>
+            <div className="flex flex-col lg:flex-row gap-5 mt-10">
+                <div className="w-full lg:w-[60%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+                    <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Todays Transaction</p>
+                </div>
+                <div className="w-full lg:w-[36%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+                    <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Transaction History</p>
+                </div>
             </div>
         </main>
     );
