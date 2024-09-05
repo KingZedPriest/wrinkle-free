@@ -25,7 +25,7 @@ const SideBar = ({ role }: { role: string }) => {
   const filteredNavItems = navItems.filter(item => !item.role || item.role === role);
 
   return (
-    <main className="px-10 py-6 dark:bg-light-600 bg-dark-600 w-[20rem] text-textDark dark:text-textLight h-screen flex flex-col rounded-r-2xl backdrop-blur-md bg-opacity-30">
+    <main className="px-10 py-6 dark:bg-light-600 bg-dark-600 w-[20rem] text-textDark dark:text-textLight h-screen flex flex-col rounded-r-3xl">
       <div className="flex-grow flex flex-col gap-y-8 mt-20">
         {filteredNavItems.map((item, index) => (
           <SideItem key={index} currentPath={currentPath} href={item.href} icon={item.icon} label={item.label} />
