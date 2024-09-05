@@ -2,10 +2,10 @@
 
 const SummaryBox = ({ title, icon: Icon, color, amount, icon1: Icon1, percent }: SummaryProps) => {
     return (
-        <main className="w-1/4 min-w-[18rem] p-4 rounded-xl bg-light-600 dark:bg-dark-600 flex flex-col gap-y-3">
+        <main className="w-[23%] min-w-[18rem] p-4 rounded-xl bg-light-600 dark:bg-dark-600 flex flex-col gap-y-3">
             <div className="flex justify-between items-center">
                 <p>{title}</p>
-                <Icon size="30" className={`bg-[${color}]/20 text-[${color}] p-1`} />
+                <Icon size="30" className={`${color} p-1`} />
             </div>
             <p className="text-xl md:text-2xl xl:text-3xl font-semibold dark:text-white text-black">{amount}</p>
             <p className="flex items-center gap-x-1">
