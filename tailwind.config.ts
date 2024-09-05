@@ -41,6 +41,9 @@ const config: Config = {
 				cloudBlue: "#0874e3",
 				textLight: "#262c35",
 				textDark: "#c8c8c9",
+				textGreen: "#4c8942",
+				textRed: "#d82e2e",
+				textOrange: "#f98838",
 			},
 		}
 	},

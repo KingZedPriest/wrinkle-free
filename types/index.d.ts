@@ -33,3 +33,13 @@ declare type NavItem = {
     currentPath: string;
     label: string;
 }
+
+//Dashboard Summary Box
+declare type SummaryProps = {
+    title: string; 
+    icon: React.ElementType; 
+    color: string;
+    amount: number;
+    icon1: React.ElementType; 
+    percent: number;
+}

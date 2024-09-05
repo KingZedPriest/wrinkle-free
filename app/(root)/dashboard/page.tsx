@@ -1,9 +1,11 @@
+//Components
+import SummaryBox from "@/components/Dashboard/SummaryBox";
 
 
 const page = () => {
     return ( 
-        <main>
-
+        <main className="py-10">
+            <SummaryBox />
         </main>
      );
 }

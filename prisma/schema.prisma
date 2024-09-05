@@ -9,7 +9,6 @@ datasource db {
 
 //Schemas
 
-
 model Admin {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   email             String    @unique
@@ -25,8 +24,7 @@ model Admin {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  name      String
+  name      String   @unique
   orders    Order[]
   notes     String?
   createdAt DateTime @default(now())
