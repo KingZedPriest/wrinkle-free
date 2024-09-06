@@ -17,12 +17,3 @@ const SummaryBox = ({ title, icon: Icon, color, amount, icon1: Icon1, percent }:
 }
 
 export default SummaryBox;
-
-// #516fff
-// #f98838
-// #9879f4
-// #f48fc7
-// GReen #4c8942
-//Red #d82e2e
-//0.1% higher than yesterday
-//0.1% lower than yesterday
