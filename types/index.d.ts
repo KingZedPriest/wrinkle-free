@@ -43,3 +43,11 @@ declare type SummaryProps = {
     icon1: React.ElementType; 
     percent: number;
 }
+
+//Order Table
+declare type Transaction = {
+    id: string;
+    totalClothes: number;
+    amount: number;
+    status: 'Pending' | 'Completed' | 'Cancelled';
+}
