@@ -16,9 +16,9 @@ export default function DateInText() {
   }
 
   return (
-    <div className="bg-light-600 dark:bg-dark-600 shadow-md rounded-lg p-6 max-w-sm mx-auto">
-      <h2 className="text-sm md:text-base xl:text-lg font-semibold mb-4">Current Date and Time</h2>
-      <p className="text-lg text-black dark:text-white" aria-live="polite">
+    <div className="flex flex-col gap-y-1 my-3">
+      <p className='text-[10px] md:text-xs xl:text-sm'>Current Date and Time</p>
+      <p className="text-black dark:text-white font-semibold" aria-live="polite">
         {formatDateInText(currentDate)}
       </p>
     </div>

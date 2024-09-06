@@ -4,10 +4,12 @@ import { useState } from "react"
 import Link from "next/link";
 
 //Components
+import DateInText from "./CurrentDate";
 import ModeToggle from "./toggle-mode";
 
 //Icons
 import { Add, Category2, Profile } from "iconsax-react";
+
 
 
 const HeaderSub = () => {
@@ -28,7 +30,8 @@ const HeaderSub = () => {
                     <Add size="24" variant="Bold" />
                     <Link href="/orders/new" className="font-semibold">Create New Order</Link>
                 </div>
-                <div className="flex justify-end my-2">
+                <DateInText />
+                <div className="flex justify-end my-3">
                     <ModeToggle />
                 </div>
             </div>
