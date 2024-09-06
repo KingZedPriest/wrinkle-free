@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
 //UI Components
 
@@ -30,7 +30,7 @@ export default function Chart() {
         <Card className="flex flex-col mt-5">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Radial Chart - Stacked</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>Yesterday - Today 2024</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-1 items-center pb-0">
                 <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full h-[300px]">
@@ -46,7 +46,7 @@ export default function Chart() {
                                                     {totalVisitors.toLocaleString()}
                                                 </tspan>
                                                 <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 8} className="dark:fill-white">
-                                                    Visitors
+                                                    Orders
                                                 </tspan>
                                             </text>
                                         )
@@ -64,7 +64,7 @@ export default function Chart() {
                     Trending up by 5.2% this month <TrendingUp className="h-5 w-5" />
                 </div>
                 <div className="leading-none">
-                    Showing total visitors for the last 6 months
+                    <span className="font-semibold text-sm md:text-base xl:text-lg">46</span> Total number of users for the last 6 months
                 </div>
             </CardFooter>
         </Card>
