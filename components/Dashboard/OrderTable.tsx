@@ -37,7 +37,7 @@ export default function TransactionTable() {
     return (
         <div className="container mx-auto p-6">
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-light-600 dark:bg-dark-600shadow-md rounded-xl overflow-hidden">
+                <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th className="w-12 px-6 py-3 text-left text-xs font-medium uppercase">
