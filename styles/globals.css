@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Custom Scroll bar Light and Dark Mode*/
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #065ad8; /* Scrollbar color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+}
+
+.scroll-container {
+  scrollbar-color: #065ad8 #f1f1f1; /* For Firefox */
+  scrollbar-width: thin;
+}
+
+/* Dark Mode Scrollbar */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #0874e3;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #262c35;
+  }
+
+  .scroll-container {
+    scrollbar-color: #0874e3 #262c35;
+    scrollbar-width: thin;
+  }
+}
+
+
+
 @layer utilities {
   .text-balance {
     text-wrap: pretty;

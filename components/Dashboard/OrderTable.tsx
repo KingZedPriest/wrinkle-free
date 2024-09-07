@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner';
 
 //Icons
 import { Trash, Edit } from "iconsax-react";
@@ -62,20 +63,20 @@ export default function OrderTable() {
                     </thead>
                     <tbody>
                         {orders.map((order, index) => (
-                            <tr key={order.id} className={`${index % 2 === 0 ? "bg-white dark:bg-black" : "bg-light-600 dark:bg-dark-600"}`}>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                            <tr key={order.id} className={`${index % 2 === 0 ? "bg-white dark:bg-black" : "bg-light-600 dark:bg-dark-600"} whitespace-nowrap`}>
+                                <td className="px-6 py-4">
                                     <input type="checkbox" checked={selectedIds.includes(order.id)} onChange={() => handleSelect(order.id)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-4">
                                     <div>{order.id}</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-4">
                                     <div>{order.totalClothes}</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-4">
                                     <div className='text-black dark:text-white font-semibold'>₦{order.amount}</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-4">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                             ${order.status === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
                                             order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
@@ -83,7 +84,7 @@ export default function OrderTable() {
                                         {order.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <td className="px-6 py-4">
                                     <button onClick={() => handleEdit(order.id)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
                                         <Edit className="h-5 w-5" />
                                     </button>
@@ -96,9 +97,15 @@ export default function OrderTable() {
                     </tbody>
                 </table>
             </div>
-            <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                Selected Transaction IDs: {selectedIds.join(', ')}
-            </div>
+            {selectedIds.length > 0 &&
+                <div className="flex justify-between mt-6">
+                    <p>Selected Transaction IDs: {selectedIds.join(', ')}</p>
+                    <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer">
+                        <p>Delete Item(s)</p>
+                        <Trash className="h- w-7" />
+                    </div>
+                </div>
+            }
         </div>
     )
 }
