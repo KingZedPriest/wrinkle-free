@@ -8,7 +8,7 @@ import DateInText from "./CurrentDate";
 import ModeToggle from "./toggle-mode";
 
 //Icons
-import { Add, Category2, Profile } from "iconsax-react";
+import { Add, Category2, UserAdd } from "iconsax-react";
 
 
 
@@ -29,6 +29,10 @@ const HeaderSub = () => {
                 <div className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
                     <Add size="24" variant="Bold" />
                     <Link href="/orders/new" className="font-semibold">Create New Order</Link>
+                </div>
+                <div className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
+                    <UserAdd size="24" variant="Bold" />
+                    <Link href="/staff/new" className="font-semibold">Create New Staff</Link>
                 </div>
                 <DateInText />
                 <div className="flex justify-end my-3">

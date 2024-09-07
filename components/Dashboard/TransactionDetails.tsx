@@ -13,7 +13,7 @@ const TransactionDetails = () => {
             </div>
             <div>
                 <p className="text-xs md:text-sm lg:text-xs xl:text-base font-semibold text-black dark:text-white">+₦45,000</p>
-                <p className='bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100 text-[10px] md:text-xs xl:text-sm rounded-xl text-center py-0.5'>Success</p>
+                <p className='bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100 text-[10px] md:text-xs px-2 inline-flex leading-5 font-semibold rounded-full'>Success</p>
             </div>
         </main>
     );
