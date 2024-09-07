@@ -7,7 +7,7 @@ const StaffHeader = ({ totalStaff }: { totalStaff: number }) => {
     return (
         <main className="flex justify-between items-center">
             <div className="flex gap-x-2 items-center">
-                <Android size="32" className="text-textOrange bg-textOrange/30 p-1" />
+                <Android size="24" className="text-textOrange" />
                 <p className="text-xl md:text-2xl xl:text-3xl font-semibold dark:text-white text-black">{totalStaff}</p>
                 <p>Workers</p>
             </div>
