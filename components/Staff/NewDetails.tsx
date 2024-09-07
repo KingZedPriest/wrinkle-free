@@ -1,8 +1,8 @@
 "use client"
 
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 //Lib
@@ -14,15 +14,17 @@ import { CloseSquare, Copy } from "iconsax-react";
 
 const NewDetails = ({ name, email, encryptedPassword, toggleFunction }: newDetails) => {
 
-    const router = useRouter()
+    const router = useRouter();
 
     //Redirect if there is an undefined
-    if (name === undefined || email === undefined || encryptedPassword === undefined) {
-        toast.error("There is an issue, if this has happened more than once, contact the developer")
-        router.push("/staff")
-        toggleFunction()
-        return
-    }
+    useEffect(() => {
+        if (name === undefined || email === undefined || encryptedPassword === undefined) {
+          toast.error("There is an issue, if this has happened more than once, contact the developer");
+          toggleFunction();
+          router.push("/staff");
+        }
+      }, [name, email, encryptedPassword, toggleFunction, router]);
+      
 
     //Functions
     const handleCopy = async (textToCopy: string, type: string) => {
