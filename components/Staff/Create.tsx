@@ -23,7 +23,7 @@ const Create = () => {
     const [show, setShow] = useState<boolean>(false);
     const [seePassword, setSeePassword] = useState<boolean>(false);
     const [suspended, setSuspended] = useState<boolean>(false);
-    const [admin, setAdmin] = useState<boolean>(false);
+    const [role, setRole] = useState<boolean>(false);
 
     //Functions
     const toggleShowPassword = () => {
@@ -38,8 +38,8 @@ const Create = () => {
         setSuspended((prev) => !prev)
     }
 
-    const toggleAdmin = () => {
-        setAdmin((prev) => !prev)
+    const toggleRole = () => {
+        setRole((prev) => !prev)
     }
 
     // Data validation
@@ -51,7 +51,7 @@ const Create = () => {
     const onSubmit: SubmitHandler<Staff> = async (data) => {
 
         toast.message("Creating Staff...")
-        const formData = { ...data, suspended, admin };
+        const formData = { ...data, suspended, role };
 
         await makeApiRequest("/addAdmin", "post", formData, {
             onSuccess: (response) => {
@@ -97,7 +97,7 @@ const Create = () => {
                         </label>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Checkbox id="role" className="rounded-[2rem]" onCheckedChange={toggleAdmin} />
+                        <Checkbox id="role" className="rounded-[2rem]" onCheckedChange={toggleRole} />
                         <label htmlFor="role" className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                             Make a Super Admin
                         </label>
