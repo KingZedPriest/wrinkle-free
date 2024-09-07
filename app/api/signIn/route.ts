@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         const { email, password, staySignedIn } = body;
 
         //Fetch the admin using their email
-        const admin = await prisma.admin.findFirst({
+        const admin = await prisma.admin.findUnique({
             where: {
                 email
             }

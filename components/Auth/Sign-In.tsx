@@ -18,7 +18,7 @@ import { makeApiRequest } from "@/lib/apiUtils";
 import Input from "../Input";
 import Button from "../Button";
 import ErrorText from "./error-message";
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 
 //Icons
 import { Lock, Unlock } from "iconsax-react";
@@ -88,7 +88,7 @@ const SignIn = () => {
                             </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <Checkbox id="staySignedIn" onCheckedChange={toggleStaySignedIn} className={`${staySignedIn ? "bg-generalBlue dark:text-cloudBlue text-white" : ""} rounded-[2rem]`} />
+                            <Checkbox id="staySignedIn" onCheckedChange={toggleStaySignedIn} className="rounded-[2rem]" />
                             <label htmlFor="staySignedIn" className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                                 Stay Signed In For Seven (7) Days
                             </label>

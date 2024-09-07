@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-//For Signing Up
+//For Creating a new Admin
 export const StaffSchema = z
     .object({
         name: z
@@ -11,10 +11,8 @@ export const StaffSchema = z
         password: z
             .string({ required_error: 'Password is required' })
             .min(6, 'Password must have at least 6 characters'),
-        staySignedIn: z
-            .boolean().optional(),
-        role: z
-            .boolean().optional()
+        suspended: z.boolean().optional(),
+        role: z.boolean().optional()
     });
 
 export type Staff = z.infer<typeof StaffSchema>;

@@ -26,11 +26,11 @@ const HeaderSub = () => {
         <main>
             <Category2 size="24" variant="Bold" className={`${isOpen ? "text-generalBlue dark:text-cloudBlue" : ""} cursor-pointer hover:text-generalBlue dark:hover:text-cloudBlue duration-300`} onClick={toggleOpen} />
             <div className={`${isOpen ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"} ${baseClasses}`}>
-                <div className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
+                <div onClick={() => setIsOpen(false)} className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
                     <Add size="24" variant="Bold" />
                     <Link href="/orders/new" className="font-semibold">Create New Order</Link>
                 </div>
-                <div className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
+                <div onClick={() => setIsOpen(false)} className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
                     <UserAdd size="24" variant="Bold" />
                     <Link href="/staff/new" className="font-semibold">Create New Staff</Link>
                 </div>
