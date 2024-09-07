@@ -4,6 +4,7 @@ import Link from "next/link";
 import SummaryBox from "@/components/Dashboard/SummaryBox";
 import Chart from "@/components/Dashboard/Chart";
 import TransactionDetails from "@/components/Dashboard/TransactionDetails";
+import SelectDate from "@/components/Dashboard/SelectDate";
 
 //Icons
 import { ArrowDown2, Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";
@@ -48,8 +49,12 @@ const page = () => {
                     </div>
                 </div>
             </div>
-            <div className="">
-
+            <div className="border border-slate-200 dark:border-slate-800 p-4 rounded-xl mt-10">
+                <div className="flex flex-col gap-y-1 sm:flex-row sm:justify-between sm:items-center pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">Latest Orders<span className="text-[10px] md:text-xs xl:text-sm sm:hidden ml-6">Last 10 (Ten)</span></p> 
+                    <SelectDate />
+                    <p className="text-[10px] md:text-xs xl:text-sm hidden sm:block">Last 10 (Ten)</p>
+                </div>
             </div>
         </main>
     );
