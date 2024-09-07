@@ -7,24 +7,30 @@ import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-//Icons
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Calendar, ArrowDown2 } from 'iconsax-react';
 
 
-export default function SelectDate() {
-
+export default function DateRangeSelect() {
     const [currentDate, setCurrentDate] = useState(new Date())
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+    const [startDate, setStartDate] = useState<Date | null>(null)
+    const [endDate, setEndDate] = useState<Date | null>(null)
 
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay()
 
-    //Functions
     const handleDateClick = (day: number) => {
-        const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-        setSelectedDate(newDate)
-        //onDateSelect(newDate)
+        const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+        if (!startDate || (startDate && endDate)) {
+            setStartDate(clickedDate)
+            setEndDate(null)
+        } else if (clickedDate > startDate) {
+            setEndDate(clickedDate)
+            //onDateRangeSelect(startDate, clickedDate)
+        } else {
+            setStartDate(clickedDate)
+            setEndDate(null)
+        }
     }
 
     const handlePrevMonth = () => {
@@ -38,9 +44,13 @@ export default function SelectDate() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="outline" className="w-[200px] justify-start text-left">
+                <Button variant="outline" className="w-[250px] justify-start text-left font-normal">
                     <Calendar className="mr-3 h-4 w-4" />
-                    {selectedDate ? format(selectedDate, 'PPP') : <span>Pick a date</span>}
+                    {startDate && endDate ? (
+                        `${format(startDate, 'PP')} - ${format(endDate, 'PP')}`
+                    ) : (
+                        <span>Pick a date range</span>
+                    )}
                     <ArrowDown2 className="ml-3 h-4 w-4" />
                 </Button>
             </PopoverTrigger>
@@ -69,7 +79,9 @@ export default function SelectDate() {
                         {Array.from({ length: daysInMonth }).map((_, index) => {
                             const day = index + 1
                             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-                            const isSelected = selectedDate?.toDateString() === date.toDateString()
+                            const isSelected =
+                                (startDate && date >= startDate && (!endDate || date <= endDate)) ||
+                                (endDate && date <= endDate && (!startDate || date >= startDate))
                             const isToday = new Date().toDateString() === date.toDateString()
 
                             return (
