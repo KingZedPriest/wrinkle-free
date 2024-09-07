@@ -51,11 +51,3 @@ declare type Transaction = {
     amount: number;
     status: 'Pending' | 'Completed' | 'Cancelled';
 }
-
-//New User
-declare type newDetails = {
-    name: string;
-    email: string;
-    encryptedPassword: string;
-    toggleFunction: () => void;
-}
