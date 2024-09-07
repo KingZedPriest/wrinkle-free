@@ -65,7 +65,7 @@ const SignIn = () => {
     return (
         <main className="flex">
             <div className="w-full lg:w-1/2 h-dvh flex items-center justify-center">
-                <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-[90%] sm:w-[80%] md:w-[60%] lg:w-[80%] xl:w-[60%]">
+                <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-[2rem] w-[90%] sm:w-[80%] md:w-[60%] lg:w-[80%] xl:w-[60%]">
                     <div className="flex items-center gap-x-1">
                         <div className="rounded-[50%] p-2 size-10 bg-generalBlue dark:bg-cloudBlue">
                             <Image src={logo} alt="Logo" />
@@ -88,7 +88,7 @@ const SignIn = () => {
                             </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <Checkbox id="staySignedIn" onCheckedChange={toggleStaySignedIn} className={`${staySignedIn ? "bg-generalBlue dark:text-cloudBlue text-white" : ""}`} />
+                            <Checkbox id="staySignedIn" onCheckedChange={toggleStaySignedIn} className={`${staySignedIn ? "bg-generalBlue dark:text-cloudBlue text-white" : ""} rounded-[2rem]`} />
                             <label htmlFor="staySignedIn" className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                                 Stay Signed In For Seven (7) Days
                             </label>
