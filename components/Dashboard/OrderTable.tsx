@@ -12,7 +12,7 @@ const initialTransactions: Transaction[] = [
     { id: 'T004', totalClothes: 2, amount: 60, status: 'Cancelled' },
 ]
 
-export default function TransactionTable() {
+export default function OrderTable() {
     const [orders, setOrders] = useState<Transaction[]>(initialTransactions)
     const [selectedIds, setSelectedIds] = useState<string[]>([])
 
@@ -35,7 +35,7 @@ export default function TransactionTable() {
     }
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="">
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden">
                     <thead className="bg-gray-50 dark:bg-gray-700">
@@ -44,10 +44,10 @@ export default function TransactionTable() {
                                 Select
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase">
-                                Transaction ID
+                                IDs
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase">
-                                Total Clothes
+                                Items
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase">
                                 Amount
@@ -60,24 +60,24 @@ export default function TransactionTable() {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-light-600 dark:bg-dark-600 divide-y divide-gray-200 dark:divide-gray-700">
-                        {orders.map((order) => (
-                            <tr key={order.id}>
+                    <tbody>
+                        {orders.map((order, index) => (
+                            <tr key={order.id} className={`${index % 2 === 0 ? "bg-white dark:bg-black" : "bg-light-600 dark:bg-dark-600"}`}>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <input type="checkbox" checked={selectedIds.includes(order.id)} onChange={() => handleSelect(order.id)} className="form-checkbox h-4 w-4 text-generalBlue dark:text-cloudBlue" />
+                                    <input type="checkbox" checked={selectedIds.includes(order.id)} onChange={() => handleSelect(order.id)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{order.id}</div>
+                                    <div>{order.id}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500 dark:text-gray-400">{order.totalClothes}</div>
+                                    <div>{order.totalClothes}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500 dark:text-gray-400">₦{order.amount}</div>
+                                    <div className='text-black dark:text-white font-semibold'>₦{order.amount}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${order.status === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                            ${order.status === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
                                             order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
                                                 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'}`}>
                                         {order.status}
