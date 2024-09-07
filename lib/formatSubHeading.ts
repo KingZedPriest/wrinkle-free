@@ -14,3 +14,18 @@ export const formatSubheading = (page: string) => {
             return "";
     }
 };
+
+export const formatPlaceholder = (page: string) => {
+    switch(page){
+        case "dashboard":
+            return "Search for User or Order";
+        case "orders":
+            return "Search for Orders";
+        case "profile":
+            return "Search Unavailable";
+        case "search":
+            return "Search";
+        case "staff":
+            return "Search for Staff"
+    }
+}
