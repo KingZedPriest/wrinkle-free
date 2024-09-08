@@ -7,6 +7,7 @@ import getAdmins from "@/actions/fetch/getAdmins";
 //Components
 import StaffHeader from "@/components/Staff/StaffHeader";
 import StaffTable from "@/components/Staff/StaffTable";
+import ScrollReveal from '@/components/RevelOnScroll';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -29,7 +30,9 @@ const page = async () => {
     return (
         <main className="py-5 mb-20 lg:mb-10">
             <StaffHeader totalStaff={filteredAdmins.length} />
-            <StaffTable admins={filteredAdmins} />
+            <ScrollReveal>
+                <StaffTable admins={filteredAdmins} />
+            </ScrollReveal>
         </main>
     );
 }
