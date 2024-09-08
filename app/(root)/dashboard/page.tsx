@@ -24,14 +24,14 @@ const page = () => {
     return (
         <main className="py-5 mb-20 lg:mb-10">
             <ScrollReveal>
-                <div className="flex flex-wrap gap-5">
+                <div key={"summaryBox"} className="flex flex-wrap gap-5">
                     {summaryItems.map((item, index) => (
                         <SummaryBox key={`summary-${index}`} title={item.title} icon={item.icon} color={item.color} amount={item.amount} icon1={item.icon1} percent={item.percent} />
                     ))}
                 </div>
             </ScrollReveal>
             <ScrollReveal>
-                <div className="flex flex-col lg:flex-row gap-5 mt-10">
+                <div key={"transactions"} className="flex flex-col lg:flex-row gap-5 mt-10">
                     <div className="w-full lg:w-[60%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
                         <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Today Transaction</p>
                         <Chart />
@@ -57,7 +57,7 @@ const page = () => {
                 </div>
             </ScrollReveal>
             <ScrollReveal>
-                <div className="border border-slate-200 dark:border-slate-800 p-4 rounded-xl mt-10">
+                <div key={"table"} className="border border-slate-200 dark:border-slate-800 p-4 rounded-xl mt-10">
                     <div className="flex flex-col gap-y-1 sm:flex-row sm:justify-between sm:items-center pb-2 border-b border-slate-200 dark:border-slate-800">
                         <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">Latest Orders<span className="text-[10px] md:text-xs xl:text-sm sm:hidden ml-6">Last 10 (Ten)</span></p>
                         <SelectDate />

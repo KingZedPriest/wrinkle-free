@@ -31,7 +31,7 @@ const page = async () => {
         <main className="py-5 mb-20 lg:mb-10">
             <StaffHeader totalStaff={filteredAdmins.length} />
             <ScrollReveal>
-                <StaffTable admins={filteredAdmins} />
+                <StaffTable key={"admin"} admins={filteredAdmins} />
             </ScrollReveal>
         </main>
     );
