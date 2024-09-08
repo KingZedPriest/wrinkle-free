@@ -13,17 +13,23 @@ export const revalidate = 0;
 const page = async () => {
 
     const currentUser = await getCurrentUser()
-    const admins = await getAdmins()
 
     //Redirect to Dashboard if it's not a super admin
     if (currentUser.role !== "super_admin") {
         redirect(`/dashboard`)
     }
 
+    //Fetch the admins
+    const admins = await getAdmins()
+
+    //Remove the Developer's account and the current logged in super admin
+    const emailsToRemove = ['developer@email.com', currentUser.email]
+    const filteredAdmins = admins.filter(admin => !emailsToRemove.includes(admin.email));
+
     return (
         <main className="py-5 mb-20 lg:mb-10">
-            <StaffHeader totalStaff={admins.length} />
-            <StaffTable admins={admins} />
+            <StaffHeader totalStaff={filteredAdmins.length} />
+            <StaffTable admins={filteredAdmins} />
         </main>
     );
 }

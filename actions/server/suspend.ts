@@ -11,11 +11,11 @@ export async function updateStatus(id: string, type: string) {
                 id
             },
             data: {
-                suspended: type === "suspended" ? true : false,
+                suspended: type === "suspend" ? true : false,
             },
         });
 
-        return { success: true, message: "Admin was suspended successfully." }
+        return { success: true, message: "Admin status was updated successfully." }
 
     } catch (error) {
         console.error('Error updating admin suspension status', error)

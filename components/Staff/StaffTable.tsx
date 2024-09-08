@@ -9,11 +9,12 @@ import { updateStatus } from "@/actions/server/suspend";
 import { decryptPassword } from "@/lib/token";
 
 //Icons
-import { Ban, Copy, Trash2, Edit2 } from 'lucide-react';
+import { Ban, Copy, Trash2, Edit2, Bold } from 'lucide-react';
 
 
 const StaffTable = ({ admins }: { admins: Admin[] }) => {
 
+    
 
     //Functions
     const handleCopy = async (textToCopy: string) => {
@@ -26,8 +27,15 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
         }
     };
 
-    const handleSuspend = (id: string, type: string) => {
-
+    const handleSuspend = async (id: string, type: string) => {
+        toast.message(`Updating the suspension status`)
+        const { success, message } = await updateStatus(id, type)
+        if (success) {
+            window.location.reload()
+            toast.success(message)
+        } else {
+            return toast.error(message)
+        }
     }
 
     const handleDelete = (id: string) => {
@@ -37,7 +45,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
     const handleEdit = (id: string) => {
         // Implement edit functionality here
         console.log(`Editing admin ${id}`)
-      }
+    }
 
     return (
         <main className="mt-10">
@@ -84,13 +92,13 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                 <td className="px-6 py-4">
                                     <button onClick={() => handleSuspend(admin.id, `${admin.suspended ? 'unsuspend' : 'suspend'}`)} className={`mr-2 ${admin.suspended ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`}
                                         title={admin.suspended ? 'Unsuspend' : 'Suspend'}>
-                                        <Ban className="h-5 w-5" />
+                                        <Ban className="h-5 w-5" strokeWidth={4} />
                                     </button>
-                                    <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400 mr-2"
+                                    <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400 mr-3"
                                         title="Copy Email">
                                         <Copy className="h-5 w-5" />
                                     </button>
-                                    <button onClick={() => handleDelete(admin.id)} className="text-red-600 dark:text-red-400 mr-2"
+                                    <button onClick={() => handleDelete(admin.id)} className="text-red-600 dark:text-red-400 mr-3"
                                         title="Delete User">
                                         <Trash2 className="h-5 w-5" />
                                     </button>
