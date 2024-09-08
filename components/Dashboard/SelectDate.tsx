@@ -59,12 +59,12 @@ export default function SelectDate() {
                     </div>
                     <div className="grid grid-cols-7 gap-1">
                         {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
-                            <div key={day} className="text-center font-medium text-gray-500 dark:text-gray-400 text-sm">
+                            <div key={`SD-${day}`} className="text-center font-medium text-gray-500 dark:text-gray-400 text-sm">
                                 {day}
                             </div>
                         ))}
                         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
-                            <div key={`empty-${index}`} />
+                            <div key={`SDEmpty-${index}`} />
                         ))}
                         {Array.from({ length: daysInMonth }).map((_, index) => {
                             const day = index + 1
@@ -74,7 +74,7 @@ export default function SelectDate() {
 
                             return (
                                 <button
-                                    key={day}
+                                    key={`SD1-${day}`}
                                     onClick={() => handleDateClick(day)}
                                     className={`p-2 rounded-full text-center text-sm ${isSelected
                                         ? 'bg-blue-500 text-white'

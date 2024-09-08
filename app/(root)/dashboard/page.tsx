@@ -26,7 +26,7 @@ const page = () => {
             <ScrollReveal>
                 <div className="flex flex-wrap gap-5">
                     {summaryItems.map((item, index) => (
-                        <SummaryBox key={index} title={item.title} icon={item.icon} color={item.color} amount={item.amount} icon1={item.icon1} percent={item.percent} />
+                        <SummaryBox key={`summary-${index}`} title={item.title} icon={item.icon} color={item.color} amount={item.amount} icon1={item.icon1} percent={item.percent} />
                     ))}
                 </div>
             </ScrollReveal>

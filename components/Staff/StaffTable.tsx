@@ -18,11 +18,16 @@ import { Ban, Copy, Trash2, Edit2, Bold } from 'lucide-react';
 const StaffTable = ({ admins }: { admins: Admin[] }) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [admin, setAdmin] = useState<Admin>()
 
     //Functions
 
     const toggleIsOpen = () => {
         setIsOpen((prev) => !prev)
+    }
+
+    const addAdmin = (admin: Admin) => {
+        setAdmin(admin)
     }
 
     const handleCopy = async (textToCopy: string) => {
@@ -59,7 +64,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
 
     return (
         <>
-        {isOpen && <EditDrawer isOpen={isOpen} onClose={toggleIsOpen} userId={"sample"} />}
+            {isOpen && <EditDrawer isOpen={isOpen} onClose={toggleIsOpen} admin={admin!} />}
             <main className="mt-10">
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden mb-4">
@@ -114,7 +119,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                             title="Delete User">
                                             <Trash2 className="h-5 w-5" />
                                         </button>
-                                        <button onClick={() => toggleIsOpen()} className="text-green-600 dark:text-green-400"
+                                        <button onClick={() => { toggleIsOpen(); addAdmin(admin) }} className="text-green-600 dark:text-green-400"
                                             title="Edit User">
                                             <Edit2 className="h-5 w-5" />
                                         </button>

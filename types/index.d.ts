@@ -54,7 +54,16 @@ declare type Transaction = {
 
 //Edit Admin
 declare type EditDrawerProps = {
-    isOpen: boolean
-    onClose: () => void
-    userId: string
+    isOpen: boolean;
+    onClose: () => void;
+    admin: Admin;
 }
+
+declare type InitialStateProps = {
+    email: string;
+    encryptedPassword: string;
+    name: string;
+    role: boolean
+    suspended: boolean;
+    [key: string]: string | boolean;
+  };

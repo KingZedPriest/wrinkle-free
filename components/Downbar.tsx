@@ -25,8 +25,8 @@ const DownBar = ({ role }: { role: string }) => {
   return (
     <main className="absolute bottom-0 left-0 w-full p-2 dark:bg-light-600 bg-dark-600">
       <div className="bg-white dark:bg-black rounded-[2rem] p-2 flex justify-between items-center">
-        {filteredNavItems.map((item, index) => (
-          <NavItem key={index} currentPath={currentPath} href={item.href} icon={item.icon} label={item.label} />
+        {filteredNavItems.map((item) => (
+          <NavItem key={item.label} currentPath={currentPath} href={item.href} icon={item.icon} label={item.label} />
         ))}
       </div>
     </main>
