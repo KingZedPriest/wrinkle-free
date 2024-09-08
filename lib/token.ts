@@ -18,8 +18,13 @@ export async function signSession(adminDetails: object) {
 // Function to verify and decode the user details
 export async function verifySession(token: string) {
   const { payload } = await jwtVerify(token, secretKey);
-  return payload as unknown as Admin;
+
+  // If payload contains 'adminDetails', return it directly
+  const userDetails = payload.adminDetails ? payload.adminDetails : payload;
+
+  return userDetails as Admin;
 }
+
 
 //Encrypt an admin password
 export function encryptPassword(password: string): string {

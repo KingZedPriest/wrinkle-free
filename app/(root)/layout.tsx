@@ -8,7 +8,7 @@ import SideBar from "@/components/SideBar";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
 
-    // const userDetails = await getCurrentUser()
+    const userDetails = await getCurrentUser()
 
     return (
         <main className="h-dvh overflow-y-auto">
@@ -18,8 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     {children}
                 </main>
             </section>
-            <section className="lg:hidden"><DownBar role={"super_admin"} /></section>
-            <section className="hidden lg:block"><SideBar role={"super_admin"} /></section>
+            <section className="lg:hidden"><DownBar role={userDetails.role} /></section>
+            <section className="hidden lg:block"><SideBar role={userDetails.role} /></section>
         </main>
 
     )

@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
         //Fetch the admin using their email
         const admin = await prisma.admin.findUnique({
             where: {
-                email
+                email: email.toLowerCase()
             }
         })
 
