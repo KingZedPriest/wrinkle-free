@@ -15,7 +15,7 @@ import { Add, Category2, UserAdd } from "iconsax-react";
 const HeaderSub = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const baseClasses = "z-[2] absolute w-40 md:w-48 xl:w-56 top-10 bg-light-600 dark:bg-dark-600 right-2 sm:right-3 md:right-4 p-2 md:p-4 xl:p-6 rounded-xl flex flex-col duration-300"
+    const baseClasses = "z-10 absolute w-40 md:w-48 xl:w-56 top-10 bg-light-600 dark:bg-dark-600 right-2 sm:right-3 md:right-4 p-2 md:p-4 xl:p-6 rounded-xl flex flex-col duration-300"
 
     //Functions
     const toggleOpen = () => {
@@ -39,7 +39,7 @@ const HeaderSub = () => {
                     <ModeToggle />
                 </div>
             </div>
-            <div className={`${isOpen ? "fixed inset-0 bg-black/10" : "hidden"} `} onClick={() => setIsOpen(false)}></div>
+            <div className={`${isOpen ? "fixed z-[9] inset-0 bg-black/10" : "hidden"} `} onClick={() => setIsOpen(false)}></div>
         </main>
     );
 }

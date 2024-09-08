@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn("h-dvh antialiased text-xs md:text-sm xl:text-base text-textLight dark:text-textDark", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
