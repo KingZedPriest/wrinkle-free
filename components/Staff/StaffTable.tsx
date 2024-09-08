@@ -3,7 +3,8 @@
 import { toast } from "sonner";
 
 //Actions
-import { updateStatus } from "@/actions/server/suspend";
+import { updateStatus } from "@/actions/server/suspendAdmin";
+import { deleteAdmin } from "@/actions/server/deleteAdmin";
 
 //Libs
 import { decryptPassword } from "@/lib/token";
@@ -13,8 +14,6 @@ import { Ban, Copy, Trash2, Edit2, Bold } from 'lucide-react';
 
 
 const StaffTable = ({ admins }: { admins: Admin[] }) => {
-
-    
 
     //Functions
     const handleCopy = async (textToCopy: string) => {
@@ -28,18 +27,25 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
     };
 
     const handleSuspend = async (id: string, type: string) => {
-        toast.message(`Updating the suspension status`)
+        toast.message(`Updating...`)
         const { success, message } = await updateStatus(id, type)
         if (success) {
             window.location.reload()
             toast.success(message)
         } else {
-            return toast.error(message)
+            toast.error(message)
         }
     }
 
-    const handleDelete = (id: string) => {
-
+    const handleDelete = async (id: string) => {
+        toast.message("Deleting...")
+        const { success, message } = await deleteAdmin(id)
+        if (success) {
+            window.location.reload()
+            toast.success(message)
+        }else {
+            toast.error(message)
+        }
     }
 
     const handleEdit = (id: string) => {
