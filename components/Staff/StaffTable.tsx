@@ -2,6 +2,9 @@
 
 import { toast } from "sonner";
 
+//Actions
+import { updateStatus } from "@/actions/server/suspend";
+
 //Libs
 import { decryptPassword } from "@/lib/token";
 
@@ -83,7 +86,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                         title={admin.suspended ? 'Unsuspend' : 'Suspend'}>
                                         <Ban className="h-5 w-5" />
                                     </button>
-                                    <button onClick={() => handleCopy(admin.email)} className="text-blue-600 dark:text-blue-400 mr-2"
+                                    <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400 mr-2"
                                         title="Copy Email">
                                         <Copy className="h-5 w-5" />
                                     </button>
