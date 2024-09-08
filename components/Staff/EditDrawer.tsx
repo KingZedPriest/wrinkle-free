@@ -2,16 +2,15 @@
 
 import { FormEvent, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 
-//Lib and Components
+//Lib, utils and Components
 import { decryptPassword } from '@/lib/token';
-import { Checkbox } from '../ui/checkbox';
+import { makeApiRequest } from '@/lib/apiUtils';
 
 //Icons
 import { CloseSquare } from 'iconsax-react';
 import Button from '../Button';
-
-
 
 export default function EditDrawer({ isOpen, onClose, admin }: EditDrawerProps) {
 
@@ -37,10 +36,24 @@ export default function EditDrawer({ isOpen, onClose, admin }: EditDrawerProps) 
     const booleanFields = [{ name: "role" }, { name: "suspended" }]
 
     //OnSubmit function
-    const onSubmit = (event: FormEvent) => {
+    const onSubmit = async (event: FormEvent) => {
+        toast.message("Updating User...")
         event.preventDefault()
+        setLoading(true)
 
-        console.log({ state })
+        const formData = { ...state };
+
+        await makeApiRequest("/editAdmin", "post", formData, {
+            onSuccess: (response) => {
+                toast.success(`${response.data.name}'s Profile was updated successfully.`);
+                onClose();
+                window.location.reload();
+            },
+            onError: (error) => {
+                toast.error("Couldn't update Admin details, try again later.");
+                setLoading(false)
+            },
+        });
     }
 
     return (
@@ -63,9 +76,10 @@ export default function EditDrawer({ isOpen, onClose, admin }: EditDrawerProps) 
                         <form className="mt-10 flex flex-col gap-y-5" onSubmit={onSubmit}>
                             {textFields.map((field, index) => (
                                 <div key={`field-${index}`} className='flex flex-col gap-y-1'>
-                                    <label className="cursor-pointer" htmlFor={field.name}>{field.name}</label>
+                                    <label className="cursor-pointer capitalize" htmlFor={field.name}>{field.name}</label>
                                     <input type={`${field.name === "email" ? "email" : "text"}`} id={field.name} name={field.name} onChange={handleFormChange} value={state[field.name] as string}
-                                        className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" />
+                                        className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" readOnly={field.name === "email"} />
+                                    {field.name === "email" && <p className='text-red-600 dark:text-red-400 text-xs lg:text-sm max-w-[50ch]'>Email Addresses can&apos;t be edited</p>}
                                 </div>
                             ))}
                             <div className='flex gap-x-5'>
