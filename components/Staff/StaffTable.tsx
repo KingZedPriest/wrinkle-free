@@ -23,7 +23,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
         }
     };
 
-    const handleSuspend = (id: string) => {
+    const handleSuspend = (id: string, type: string) => {
 
     }
 
@@ -79,7 +79,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button onClick={() => handleSuspend(admin.id)} className={`mr-2 ${admin.suspended ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`}
+                                    <button onClick={() => handleSuspend(admin.id, `${admin.suspended ? 'unsuspend' : 'suspend'}`)} className={`mr-2 ${admin.suspended ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`}
                                         title={admin.suspended ? 'Unsuspend' : 'Suspend'}>
                                         <Ban className="h-5 w-5" />
                                     </button>
