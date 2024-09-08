@@ -51,3 +51,10 @@ declare type Transaction = {
     amount: number;
     status: 'Pending' | 'Completed' | 'Cancelled';
 }
+
+//Edit Admin
+declare type EditDrawerProps = {
+    isOpen: boolean
+    onClose: () => void
+    userId: string
+}

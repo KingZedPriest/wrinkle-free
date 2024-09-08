@@ -39,6 +39,7 @@ model Order {
   items      OrderItem[]
   status     OrderStatus @default(pending)
   price      Int
+  amountPaid Int?
   pickupDay  DateTime
   dropOffDay DateTime?
   admin      String      @db.ObjectId

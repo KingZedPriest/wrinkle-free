@@ -38,7 +38,7 @@ export default function OrderTable() {
     return (
         <div className="">
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden">
+                <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden mb-4">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
                             <th className="w-12 px-6 py-3 text-left text-xs font-medium uppercase">
