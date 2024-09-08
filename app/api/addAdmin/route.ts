@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 
 //Libs, Schemas, Utils
 import { Staff } from '@/schemas/staff.schema';
@@ -42,6 +43,8 @@ export async function POST(request: NextRequest) {
             }
         })
 
+        //Revalidate the path
+        revalidatePath('/(root)/staff', "page") 
         return NextResponse.json(newAdmin);
 
     } catch (error) {
