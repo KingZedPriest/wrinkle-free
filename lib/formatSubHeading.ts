@@ -6,8 +6,6 @@ export const formatSubheading = (page: string) => {
             return "Streamlined Order Management for Enhanced Efficiency";
         case "profile":
             return "Personalized Account Management for Tailored Service";
-        case "search":
-            return "Advanced Search Capabilities for Rapid Information Retrieval";
         case "staff":
             return "Comprehensive Staff Oversight for Optimal Performance";
         default:
@@ -23,8 +21,6 @@ export const formatPlaceholder = (page: string) => {
             return "Search for Orders";
         case "profile":
             return "Search Unavailable";
-        case "search":
-            return "Search";
         case "staff":
             return "Search for Staff"
     }

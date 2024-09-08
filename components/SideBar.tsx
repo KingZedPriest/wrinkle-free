@@ -11,7 +11,6 @@ import { AddCircle, HomeHashtag, Logout, Profile2User, ProfileCircle, SearchNorm
 const navItems = [
   { href: "/dashboard", icon: HomeHashtag, label: "Dashboard" },
   { href: "/orders", icon: AddCircle, label: "Orders" },
-  { href: "/search", icon: SearchNormal, label: "Search" },
   { href: "/staff", icon: Profile2User, label: "Staff", role: "super_admin" },
   { href: "/profile", icon: ProfileCircle, label: "Profile" },
 ];
