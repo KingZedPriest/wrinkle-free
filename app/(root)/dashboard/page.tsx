@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+//Server actions
+import { getCurrentUser } from "@/actions/fetch/currentUser";
+
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
 import SummaryBox from "@/components/Dashboard/SummaryBox";
@@ -20,7 +23,10 @@ const summaryItems = [
     { title: "Total Users", icon: User, color: "bg-[#f48fc7]/20 text-[#f48fc7]", amount: 18, icon1: TrendUp, percent: 0.1 }
 ]
 
-const page = () => {
+const page = async () => {
+
+    const currentAdmin = await getCurrentUser()
+
     return (
         <main className="py-5 mb-20 lg:mb-10">
             <ScrollReveal>
@@ -48,10 +54,12 @@ const page = () => {
                             <TransactionDetails />
                             <TransactionDetails />
                             <TransactionDetails />
-                            <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
-                                <Link href="/orders/transactions">View All Transactions</Link>
-                                <ArrowDown2 size="20" />
-                            </div>
+                            {currentAdmin.role === "super_admin" &&
+                                <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
+                                    <Link href="/orders/transactions">View All Transactions</Link>
+                                    <ArrowDown2 size="20" />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

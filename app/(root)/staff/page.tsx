@@ -17,7 +17,7 @@ const page = async () => {
 
     //Redirect to Dashboard if it's not a super admin
     if (currentUser.role !== "super_admin") {
-        redirect(`/dashboard`)
+        redirect(`/unauthorised`)
     }
 
     //Fetch the admins

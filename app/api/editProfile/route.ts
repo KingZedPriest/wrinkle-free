@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
 
         const { id, name, profilePicture } = body;
 
-
         //Edit your profile
         const editedProfile = await prisma.admin.update({
             where: {
