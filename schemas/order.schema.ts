@@ -15,8 +15,6 @@ export const OrderSchema = z
             .date({ required_error: "The pick up day is required" }),
         status: z
             .string().optional(),
-        picture: z
-            .string().array().nonempty({ message: "Kindly add some images" }),
         quantity: z
             .number({ required_error: "The total number of clothes is required" }),
         service: z

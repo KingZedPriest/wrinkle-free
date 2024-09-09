@@ -74,3 +74,14 @@ declare type InitialFormProps = {
     profilePicture: string;
     [key: string]: string | boolean;
 };
+
+//Order Creation
+declare type User = {
+    id: string
+    name: string
+}
+
+declare type AutocompleteInputProps = {
+    users: User[]
+    onSelect: (user: User) => void
+}

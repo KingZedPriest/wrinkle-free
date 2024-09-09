@@ -45,7 +45,7 @@ const Input = <T extends FieldValues>({
                 onChange={onChange}
                 pattern={pattern}
                 title={title}
-                className={`bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg ${widthClass} ${otherClass}`}
+                className={`bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg ${widthClass} ${otherClass}`}
                 required={required}
             />
         </main>
