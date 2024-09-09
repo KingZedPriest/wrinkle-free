@@ -49,7 +49,7 @@ export default function EditDrawer({ isOpen, onClose, admin }: EditProps) {
                 onClose();
                 window.location.reload();
             },
-            onError: (error) => {
+            onError: () => {
                 toast.error("Couldn't update Admin details, try again later.");
                 setLoading(false)
             },

@@ -24,6 +24,7 @@ declare type Admin = {
     suspended: boolean;
     createdAt: Date | string;
     updatedAt: Date | string;
+    [key: string]: string | boolean;
 }
 
 //DownBar and SideBar NavItem

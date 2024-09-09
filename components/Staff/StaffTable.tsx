@@ -91,7 +91,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                             {admins.map((admin, index) => (
                                 <tr key={admin.id} className={`${index % 2 === 0 ? "bg-white dark:bg-black" : "bg-light-600 dark:bg-dark-600"} whitespace-nowrap`}>
                                     <td className="px-6 py-4">
-                                        <p>{admin.name}</p>
+                                        <p className="capitalize">{admin.name}</p>
                                     </td>
                                     <td className="px-6 py-4">
                                         <p>{admin.email}</p>
@@ -103,7 +103,7 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                             ${admin.role === 'super_admin' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
                                                 admin.role === 'admin' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' : ''}`}>
-                                            {admin.role}
+                                            {admin.role === "super_admin" ? "super admin" : "admin"}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
@@ -112,15 +112,15 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                             <Ban className="h-5 w-5" strokeWidth={4} />
                                         </button>
                                         <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400 mr-3"
-                                            title="Copy Email">
+                                            title="Copy Details">
                                             <Copy className="h-5 w-5" />
                                         </button>
                                         <button onClick={() => handleDelete(admin.id)} className="text-red-600 dark:text-red-400 mr-3"
-                                            title="Delete User">
+                                            title="Delete Admin">
                                             <Trash2 className="h-5 w-5" />
                                         </button>
                                         <button onClick={() => { toggleIsOpen(); addAdmin(admin) }} className="text-green-600 dark:text-green-400"
-                                            title="Edit User">
+                                            title="Edit Admin">
                                             <Edit2 className="h-5 w-5" />
                                         </button>
                                     </td>

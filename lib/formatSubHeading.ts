@@ -8,20 +8,26 @@ export const formatSubheading = (page: string) => {
             return "Personalized Account Management for Tailored Service";
         case "staff":
             return "Comprehensive Staff Oversight for Optimal Performance";
+        case "staff/new":
+            return "Add New Staff Member to Enhance Efficiency";
         default:
             return "";
     }
 };
 
 export const formatPlaceholder = (page: string) => {
-    switch(page){
+    switch (page) {
         case "dashboard":
             return "Search for a User or an Order";
         case "orders":
-            return "Search for Orders";
+            return "Search for an Order(s)";
         case "profile":
             return "Search Unavailable";
         case "staff":
-            return "Search for Staff"
+            return "Search for a Staff";
+        case "staff/new":
+            return "Search Unavailable";
+        default:
+            return "";
     }
 }

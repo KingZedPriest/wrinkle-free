@@ -13,7 +13,7 @@ import { makeApiRequest } from '@/lib/apiUtils';
 import { CloseSquare } from 'iconsax-react';
 import Button from '../Button';
 
-const Edit = ({ isOpen, onClose, admin }: EditProps) => {
+const EditProfile = ({ isOpen, onClose, admin }: EditProps) => {
 
     const initialState: InitialFormProps = {
         name: admin.name,
@@ -82,4 +82,4 @@ const Edit = ({ isOpen, onClose, admin }: EditProps) => {
     );
 }
 
-export default Edit;
+export default EditProfile;
