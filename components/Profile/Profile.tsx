@@ -62,7 +62,11 @@ const Profile = ({ admin }: { admin: Admin }) => {
                         {fields.map((field) => (
                             <div key={field.name} className="flex flex-col gap-y-1 border-b border-slate-200 dark:border-slate-800 p-2">
                                 <p className="text-[10px] md:text-xs xl:text-sm capitalize">{field.name === "encryptedPassword" ? "Password" : field.name}</p>
-                                <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">{field.name === "encryptedPassword" ? decryptPassword(admin[field.name] as string) : admin[field.name] as string}</p>
+                                <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">
+                                    {field.name === "encryptedPassword"
+                                        ? decryptPassword(admin[field.name as keyof Admin] as string)
+                                        : admin[field.name as keyof Admin] as string}
+                                </p>
                             </div>
                         ))}
                     </div>

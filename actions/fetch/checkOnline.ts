@@ -1,7 +1,7 @@
 "use server"
 
-import { cookies } from 'next/headers'
-import { verifySession } from '@/lib/token'
+import { cookies } from 'next/headers';
+import { verifySession } from '@/lib/token';
 
 export async function checkOnline() {
     

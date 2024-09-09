@@ -12,7 +12,7 @@ import EditDrawer from "./EditDrawer";
 import { decryptPassword } from "@/lib/token";
 
 //Icons
-import { Ban, Copy, Trash2, Edit2, Bold } from 'lucide-react';
+import { Ban, Copy, Trash2, Edit2 } from 'lucide-react';
 
 
 const StaffTable = ({ admins }: { admins: Admin[] }) => {
