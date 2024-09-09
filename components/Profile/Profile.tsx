@@ -34,15 +34,15 @@ const Profile = ({ admin }: { admin: Admin }) => {
                 <div className="min-size-[16rem] w-full md:w-[40%]">
                     {isLoading && (
                         <div className="w-full h-full flex items-center justify-center">
-                            <ChartCircle size="30" className="animate-spin text-generalBlue dark:text-cloudBlue" />
+                            <ChartCircle size="40" className="animate-spin text-generalBlue dark:text-cloudBlue" />
                         </div>
                     )}
                     {hasError ? (
                         <div className="flex items-center justify-center h-full w-full">
-                            <InfoCircle size="30" className="text-[#db3056]" variant="Bold" />
+                            <InfoCircle size="40" className="text-[#db3056]" variant="Bold" />
                         </div>
                     ) : (
-                        <Image src={admin.profilePicture ?? profilePicture} alt="Profile Picture" className="object-center w-full h-full rounded-[2rem]"
+                        <Image src={admin.profilePicture && admin.profilePicture?.length > 7 ? admin.profilePicture : profilePicture} alt="Profile Picture" className="object-center w-full h-full rounded-[2rem]"
                             onLoad={() => setIsLoading(false)} onError={() => { setHasError(true); setIsLoading(false); }} />
                     )}
                 </div>

@@ -1,7 +1,10 @@
 "use server"
 
 import { cookies } from 'next/headers';
+
+//Utils and Server Actions
 import { verifySession } from '@/lib/token';
+import getAdmin from './getAnyAdmin';
 
 export async function checkOnline() {
     
@@ -14,6 +17,12 @@ export async function checkOnline() {
   // Verify token, fetch user details and return error if doesn't exist
   const userDetails = await verifySession(token)
   if (!userDetails) {
+    return { success: false, message: "User details not found", redirect: null }
+  }
+
+  //Check and make sure the current details and the database details are the same
+  const currentAdmin = await getAdmin(userDetails.id)
+  if (!currentAdmin) {
     return { success: false, message: "User details not found", redirect: null }
   }
 
