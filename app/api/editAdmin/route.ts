@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
         //Encrypt the password
         const finalEncryptedPassword = encryptPassword(encryptedPassword)
 
-        //Create new admin account
+        //Edit the admin
         const editedAdmin = await prisma.admin.update({
             where: {
                 email
@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
             }
         })
 
-        //Revalidate the path
+        //Return the edited admin details
         return NextResponse.json(editedAdmin);
 
     } catch (error) {
-        console.error("Error creating Admin:", error);
+        console.error("Error editing Admin:", error);
 
         if (error instanceof Error) {
             return new NextResponse(error.message);
