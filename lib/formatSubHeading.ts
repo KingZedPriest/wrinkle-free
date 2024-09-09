@@ -1,15 +1,17 @@
 export const formatSubheading = (page: string) => {
     switch (page) {
         case "dashboard":
-            return "Unified Dashboard for Seamless Laundry Operations";
+            return "Unified Dashboard for Seamless Laundry Operations.";
         case "orders":
-            return "Streamlined Order Management for Enhanced Efficiency";
+            return "Streamlined Order Management for Enhanced Efficiency.";
         case "profile":
-            return "Personalized Account Management for Tailored Service";
+            return "Personalized Account Management for Tailored Service.";
         case "staff":
-            return "Comprehensive Staff Oversight for Optimal Performance";
+            return "Comprehensive Staff Oversight for Optimal Performance.";
         case "staff/new":
-            return "Add New Staff Member to Enhance Efficiency";
+            return "Add New Staff Member to Enhance Efficiency.";
+        case "unauthorised":
+            return "Insufficient Clearance.";
         default:
             return "";
     }
@@ -26,6 +28,8 @@ export const formatPlaceholder = (page: string) => {
         case "staff":
             return "Search for a Staff";
         case "staff/new":
+            return "Search Unavailable";
+        case "unauthorised":
             return "Search Unavailable";
         default:
             return "";
