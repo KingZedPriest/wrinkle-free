@@ -16,6 +16,7 @@ import Button from '../Button';
 const EditProfile = ({ isOpen, onClose, admin }: EditProps) => {
 
     const initialState: InitialFormProps = {
+        id: admin.id,
         name: admin.name,
         profilePicture: admin.profilePicture ?? "",
     };

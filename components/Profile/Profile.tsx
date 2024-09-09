@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 //Components and libs
@@ -17,7 +16,6 @@ import { ChartCircle, Edit, InfoCircle } from "iconsax-react";
 
 const Profile = ({ admin }: { admin: Admin }) => {
 
-    const router = useRouter();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [hasError, setHasError] = useState<boolean>(false);
@@ -36,20 +34,20 @@ const Profile = ({ admin }: { admin: Admin }) => {
                 <div className="min-size-[16rem] w-full md:w-[40%]">
                     {isLoading && (
                         <div className="w-full h-full flex items-center justify-center">
-                            <ChartCircle size="40" className="animate-spin text-generalBlue dark:text-cloudBlue" />
+                            <ChartCircle size="30" className="animate-spin text-generalBlue dark:text-cloudBlue" />
                         </div>
                     )}
                     {hasError ? (
                         <div className="flex items-center justify-center h-full w-full">
-                            <InfoCircle size="24" className="text-[#db3056]" variant="Bold" />
+                            <InfoCircle size="30" className="text-[#db3056]" variant="Bold" />
                         </div>
                     ) : (
                         <Image src={admin.profilePicture ?? profilePicture} alt="Profile Picture" className="object-center w-full h-full rounded-[2rem]"
                             onLoad={() => setIsLoading(false)} onError={() => { setHasError(true); setIsLoading(false); }} />
                     )}
                 </div>
-                <div className="w-full md:w-[56%]">
-                    <div className="flex justify-between items-center">
+                <div className="w-full md:w-[56%] border border-slate-200 dark:border-slate-800 p-2 md:p-4 xl:p-6 rounded-[2rem]">
+                    <div className="flex justify-between items-center mt-4">
                         <div>
                             <p className="text-base md:text-lg xl:text-xl font-semibold">{admin.name}&apos;s Profile</p>
                             <p className={`mt-2 px-2 inline-flex leading-5 font-semibold rounded-full 
@@ -67,6 +65,14 @@ const Profile = ({ admin }: { admin: Admin }) => {
                                 <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">{field.name === "encryptedPassword" ? decryptPassword(admin[field.name] as string) : admin[field.name] as string}</p>
                             </div>
                         ))}
+                    </div>
+                    <div className="flex flex-col gap-y-1 border-b border-slate-200 dark:border-slate-800 p-2 capitalize">
+                        <p className="text-[10px] md:text-xs xl:text-sm">Access Level</p>
+                        <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">{admin.role === "super_admin" ? "super admin" : "admin"}</p>
+                    </div>
+                    <div className="flex flex-col gap-y-1 border-b border-slate-200 dark:border-slate-800 p-2 capitalize">
+                        <p className="text-[10px] md:text-xs xl:text-sm">Suspended?</p>
+                        <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">{admin.suspended ? "Yes" : "No"}</p>
                     </div>
                 </div>
             </main>
