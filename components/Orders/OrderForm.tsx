@@ -23,14 +23,14 @@ const users: User[] = [
 ]
 
 const OrderForm = () => {
-    
+
     const router = useRouter();
     const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
     const handleUserSelect = (user: User) => {
         setSelectedUser(user)
     }
-    
+
 
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<Order>({
@@ -61,8 +61,8 @@ const OrderForm = () => {
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
                 <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="mt-10 flex flex-col gap-y-5">
-                    <AutocompleteInput users={users} onSelect={handleUserSelect}/>
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-y-3">
+                    <AutocompleteInput users={users} onSelect={handleUserSelect} />
 
                     <div className="flex flex-col">
                         <Input type="text" placeholder="Notes about the client (Optional)" id="notes" name="notes" register={register} label="Notes" />
@@ -88,6 +88,11 @@ const OrderForm = () => {
                         <Input type="datetime-local" placeholder="The Pick up Date" id="pickupDay" name="pickupDay" register={register} label="Pick up Day" />
                         {errors.pickupDay && <ErrorText message={errors.pickupDay.message as string} />}
                     </div>
+                    <div className="flex flex-col gap-y-1">
+                        <label htmlFor="media">Select Images</label>
+                        <input type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
+                    </div>
+
                     <Button type="submit" text="Create Order" loading={isSubmitting} />
                 </form>
             </div>
