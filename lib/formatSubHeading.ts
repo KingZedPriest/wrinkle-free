@@ -10,6 +10,8 @@ export const formatSubheading = (page: string) => {
             return "Comprehensive Staff Oversight for Optimal Performance.";
         case "staff/new":
             return "Add New Staff Member to Enhance Efficiency.";
+        case "orders/new":
+            return "Create Customer Order.";
         case "unauthorised":
             return "Insufficient Clearance.";
         default:
@@ -28,6 +30,8 @@ export const formatPlaceholder = (page: string) => {
         case "staff":
             return "Search for a Staff";
         case "staff/new":
+            return "Search Unavailable";
+        case "orders/new":
             return "Search Unavailable";
         case "unauthorised":
             return "Search Unavailable";
