@@ -29,7 +29,6 @@ const OrderForm = () => {
 
     const handleUserSelect = (user: User) => {
         setSelectedUser(user)
-        // You can perform additional actions here, like fetching user details
     }
     
 
@@ -61,15 +60,16 @@ const OrderForm = () => {
         <main className="h-dvh flex items-center justify-center">
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
                 <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
-                
+
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-10 flex flex-col gap-y-5">
                     <AutocompleteInput users={users} onSelect={handleUserSelect}/>
+
                     <div className="flex flex-col">
                         <Input type="text" placeholder="Notes about the client (Optional)" id="notes" name="notes" register={register} label="Notes" />
                         {errors.notes && <ErrorText message={errors.notes.message as string} />}
                     </div>
                     <div className="flex flex-col">
-                        <Input type="number" placeholder="Price" id="price" name="price" register={register} label="Price" />
+                        <Input type="number" placeholder="Price or Amount Charged" id="price" name="price" register={register} label="Price" />
                         {errors.price && <ErrorText message={errors.price.message as string} />}
                     </div>
                     <div className="flex flex-col">
@@ -80,6 +80,15 @@ const OrderForm = () => {
                         <Input type="number" placeholder="How many clothes" id="quantity" name="quantity" register={register} label="Quantity" />
                         {errors.quantity && <ErrorText message={errors.quantity.message as string} />}
                     </div>
+                    <div className="flex flex-col">
+                        <Input type="text" placeholder="Example: Washing, Ironing..." id="service" name="service" register={register} label="Needed Services" />
+                        {errors.service && <ErrorText message={errors.service.message as string} />}
+                    </div>
+                    <div className="flex flex-col">
+                        <Input type="datetime-local" placeholder="The Pick up Date" id="pickupDay" name="pickupDay" register={register} label="Pick up Day" />
+                        {errors.pickupDay && <ErrorText message={errors.pickupDay.message as string} />}
+                    </div>
+                    <Button type="submit" text="Create Order" loading={isSubmitting} />
                 </form>
             </div>
         </main>

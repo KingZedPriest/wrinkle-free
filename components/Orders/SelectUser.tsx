@@ -68,7 +68,7 @@ const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
                     onKeyDown={handleKeyDown}
                     onFocus={() => setIsOpen(true)}
                     className="w-full mt-1 bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg"
-                    placeholder="Enter or select a customers name"
+                    placeholder="Enter or select a name"
                 />
                 <button onClick={() => setIsOpen(!isOpen)} className="absolute right-4 top-[50%]"
                     aria-label={isOpen ? 'Close dropdown' : 'Open dropdown'}>
