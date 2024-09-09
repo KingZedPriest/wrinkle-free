@@ -12,7 +12,7 @@ import { makeApiRequest } from '@/lib/apiUtils';
 import { CloseSquare } from 'iconsax-react';
 import Button from '../Button';
 
-export default function EditDrawer({ isOpen, onClose, admin }: EditDrawerProps) {
+export default function EditDrawer({ isOpen, onClose, admin }: EditProps) {
 
     const initialState: InitialStateProps = {
         name: admin.name,
@@ -25,7 +25,7 @@ export default function EditDrawer({ isOpen, onClose, admin }: EditDrawerProps) 
     const [state, setState] = useState(initialState);
     const [loading, setLoading] = useState<boolean>(false)
 
-    //Function
+    //Functions
     const handleFormChange = (event: any) => {
         const { name, type, checked, value } = event.target;
         setState({ ...state, [name]: type === "checkbox" ? checked : value });

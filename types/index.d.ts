@@ -53,7 +53,7 @@ declare type Transaction = {
 }
 
 //Edit Admin
-declare type EditDrawerProps = {
+declare type EditProps = {
     isOpen: boolean;
     onClose: () => void;
     admin: Admin;
@@ -66,4 +66,11 @@ declare type InitialStateProps = {
     role: boolean
     suspended: boolean;
     [key: string]: string | boolean;
-  };
+};
+
+//Admin Profile Page
+declare type InitialFormProps = {
+    name: string;
+    profilePicture: string;
+    [key: string]: string | boolean;
+};
