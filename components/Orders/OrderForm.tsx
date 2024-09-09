@@ -14,10 +14,24 @@ import { makeApiRequest } from "@/lib/apiUtils";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import ErrorText from "@/components/Auth/error-message";
+import AutocompleteInput from "./SelectUser";
+
+const users: User[] = [
+    { id: '1', name: 'John Doe' },
+    { id: '2', name: 'Jane Smith' },
+    { id: '3', name: 'Alice Johnson' },
+]
 
 const OrderForm = () => {
-
+    
     const router = useRouter();
+    const [selectedUser, setSelectedUser] = useState<User | null>(null)
+
+    const handleUserSelect = (user: User) => {
+        setSelectedUser(user)
+        // You can perform additional actions here, like fetching user details
+    }
+    
 
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<Order>({
@@ -47,7 +61,9 @@ const OrderForm = () => {
         <main className="h-dvh flex items-center justify-center">
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
                 <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
+                
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-10 flex flex-col gap-y-5">
+                    <AutocompleteInput users={users} onSelect={handleUserSelect}/>
                     <div className="flex flex-col">
                         <Input type="text" placeholder="Notes about the client (Optional)" id="notes" name="notes" register={register} label="Notes" />
                         {errors.notes && <ErrorText message={errors.notes.message as string} />}
