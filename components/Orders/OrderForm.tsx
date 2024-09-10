@@ -7,6 +7,9 @@ import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
+//Server Actions
+import { getSignedUrl } from "@/actions/server/uploadFiles";
+
 
 //Utils and Types
 import { Order, OrderSchema } from "@/schemas/order.schema";
@@ -86,6 +89,10 @@ const OrderForm = () => {
 
     // OnSubmit function
     const onSubmit: SubmitHandler<Order> = async (data) => {
+
+        //AWS File Upload function
+        const signedUrl = await getSignedUrl()
+        const url = signedUrl.success.url
 
         toast.message("Creating Order...")
         const formData = { ...data };
