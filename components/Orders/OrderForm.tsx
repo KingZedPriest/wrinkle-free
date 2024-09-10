@@ -111,11 +111,12 @@ const OrderForm = () => {
     return (
         <main className="h-dvh flex items-center justify-center">
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
+            <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className={`${index === 0 ? "block" : "hidden"}`}>
+                    <div className={`${index === 0 ? "flex mt-4" : "hidden"}`}>
                         <AutocompleteInput users={users} onSelect={handleUserSelect} />
                     </div>
-                    <div className={`${index === 1 ? "flex flex-col gap-y-5" : "hidden"}`}>
+                    <div className={`${index === 1 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         {fields.map((field) => (
                             <div key={field.name} className="flex flex-col">
                                 <Input
@@ -132,7 +133,7 @@ const OrderForm = () => {
                             </div>
                         ))}
                     </div>
-                    <div className={`${index === 2 ? "flex flex-col gap-y-5" : "hidden"}`}>
+                    <div className={`${index === 2 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         <div className="flex flex-col gap-y-1">
                             <label htmlFor="media">Select Image(s) or Video(s)</label>
                             <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />

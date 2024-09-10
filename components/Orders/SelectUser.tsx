@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-//Icons
-import { ChevronDown, ChevronUp } from 'lucide-react'
 
 const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
 
@@ -67,7 +65,7 @@ const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     onFocus={() => setIsOpen(true)}
-                    className="w-full mt-1 bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg"
+                    className="w-full mt-1 px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg"
                     placeholder="Enter or select a name"
                 />
                 <button onClick={() => setIsOpen(!isOpen)} className="absolute right-4 top-[50%]"
@@ -77,10 +75,10 @@ const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
             </div>
             {isOpen && (
                 <ul ref={listRef}
-                    className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                    className="absolute z-10 w-full mt-1 bg-white dark:bg-black rounded-md shadow-lg max-h-60 overflow-auto">
                     {filteredUsers.map((user, index) => (
                         <li key={user.id} onClick={() => handleSelectUser(user)}
-                            className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${index === selectedIndex ? 'bg-blue-100' : ''}`}>
+                            className={`px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 ${index === selectedIndex ? 'bg-generalBlue dark:bg-cloudBlue' : ''}`}>
                             {user.name}
                         </li>
                     ))}
