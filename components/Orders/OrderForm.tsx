@@ -22,6 +22,15 @@ const users: User[] = [
     { id: '3', name: 'Alice Johnson' },
 ]
 
+const fields = [
+    { name: "notes", placeholder: "Notes about the client (Optional)", type: "text", label: "Notes" },
+    { name: "price", placeholder: "Price or Amount Charged", type: "number", label: "Price or Amount Charged" },
+    { name: "amountPaid", placeholder: "Amount Paid (If none, add 0)", type: "number", label: "Amount Paid (Deposit)" },
+    { name: "quantity", placeholder: "How many clothes", type: "number", label: "Total Number of Clothes" },
+    { name: "service", placeholder: "Example: Washing, Ironing...", type: "text", label: "Needed Services" },
+    { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
+]
+
 const OrderForm = () => {
 
     const router = useRouter();
@@ -30,7 +39,6 @@ const OrderForm = () => {
     const handleUserSelect = (user: User) => {
         setSelectedUser(user)
     }
-
 
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<Order>({
@@ -63,31 +71,21 @@ const OrderForm = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-y-3">
                     <AutocompleteInput users={users} onSelect={handleUserSelect} />
-
-                    <div className="flex flex-col">
-                        <Input type="text" placeholder="Notes about the client (Optional)" id="notes" name="notes" register={register} label="Notes" />
-                        {errors.notes && <ErrorText message={errors.notes.message as string} />}
-                    </div>
-                    <div className="flex flex-col">
-                        <Input type="number" placeholder="Price or Amount Charged" id="price" name="price" register={register} label="Price" />
-                        {errors.price && <ErrorText message={errors.price.message as string} />}
-                    </div>
-                    <div className="flex flex-col">
-                        <Input type="number" placeholder="Amount Paid (If none, add 0)" id="amountPaid" name="amountPaid" register={register} label="Amount Paid" />
-                        {errors.amountPaid && <ErrorText message={errors.amountPaid.message as string} />}
-                    </div>
-                    <div className="flex flex-col">
-                        <Input type="number" placeholder="How many clothes" id="quantity" name="quantity" register={register} label="Quantity" />
-                        {errors.quantity && <ErrorText message={errors.quantity.message as string} />}
-                    </div>
-                    <div className="flex flex-col">
-                        <Input type="text" placeholder="Example: Washing, Ironing..." id="service" name="service" register={register} label="Needed Services" />
-                        {errors.service && <ErrorText message={errors.service.message as string} />}
-                    </div>
-                    <div className="flex flex-col">
-                        <Input type="datetime-local" placeholder="The Pick up Date" id="pickupDay" name="pickupDay" register={register} label="Pick up Day" />
-                        {errors.pickupDay && <ErrorText message={errors.pickupDay.message as string} />}
-                    </div>
+                    {fields.map((field) => (
+                        <div key={field.name} className="flex flex-col">
+                            <Input
+                                type={field.type}
+                                placeholder={field.placeholder}
+                                id={field.name}
+                                name={field.name as "notes" | "price" | "amountPaid" | "quantity" | "service" | "pickupDay"}
+                                register={register}
+                                label={field.label}
+                            />
+                            {errors[field.name as keyof typeof errors] && (
+                                <ErrorText message={errors[field.name as keyof typeof errors]?.message as string} />
+                            )}
+                        </div>
+                    ))}
                     <div className="flex flex-col gap-y-1">
                         <label htmlFor="media">Select Images</label>
                         <input type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
