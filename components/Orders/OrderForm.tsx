@@ -47,19 +47,14 @@ const OrderForm = () => {
     const [preview, setPreview] = useState<boolean>(false);
 
     //Functions
-
     const indexFunction = (type: "add" | "remove") => {
         if (type === "add") {
-            if (index === 2) return; // Prevent going beyond 2
+            if (index === 2) return;
             setIndex(index + 1);
         }
-
         if (type === "remove") {
-            if (index === 0) {
-                setIndex(2); // Wrap around to 2
-            } else {
-                setIndex(index - 1); // Decrement index
-            }
+            if (index === 0) return
+            setIndex(index - 1);
         }
     };
 
@@ -111,7 +106,7 @@ const OrderForm = () => {
     return (
         <main className="h-dvh flex items-center justify-center">
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
-            <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
+                <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={`${index === 0 ? "flex mt-4" : "hidden"}`}>
                         <AutocompleteInput users={users} onSelect={handleUserSelect} />
@@ -146,8 +141,8 @@ const OrderForm = () => {
                     </div>
                 </form>
                 <div className="flex justify-between mt-4">
-                    <p onClick={() => indexFunction("remove")} className=" text-textOrange cursor-pointer"><ArrowLeft3 size="36" variant="Bold" /></p>
-                    <p onClick={() => indexFunction("add")} className="text-generalBlue dark:text-cloudBlue cursor-pointer"><ArrowRight3 size="36" variant="Bold" /></p>
+                    <p onClick={() => indexFunction("remove")} className={`${index === 0 ? "text-inherit cursor-not-allowed" : "text-textOrange cursor-pointer"}`}><ArrowLeft3 size="36" variant="Bold" /></p>
+                    <p onClick={() => indexFunction("add")} className={`${index === 2 ? "text-inherit cursor-not-allowed" : "text-generalBlue dark:text-cloudBlue cursor-pointer"}`}><ArrowRight3 size="36" variant="Bold" /></p>
                 </div>
                 <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/3 </p>
             </div>
