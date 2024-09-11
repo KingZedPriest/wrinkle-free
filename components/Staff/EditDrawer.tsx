@@ -15,6 +15,7 @@ import Button from '../Button';
 export default function EditDrawer({ isOpen, onClose, admin }: EditProps) {
 
     const initialState: InitialStateProps = {
+        id: admin.id,
         name: admin.name,
         email: admin.email,
         encryptedPassword: decryptPassword(admin.encryptedPassword),
@@ -78,8 +79,7 @@ export default function EditDrawer({ isOpen, onClose, admin }: EditProps) {
                                 <div key={`field-${index}`} className='flex flex-col gap-y-1'>
                                     <label className="cursor-pointer capitalize" htmlFor={field.name}>{field.name}</label>
                                     <input type={`${field.name === "email" ? "email" : "text"}`} id={field.name} name={field.name} onChange={handleFormChange} value={state[field.name] as string}
-                                        className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" readOnly={field.name === "email"} />
-                                    {field.name === "email" && <p className='text-red-600 dark:text-red-400 text-xs lg:text-sm max-w-[50ch]'>Email Addresses can&apos;t be edited</p>}
+                                        className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" />
                                 </div>
                             ))}
                             <div className='flex gap-x-5'>

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
     try {
 
-        const { name, email, encryptedPassword, suspended, role } = body;
+        const { id, name, email, encryptedPassword, suspended, role } = body;
 
         //Hash the password
         const hashedPassword = await bcrypt.hash(encryptedPassword, 12);
@@ -22,10 +22,11 @@ export async function POST(request: NextRequest) {
         //Edit the admin
         const editedAdmin = await prisma.admin.update({
             where: {
-                email
+                id
             },
             data: {
                 name,
+                email: email.email.toLowerCase(),
                 hashedPassword,
                 encryptedPassword: finalEncryptedPassword,
                 suspended,
