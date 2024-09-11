@@ -1,3 +1,4 @@
+
 //Button
 declare type ButtonProps = {
     type: "submit" | "reset" | "button";
@@ -76,9 +77,48 @@ declare type InitialFormProps = {
 };
 
 //Order Creation and file upload
-declare type User = {
+declare type UserWithOutOrder = {
+    id: string;
+    name: string;
+    notes: string | null
+    createdAt: Date | string;
+    updatedAt: Date | string;
+}
+
+declare type UserWithOrder = {
+    id: string;
+    name: string;
+    orders: Order[]
+    notes: string | null
+    createdAt: Date | string;
+    updatedAt: Date | string;
+}
+
+declare type Order = {
     id: string
-    name: string
+    orderId: string
+    user: User
+    userId: string
+    items: OrderItem[]
+    status: "pending" | "in_progress" | "completed" | "cancelled"
+    price: number
+    amountPaid: number | null
+    pickupDay: Date
+    dropOffDay: Date | null
+    admin: string
+    createdAt: Date
+    updatedAt: Date
+}
+
+declare type OrderItem = {
+    id: string
+    order: Order
+    orderId: string
+    picture: string[]
+    quantity: number
+    service: string
+    createdAt: Date
+    updatedAt: Date
 }
 
 declare type AutocompleteInputProps = {

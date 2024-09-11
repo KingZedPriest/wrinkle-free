@@ -20,11 +20,6 @@ import FileUpload from "./FileUpload";
 //Icons
 import { ArrowLeft3, ArrowRight3 } from "iconsax-react";
 
-const users: User[] = [
-    { id: '1', name: 'John Doe' },
-    { id: '2', name: 'Jane Smith' },
-    { id: '3', name: 'Alice Johnson' },
-]
 
 const fields = [
     { name: "notes", placeholder: "Notes about the client (Optional)", type: "text", label: "Notes" },
@@ -35,15 +30,19 @@ const fields = [
     { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
 ]
 
-const OrderForm = () => {
+const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [selectedUser, setSelectedUser] = useState<UserWithOutOrder | null>(null);
     const [filesUrl, setFileUrls] = useState<string[]>([]);
     const [upload, setUpload] = useState<boolean>(false)
 
     //Functions
+    const uploadChange = (newUploadedUrls: string[]) => {
+        setFileUrls(prevUrls => [...prevUrls, ...newUploadedUrls]);
+    }
+
     const indexFunction = (type: "add" | "remove") => {
         if (type === "add") {
             if (index === 2) return;
@@ -55,7 +54,7 @@ const OrderForm = () => {
         }
     };
 
-    const handleUserSelect = (user: User) => {
+    const handleUserSelect = (user: UserWithOutOrder) => {
         setSelectedUser(user)
     }
 
@@ -68,21 +67,24 @@ const OrderForm = () => {
     const onSubmit: SubmitHandler<Order> = async (data) => {
         setUpload(true);
         toast.message("Creating Order...")
-        const formData = { ...data };
 
-        await makeApiRequest("/createOrder", "post", formData, {
-            onSuccess: () => {
-                toast.success(`Your order was created successfully.`);
-                setUpload(false)
-                reset();
-                router.push("/order")
-            },
-            onError: (error) => {
-                toast.error(error.response.data);
-                reset()
-                setUpload(false)
-            },
-        });
+        if (filesUrl) {
+
+            const formData = { ...data, ...filesUrl };
+            await makeApiRequest("/createOrder", "post", formData, {
+                onSuccess: () => {
+                    toast.success(`Your order was created successfully.`);
+                    setUpload(false)
+                    reset();
+                    router.push("/order")
+                },
+                onError: (error) => {
+                    toast.error(error.response.data);
+                    reset()
+                    setUpload(false)
+                },
+            });
+        }
     };
 
     return (
@@ -111,7 +113,7 @@ const OrderForm = () => {
                         ))}
                     </div>
                     <div className={`${index === 2 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
-                        <FileUpload name={selectedUser?.name!} upload={upload}/>
+                        <FileUpload name={selectedUser?.name!} upload={upload} onStateChange={uploadChange} />
                         <Button type="submit" text="Create Order" loading={isSubmitting} />
                     </div>
                 </form>
@@ -121,7 +123,7 @@ const OrderForm = () => {
                 </div>
                 <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/3 </p>
             </div>
-            
+
         </main>
     );
 }
