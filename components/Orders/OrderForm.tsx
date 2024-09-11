@@ -1,14 +1,14 @@
 "use client"
 
 import Image from "next/image";
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
 
 //Libs, Utils, Types, and Actions
-import { Order, OrderSchema } from "@/schemas/order.schema";
+import { NewUserOrder, NewUserOrderSchema } from "@/schemas/order.schema";
 import { makeApiRequest } from "@/lib/apiUtils";
 import { computeSHA256 } from "@/lib/fileUpload";
 import { getSignedURL } from "@/actions/server/uploadFiles";
@@ -17,13 +17,13 @@ import { getSignedURL } from "@/actions/server/uploadFiles";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import ErrorText from "@/components/Auth/error-message";
-import AutocompleteInput from "./SelectUser";
 
 //Icons
 import { ArrowLeft3, ArrowRight3 } from "iconsax-react";
 
 
 const fields = [
+    { name: "name", placeholder: "Enter the name of the client", type: "text", label: "Client's Name" },
     { name: "notes", placeholder: "Notes about the client (Optional)", type: "text", label: "Notes" },
     { name: "price", placeholder: "Price or Amount Charged", type: "number", label: "Price or Amount Charged" },
     { name: "amountPaid", placeholder: "Amount Paid (If none, add 0)", type: "number", label: "Amount Paid (Deposit)" },
@@ -32,7 +32,7 @@ const fields = [
     { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
 ]
 
-const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
+const OrderForm = () => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
@@ -46,18 +46,21 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
 
     const indexFunction = (type: "add" | "remove") => {
         if (type === "add") {
-            if (index === 2) return;
-            setIndex(index + 1);
+            if (index === 1) return;
+            const isFirstPageValid = Object.keys(errors).every(key =>
+                !['name', 'notes', 'price', 'amountPaid', 'quantity', 'service', 'pickupDay'].includes(key)
+            );
+            if (isFirstPageValid) {
+                setIndex(index + 1);
+            } else {
+                toast.error("Please fill out all required fields correctly before proceeding.");
+            }
         }
         if (type === "remove") {
             if (index === 0) return
             setIndex(index - 1);
         }
     };
-
-    const handleUserSelect = (user: UserWithOutOrder) => {
-        setSelectedUser(user)
-    }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
@@ -76,8 +79,8 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
     };
 
     // Data validation
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<Order>({
-        resolver: zodResolver(OrderSchema),
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<NewUserOrder>({
+        resolver: zodResolver(NewUserOrderSchema),
     });
 
     //Upload Files
@@ -94,6 +97,7 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
             const uploadPromises = files.map(async (file) => {
                 const checksum = await computeSHA256(file);
                 const signedUrlResponse: SignedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, selectedUser?.name!);
+                console.log({ signedUrlResponse })
 
                 if (signedUrlResponse.failure) {
                     console.error(`Failed to upload ${file.name}: ${signedUrlResponse.failure}`);
@@ -105,9 +109,10 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
                     console.error(`No URL returned for ${file.name}`);
                     return;
                 }
-                await makeApiRequest(url, 'put', file, {
-                    headers: { 'Content-Type': file.type },
-                });
+                await fetch(url, {
+                    method: "PUT", body: file,
+                    headers: { "Content-Type": file.type }
+                })
                 newUploadedUrls.push(url.split("?")[0]);
             });
 
@@ -123,24 +128,32 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
     };
 
     // OnSubmit function
-    const onSubmit: SubmitHandler<Order> = async (data) => {
+    const onSubmit: SubmitHandler<NewUserOrder> = async (data) => {
+        try {
+            await uploadFiles();
+            toast.info("Creating Order...");
 
-        toast.message("Creating Order...")
-
-        const formData = { ...data, ...uploadedFilesUrl, ...selectedUser };
-
-
-        await makeApiRequest("/createOrder", "post", formData, {
-            onSuccess: () => {
-                toast.success(`Your order was created successfully.`);
-                reset();
-                router.push("/order")
-            },
-            onError: (error) => {
-                toast.error(error.response.data);
-                reset()
-            },
-        });
+            if (uploadedFilesUrl.length !== 0) {
+                const formData = { ...data, images: uploadedFilesUrl };
+                console.log({ formData })
+                // Uncomment and adjust this when you're ready to make the API call
+                // await makeApiRequest("/createOrder", "post", formData, {
+                //   onSuccess: () => {
+                //     toast.success(`Your order was created successfully.`);
+                //     reset();
+                //     router.push("/order");
+                //   },
+                //   onError: (error) => {
+                //     toast.error(error.response.data);
+                //   },
+                // });
+            } else {
+                toast.error("No files were uploaded. Please upload at least one file.");
+            }
+        } catch (error) {
+            console.error("Error creating order:", error);
+            toast.error("Failed to create order. Please try again.");
+        }
     };
 
     return (
@@ -148,17 +161,14 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
                 <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className={`${index === 0 ? "flex mt-4" : "hidden"}`}>
-                        <AutocompleteInput users={users} onSelect={handleUserSelect} />
-                    </div>
-                    <div className={`${index === 1 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
+                    <div className={`${index === 0 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         {fields.map((field) => (
                             <div key={field.name} className="flex flex-col">
                                 <Input
                                     type={field.type}
                                     placeholder={field.placeholder}
                                     id={field.name}
-                                    name={field.name as "notes" | "price" | "amountPaid" | "quantity" | "service" | "pickupDay"}
+                                    name={field.name as "name" | "notes" | "price" | "amountPaid" | "quantity" | "service" | "pickupDay"}
                                     register={register}
                                     label={field.label}
                                 />
@@ -168,7 +178,7 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
                             </div>
                         ))}
                     </div>
-                    <div className={`${index === 2 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
+                    <div className={`${index === 1 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         <div className="flex flex-col gap-y-1">
                             <label htmlFor="media">Select Image(s) or Video(s)</label>
                             <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
@@ -183,7 +193,7 @@ const OrderForm = ({ users }: { users: UserWithOutOrder[] }) => {
                     <p onClick={() => indexFunction("remove")} className={`${index === 0 ? "text-inherit cursor-not-allowed" : "text-textOrange cursor-pointer"} flex gap-x-1 items-center hover:-translate-x-1 duration-300`}><ArrowLeft3 size="36" variant="Bold" /><span>Prev</span></p>
                     <p onClick={() => indexFunction("add")} className={`${index === 2 ? "text-inherit cursor-not-allowed" : "text-generalBlue dark:text-cloudBlue cursor-pointer"} flex gap-x-1 items-center hover:translate-x-1 duration-300`}><ArrowRight3 size="36" variant="Bold" /><span>Next</span></p>
                 </div>
-                <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/3 </p>
+                <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/2 </p>
             </div>
             {preview && (
                 <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-wrap justify-center items-center z-50">
