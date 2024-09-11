@@ -122,7 +122,7 @@ declare type OrderItem = {
 }
 
 declare type AutocompleteInputProps = {
-    users: User[]
+    users: UserWithOutOrder[]
     onSelect: (user: User) => void
 }
 

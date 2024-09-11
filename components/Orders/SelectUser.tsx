@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
 
     const [inputValue, setInputValue] = useState('')
-    const [filteredUsers, setFilteredUsers] = useState<User[]>([])
+    const [filteredUsers, setFilteredUsers] = useState<UserWithOutOrder[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(-1)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -27,7 +27,7 @@ const AutocompleteInput = ({ users, onSelect }: AutocompleteInputProps) => {
         setIsOpen(true)
     }
 
-    const handleSelectUser = (user: User) => {
+    const handleSelectUser = (user: UserWithOutOrder) => {
         setInputValue(user.name)
         onSelect(user)
         setIsOpen(false)
