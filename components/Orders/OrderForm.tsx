@@ -1,31 +1,24 @@
 "use client"
 
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
-import Image from "next/image";
-
-//Server Actions
-import { getSignedURL } from "@/actions/server/uploadFiles";
-
 
 //Libs, Utils and Types
 import { Order, OrderSchema } from "@/schemas/order.schema";
 import { makeApiRequest } from "@/lib/apiUtils";
-import { computeSHA256 } from "@/lib/fileUpload";
 
 //Import Needed Components
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import ErrorText from "@/components/Auth/error-message";
 import AutocompleteInput from "./SelectUser";
+import FileUpload from "./FileUpload";
 
 //Icons
 import { ArrowLeft3, ArrowRight3 } from "iconsax-react";
-
-
 
 const users: User[] = [
     { id: '1', name: 'John Doe' },
@@ -47,9 +40,8 @@ const OrderForm = () => {
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
-    const [files, setFiles] = useState<File[]>([]);
-    const [fileUrls, setFileUrls] = useState<string[]>([]);
-    const [preview, setPreview] = useState<boolean>(false);
+    const [filesUrl, setFileUrls] = useState<string[]>([]);
+    const [upload, setUpload] = useState<boolean>(false)
 
     //Functions
     const indexFunction = (type: "add" | "remove") => {
@@ -63,83 +55,32 @@ const OrderForm = () => {
         }
     };
 
-
     const handleUserSelect = (user: User) => {
         setSelectedUser(user)
     }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-        setFiles(selectedFiles);
-
-        // Revoke previous URLs
-        fileUrls.forEach(url => URL.revokeObjectURL(url));
-
-        // Create new URLs
-        const newFileUrls = selectedFiles.map(file => URL.createObjectURL(file));
-        setFileUrls(newFileUrls);
-    }
-
-    const handlePreviewToggle = () => {
-        setPreview(!preview);
-    };
 
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<Order>({
         resolver: zodResolver(OrderSchema),
     });
 
-    //AWS File Upload Function
-    const uploadFiles = async () => {
-        toast.info("Uploading Media Files...")
-
-        if (!files.length) {
-            return;
-        }
-        try {
-            // Map through all the files and process each one
-            const uploadPromises = files.map(async (file) => {
-                const checksum = await computeSHA256(file);
-                const signedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, selectedUser?.name!);
-                if (signedUrlResponse.failure) {
-                    console.error(`Failed to upload ${file.name}: ${signedUrlResponse.failure}`);
-                    return;
-                }
-                const url = signedUrlResponse.success?.url!;
-                await makeApiRequest(url, 'put', file, {
-                    headers: { 'Content-Type': file.type },
-                });
-            });
-
-            // Wait for all uploads to complete
-            await Promise.all(uploadPromises);
-            toast.message("Files uploaded successfully");
-
-        } catch (error) {
-            console.error("Error uploading files:", error);
-            toast.error("Failed to upload files");
-        }
-    };
-
     // OnSubmit function
     const onSubmit: SubmitHandler<Order> = async (data) => {
-
-        //AWS File Upload function
-        await uploadFiles()
-
-
+        setUpload(true);
         toast.message("Creating Order...")
         const formData = { ...data };
 
         await makeApiRequest("/createOrder", "post", formData, {
             onSuccess: () => {
                 toast.success(`Your order was created successfully.`);
+                setUpload(false)
                 reset();
                 router.push("/order")
             },
             onError: (error) => {
                 toast.error(error.response.data);
                 reset()
+                setUpload(false)
             },
         });
     };
@@ -170,14 +111,7 @@ const OrderForm = () => {
                         ))}
                     </div>
                     <div className={`${index === 2 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
-                        <div className="flex flex-col gap-y-1">
-                            <label htmlFor="media">Select Image(s) or Video(s)</label>
-                            <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
-                        </div>
-                        {fileUrls.length > 0 &&
-                            <button onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
-                        }
-
+                        <FileUpload name={selectedUser?.name!} upload={upload}/>
                         <Button type="submit" text="Create Order" loading={isSubmitting} />
                     </div>
                 </form>
@@ -187,25 +121,7 @@ const OrderForm = () => {
                 </div>
                 <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/3 </p>
             </div>
-            {preview && (
-                <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-wrap justify-center items-center z-50">
-                    <button onClick={handlePreviewToggle}
-                        className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg z-10">
-                        Close Preview
-                    </button>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto">
-                        {fileUrls.map((url, index) => (
-                            <div key={index} className="relative w-40 h-64">
-                                {files[index].type.startsWith("image/") ? (
-                                    <Image src={url} alt={`media-${index}`} fill className="object-cover rounded-lg" />
-                                ) : (
-                                    <video src={url} controls className="w-full h-full object-cover rounded-lg" />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+            
         </main>
     );
 }

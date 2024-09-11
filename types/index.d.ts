@@ -75,7 +75,7 @@ declare type InitialFormProps = {
     [key: string]: string | boolean;
 };
 
-//Order Creation
+//Order Creation and file upload
 declare type User = {
     id: string
     name: string
@@ -84,4 +84,15 @@ declare type User = {
 declare type AutocompleteInputProps = {
     users: User[]
     onSelect: (user: User) => void
+}
+
+declare type SignedUrlResponse = {
+    success?: { url: string };
+    failure?: string;
+}
+
+declare type uploadProps = {
+    name: string,
+    upload: boolean,
+    onStateChange: (newState: string[]) => void;
 }
