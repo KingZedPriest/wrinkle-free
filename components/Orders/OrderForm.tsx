@@ -8,12 +8,13 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
 //Server Actions
-import { getSignedUrl } from "@/actions/server/uploadFiles";
+import { getSignedURL } from "@/actions/server/uploadFiles";
 
 
-//Utils and Types
+//Libs, Utils and Types
 import { Order, OrderSchema } from "@/schemas/order.schema";
 import { makeApiRequest } from "@/lib/apiUtils";
+import { computeSHA256 } from "@/lib/fileUpload";
 
 //Import Needed Components
 import Input from "@/components/Input";
@@ -23,6 +24,7 @@ import AutocompleteInput from "./SelectUser";
 
 //Icons
 import { ArrowLeft3, ArrowRight3 } from "iconsax-react";
+
 
 
 const users: User[] = [
@@ -87,12 +89,44 @@ const OrderForm = () => {
         resolver: zodResolver(OrderSchema),
     });
 
+    //AWS File Upload Function
+    const uploadFiles = async () => {
+        toast.info("Uploading Media Files...")
+
+        if (!files.length) {
+            return;
+        }
+        try {
+            // Map through all the files and process each one
+            const uploadPromises = files.map(async (file) => {
+                const checksum = await computeSHA256(file);
+                const signedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, selectedUser?.name!);
+                if (signedUrlResponse.failure) {
+                    console.error(`Failed to upload ${file.name}: ${signedUrlResponse.failure}`);
+                    return;
+                }
+                const url = signedUrlResponse.success?.url!;
+                await makeApiRequest(url, 'put', file, {
+                    headers: { 'Content-Type': file.type },
+                });
+            });
+
+            // Wait for all uploads to complete
+            await Promise.all(uploadPromises);
+            toast.message("Files uploaded successfully");
+
+        } catch (error) {
+            console.error("Error uploading files:", error);
+            toast.error("Failed to upload files");
+        }
+    };
+
     // OnSubmit function
     const onSubmit: SubmitHandler<Order> = async (data) => {
 
         //AWS File Upload function
-        const signedUrl = await getSignedUrl()
-        const url = signedUrl.success.url
+        await uploadFiles()
+
 
         toast.message("Creating Order...")
         const formData = { ...data };
