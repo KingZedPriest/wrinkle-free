@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
             },
             data: {
                 name,
-                email: email.email.toLowerCase(),
+                email: email.toLowerCase(),
                 hashedPassword,
                 encryptedPassword: finalEncryptedPassword,
                 suspended,
