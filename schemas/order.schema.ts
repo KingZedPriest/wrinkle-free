@@ -36,7 +36,7 @@ export const NewUserOrderSchema = z
 
 export type NewUserOrder = z.infer<typeof NewUserOrderSchema>;
 
-//For Creating a new Order with a new user
+//For Creating a new Order without a new user
 export const UserOrderSchema = z
     .object({
         price: z

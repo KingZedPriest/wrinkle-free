@@ -23,8 +23,8 @@ declare type Admin = {
     profilePicture: string | null;
     role: "super_admin" | "admin";
     suspended: boolean;
-    createdAt: Date | string;
-    updatedAt: Date | string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 //DownBar and SideBar NavItem
@@ -81,8 +81,8 @@ declare type UserWithOutOrder = {
     id: string;
     name: string;
     notes: string | null
-    createdAt: Date | string;
-    updatedAt: Date | string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 declare type UserWithOrder = {
@@ -90,8 +90,8 @@ declare type UserWithOrder = {
     name: string;
     orders: Order[]
     notes: string | null
-    createdAt: Date | string;
-    updatedAt: Date | string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 declare type Order = {
