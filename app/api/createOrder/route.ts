@@ -6,24 +6,54 @@ import type { NextRequest } from 'next/server';
 import { generateOrderId } from '@/lib/generate';
 
 export async function POST(request: NextRequest) {
+
     const body = await request.json();
 
     try {
 
-        const {  } = body
+        const { email, name, notes, amountPaid, images, price, quantity, service, pickupDay } = body
+        let orderId: string
 
-        //Create new admin account
-        // const newOrder = await prisma.order.create({
-        //     data: {
-               
-        //     }
-        // })
+        //Create new user
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                notes
+            }
+        })
 
-        //Revalidate the path
-        //return NextResponse.json(newOrder);
+
+         // Generate a unique orderId
+        do {
+            orderId = generateOrderId();
+        } while (await prisma.order.findUnique({ where: { orderId } }));
+
+        //Create a new order
+        const newOrder = await prisma.order.create({
+            data: {
+                orderId,
+                userId: newUser.id,
+                price,
+                amountPaid,
+                pickupDay,
+                admin: email,
+            }
+        })
+
+        //Create a new order item
+        const newOrderItem = await prisma.orderItem.create({
+            data: {
+                orderId: newOrder.id,
+                picture: images,
+                quantity,
+                service
+            }
+        })
+
+        return NextResponse.json(newOrderItem);
 
     } catch (error) {
-        console.error("Error creating an oder:", error);
+        console.error("Error creating an order:", error);
 
         if (error instanceof Error) {
             return new NextResponse(error.message);
