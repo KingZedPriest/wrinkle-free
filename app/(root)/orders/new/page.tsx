@@ -1,3 +1,6 @@
+//Actions
+import getUsers from "@/actions/fetch/getAllUsers";
+
 
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
