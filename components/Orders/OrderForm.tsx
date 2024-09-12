@@ -36,7 +36,6 @@ const OrderForm = () => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
-    const [selectedUser, setSelectedUser] = useState<UserWithOutOrder | null>(null);
     const [files, setFiles] = useState<File[]>([]);
     const [fileUrls, setFileUrls] = useState<string[]>([]);
     const [uploadedFilesUrl, setUploadedFilesUrl] = useState<string[]>([]);
@@ -83,7 +82,7 @@ const OrderForm = () => {
     });
 
     //Upload Files
-    const uploadFiles = async () => {
+    const uploadFiles = async (name: string) => {
         toast.info("Uploading Media Files...")
 
         if (!files.length) {
@@ -95,7 +94,7 @@ const OrderForm = () => {
             // Map through all the files and process each one
             const uploadPromises = files.map(async (file) => {
                 const checksum = await computeSHA256(file);
-                const signedUrlResponse: SignedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, selectedUser?.name!);
+                const signedUrlResponse: SignedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, name);
 
                 if (signedUrlResponse.failure) {
                     console.error(`Failed to upload ${file.name}: ${signedUrlResponse.failure}`);
@@ -128,7 +127,7 @@ const OrderForm = () => {
     // OnSubmit function
     const onSubmit: SubmitHandler<NewUserOrder> = async (data) => {
         try {
-            await uploadFiles();
+            await uploadFiles(data.name);
             toast.info("Creating Order...");
 
             if (uploadedFilesUrl.length !== 0) {

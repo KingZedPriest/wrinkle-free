@@ -77,19 +77,11 @@ declare type InitialFormProps = {
 };
 
 //Order Creation and file upload
-declare type UserWithOutOrder = {
+declare type User = {
     id: string;
     name: string;
-    notes: string | null
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-declare type UserWithOrder = {
-    id: string;
-    name: string;
-    orders: Order[]
-    notes: string | null
+    notes: string | null;
+    orders?: Order[] | null;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -121,11 +113,7 @@ declare type OrderItem = {
     updatedAt: Date
 }
 
-declare type AutocompleteInputProps = {
-    users: UserWithOutOrder[]
-    onSelect: (user: User) => void
-}
-
+//For the AWS Upload
 declare type SignedUrlResponse = {
     success?: { url: string };
     failure?: string;
@@ -135,4 +123,11 @@ declare type uploadProps = {
     name: string,
     upload: boolean,
     onStateChange: (newState: string[]) => void;
+}
+
+//Select User
+declare type SelectUserProps = {
+    users: User[]
+    onSelectUser: (user: User | null) => void
+    initialSelectedUserId?: string
 }
