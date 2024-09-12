@@ -9,13 +9,13 @@ import { Bag, Bag2 } from "iconsax-react";
 import OrderForm from "../Orders/OrderForm";
 import CreateOrder from "./CreateOrder";
 
-const SelectPage = () => {
+const SelectPage = ({users}: {users: User[]}) => {
 
-    const [selection, setSelection] = useState<"new" | "old" | null>()
+    const [selection, setSelection] = useState<"new" | "old" | "select">("select")
 
     return (
         <main>
-            {selection === null &&
+            {selection === "select" &&
                 <>
                     <p className="text-base md:text-lg xl:text-xl font-semibold mt-10 text-center">Select User</p>
                     <div className="flex flex-col gap-5 sm:flex-row items-center justify-evenly mt-10">
@@ -31,7 +31,7 @@ const SelectPage = () => {
                 </>
             }
             {selection === "new" && <OrderForm />}
-            {selection === "old" && <CreateOrder />}
+            {selection === "old" && <CreateOrder users={users}/>}
         </main>
     );
 }

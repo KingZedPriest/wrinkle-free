@@ -129,5 +129,4 @@ declare type uploadProps = {
 declare type SelectUserProps = {
     users: User[]
     onSelectUser: (user: User | null) => void
-    initialSelectedUserId?: string
 }
