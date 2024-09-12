@@ -11,19 +11,24 @@ export async function POST(request: NextRequest) {
 
     try {
 
-        const { email, name, notes, amountPaid, images, price, quantity, service, pickupDay } = body
-        let orderId: string
+        const { email, name, notes, amountPaid, images, price, quantity, service, pickupDay, user } = body;
+        
+        let orderId: string;
+        let adminUser: User;
 
-        //Create new user
-        const newUser = await prisma.user.create({
-            data: {
-                name,
-                notes
-            }
-        })
+        if (!user) {
+            //Create new user
+            adminUser = await prisma.user.create({
+                data: {
+                    name,
+                    notes
+                }
+            })
+        } else {
+            adminUser = user;
+        }
 
-
-         // Generate a unique orderId
+        // Generate a unique orderId
         do {
             orderId = generateOrderId();
         } while (await prisma.order.findUnique({ where: { orderId } }));
@@ -32,7 +37,7 @@ export async function POST(request: NextRequest) {
         const newOrder = await prisma.order.create({
             data: {
                 orderId,
-                userId: newUser.id,
+                userId: adminUser.id,
                 price,
                 amountPaid,
                 pickupDay,
