@@ -135,19 +135,19 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
             toast.info("Creating Order...");
 
             if (uploadedFilesUrl.length !== 0) {
-                const formData = { ...data, images: uploadedFilesUrl, user: selectedUser };
+                const formData = { ...data, images: uploadedFilesUrl, user: selectedUser, email };
                 console.log({ formData })
 
-                // await makeApiRequest("/createOrder", "post", formData, {
-                //   onSuccess: () => {
-                //     toast.success(`Your order was created successfully.`);
-                //     reset();
-                //     router.push("/order");
-                //   },
-                //   onError: (error) => {
-                //     toast.error(error.response.data);
-                //   },
-                // });
+                await makeApiRequest("/createOrder", "post", formData, {
+                  onSuccess: () => {
+                    toast.success(`Your order was created successfully.`);
+                    reset();
+                    router.push("/order");
+                  },
+                  onError: (error) => {
+                    toast.error(error.response.data);
+                  },
+                });
             } else {
                 toast.error("No files were uploaded. Please upload at least one file.");
             }
