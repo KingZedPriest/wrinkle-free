@@ -43,7 +43,6 @@ const OrderForm = () => {
     const [preview, setPreview] = useState<boolean>(false);
 
     //Functions
-
     const indexFunction = (type: "add" | "remove") => {
         if (type === "add") {
             if (index === 1) return;
@@ -97,7 +96,6 @@ const OrderForm = () => {
             const uploadPromises = files.map(async (file) => {
                 const checksum = await computeSHA256(file);
                 const signedUrlResponse: SignedUrlResponse = await getSignedURL(file.name, file.type, file.size, checksum, selectedUser?.name!);
-                console.log({ signedUrlResponse })
 
                 if (signedUrlResponse.failure) {
                     console.error(`Failed to upload ${file.name}: ${signedUrlResponse.failure}`);
@@ -159,7 +157,6 @@ const OrderForm = () => {
     return (
         <main className="h-dvh flex items-center justify-center">
             <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
-                <p className="text-base md:text-lg xl:text-xl font-semibold">Create a New Order</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={`${index === 0 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         {fields.map((field) => (
