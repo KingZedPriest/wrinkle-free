@@ -32,7 +32,7 @@ const fields = [
     { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
 ]
 
-const OrderForm = () => {
+const OrderForm = ({ email }: { email: string}) => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
@@ -76,6 +76,15 @@ const OrderForm = () => {
         setPreview(!preview);
     };
 
+    //Reset Function
+    const resetFileStates = () => {
+        setIndex(0);
+        setFiles([]);
+        setFileUrls([]);
+        setUploadedFilesUrl([]);
+        setPreview(false);
+    };
+
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<NewUserOrder>({
         resolver: zodResolver(NewUserOrderSchema),
@@ -117,35 +126,42 @@ const OrderForm = () => {
             await Promise.all(uploadPromises);
             setUploadedFilesUrl(prevUrls => [...prevUrls, ...newUploadedUrls]);
             toast.message("Files uploaded successfully");
+            return { success: true }
 
         } catch (error) {
             console.error("Error uploading files:", error);
             toast.error("Failed to upload files");
+            return { success: false }
         }
     };
 
     // OnSubmit function
     const onSubmit: SubmitHandler<NewUserOrder> = async (data) => {
         try {
-            await uploadFiles(data.name);
-            toast.info("Creating Order...");
 
-            if (uploadedFilesUrl.length !== 0) {
-                const formData = { ...data, images: uploadedFilesUrl };
-                console.log({ formData })
-                // Uncomment and adjust this when you're ready to make the API call
-                // await makeApiRequest("/createOrder", "post", formData, {
-                //   onSuccess: () => {
-                //     toast.success(`Your order was created successfully.`);
-                //     reset();
-                //     router.push("/order");
-                //   },
-                //   onError: (error) => {
-                //     toast.error(error.response.data);
-                //   },
-                // });
+            //Upload the images to AWS first
+            const success = await uploadFiles(data.name)
+            if (success) {
+
+                toast.info("Creating Order...");
+                const formData = { ...data, images: uploadedFilesUrl, email };
+
+                //Save to the database
+                await makeApiRequest("/createOrder", "post", formData, {
+                    onSuccess: () => {
+                        toast.success(`Your order was created successfully.`);
+                        reset();
+                        resetFileStates();
+                        router.push("/order");
+                    },
+                    onError: (error) => {
+                        toast.error(error.response.data);
+                        reset();
+                        resetFileStates();
+                    },
+                });
             } else {
-                toast.error("No files were uploaded. Please upload at least one file.");
+                toast.error("Failed to upload files, kindly try again.");
             }
         } catch (error) {
             console.error("Error creating order:", error);

@@ -31,7 +31,7 @@ const fields = [
     { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
 ]
 
-const CreateOrder = ({ users }: { users: User[] }) => {
+const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)

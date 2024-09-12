@@ -16,7 +16,6 @@ model user {
   order     Order[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  orderId   String   @db.ObjectId
 }
 
 model Admin {
@@ -42,8 +41,7 @@ model Order {
   price      Int
   amountPaid Int?
   pickupDay  DateTime
-  dropOffDay DateTime?
-  admin      String      @db.ObjectId
+  admin      String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }

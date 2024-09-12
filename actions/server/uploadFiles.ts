@@ -12,8 +12,6 @@ const secretKey = process.env.AWS_SECRET_ACCESS_KEY!;
 const bucketName = process.env.AWS_BUCKET_NAME!;
 const fileSize = process.env.FILE_SIZE!;
 
-console.log({region, accessKey, secretKey, bucketName, fileSize })
-
 // S3 Config
 const s3 = new S3Client({
     region: region,

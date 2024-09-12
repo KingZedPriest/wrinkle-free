@@ -9,7 +9,7 @@ import { Bag, Bag2 } from "iconsax-react";
 import OrderForm from "../Orders/OrderForm";
 import CreateOrder from "./CreateOrder";
 
-const SelectPage = ({users}: {users: User[]}) => {
+const SelectPage = ({ users, email }: { users: User[], email: string }) => {
 
     const [selection, setSelection] = useState<"new" | "old" | "select">("select")
 
@@ -30,8 +30,8 @@ const SelectPage = ({users}: {users: User[]}) => {
                     </div>
                 </>
             }
-            {selection === "new" && <OrderForm />}
-            {selection === "old" && <CreateOrder users={users}/>}
+            {selection === "new" && <OrderForm email={email} />}
+            {selection === "old" && <CreateOrder users={users} email={email} />}
         </main>
     );
 }
