@@ -94,11 +94,13 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
 
     //Upload Files
     const uploadFiles = async (name: string) => {
-        toast.info("Uploading Media Files...")
-
+    
         if (!files.length) {
             return;
         }
+
+        toast.info("Uploading Media Files...");
+
         try {
             const newUploadedUrls: string[] = [];
 
