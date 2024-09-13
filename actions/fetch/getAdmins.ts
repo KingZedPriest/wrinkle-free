@@ -12,7 +12,7 @@ export default async function getAdmins() {
         return getAdmins;
 
     } catch (error: any) {
-        console.error(error);
+        console.error(`There was an error in fetching all the admins ${error}`);
         throw error;
     }
 

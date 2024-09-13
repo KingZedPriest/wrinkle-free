@@ -15,7 +15,7 @@ export default async function getUsers(addOrder: boolean) {
         return getUsers;
 
     } catch (error: any) {
-        console.error(error);
+        console.error(`There was an error in fetching users ${error}`);
         throw error;
     }
 }

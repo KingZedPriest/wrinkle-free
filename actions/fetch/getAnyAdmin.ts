@@ -14,7 +14,7 @@ export default async function getAdmin(id: string) {
         return getAdmin;
 
     } catch (error: any) {
-        console.error(error);
+        console.error(`There was an error in fetching the admin with Id ${id}, the error: ${error}`);
         throw error;
     }
 
