@@ -3,8 +3,7 @@ import Link from "next/link";
 //Server actions
 import { getCurrentUser } from "@/actions/fetch/currentUser";
 import getAdmin from "@/actions/fetch/getAnyAdmin";
-import getOrders from "@/actions/fetch/getOrders";
-import getUsers from "@/actions/fetch/getAllUsers";
+import getUserAndOrders from "@/actions/fetch/ordersAndUsers";
 
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
@@ -21,14 +20,13 @@ const page = async () => {
 
     const accessTokenUser = await getCurrentUser();
     const currentAdmin = await getAdmin(accessTokenUser.id);
-    const orders = await getOrders();
-    const users = await getUsers(false);
+    const { allOrders, allUsers, pendingOrders, completedOrders, analytics } = await getUserAndOrders()
 
     const summaryItems = [
-        { title: "Total Order", icon: Bag2, color: "bg-[#516fff]/20 text-[#516fff]", amount: orders.length, icon1: TrendUp, percent: 0.1 },
-        { title: "Total Pending Order", icon: Clock, color: "bg-[#f98838]/20 text-[#f98838]", amount: 10, icon1: TrendDown, percent: -0.1 },
-        { title: "Total Completed Order", icon: TickCircle, color: "bg-[#9879f4]/20 text-[#9879f4]", amount: 210, icon1: TrendUp, percent: 0.1 },
-        { title: "Total Users", icon: User, color: "bg-[#f48fc7]/20 text-[#f48fc7]", amount: users.length, icon1: TrendUp, percent: 0.1 }
+        { title: "Total Order", icon: Bag2, color: "bg-[#516fff]/20 text-[#516fff]", amount: allOrders.length, icon1: analytics.totalOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.totalOrders.percentageChange },
+        { title: "Total Pending Order", icon: Clock, color: "bg-[#f98838]/20 text-[#f98838]", amount: pendingOrders.length, icon1: analytics.pendingOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.pendingOrders.percentageChange },
+        { title: "Total Completed Order", icon: TickCircle, color: "bg-[#9879f4]/20 text-[#9879f4]", amount: completedOrders.length, icon1: analytics.completedOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.completedOrders.percentageChange },
+        { title: "Total Users", icon: User, color: "bg-[#f48fc7]/20 text-[#f48fc7]", amount: allUsers.length, icon1: analytics.totalUsers.percentageChange ? TrendUp : TrendDown, percent: analytics.totalUsers.percentageChange }
     ]
 
     return (

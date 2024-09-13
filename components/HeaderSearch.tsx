@@ -28,7 +28,7 @@ const HeaderSearch = () => {
     return (
         <main className="px-3 flex items-center gap-x-1 border-2 border-light-400 dark:border-dark-400 rounded-[2rem]">
             <SearchNormal1 size="20" variant={searchText.length !== 0 ? "Bold" : "Outline"} />
-            <input type="search" className="bg-inherit focus:border-none focus:outline-none py-3 rounded-[2rem] w-full px-2" placeholder={formatPlaceholder(updatedPathname)} onChange={handleChange} value={searchText} />
+            <input type="search" className="bg-inherit focus:border-none focus:outline-none py-3 rounded-[2rem] w-full px-2 placeholder:text-xs md:placeholder:text-sm" placeholder={formatPlaceholder(updatedPathname)} onChange={handleChange} value={searchText} />
         </main>
     );
 }

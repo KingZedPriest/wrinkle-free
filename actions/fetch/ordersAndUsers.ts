@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prismadb";
 
-export default async function getOrders() {
+export default async function getUserAndOrders() {
 
     try {
         const now = new Date();
@@ -12,6 +12,7 @@ export default async function getOrders() {
 
         const [
             allOrders,
+            allUsers,
             pendingOrders,
             completedOrders,
             todayCompletedOrders,
@@ -27,6 +28,11 @@ export default async function getOrders() {
             // All orders
             prisma.order.findMany({
                 include: { items: true },
+                orderBy: { createdAt: "desc" }
+            }),
+
+            // All users
+            prisma.user.findMany({
                 orderBy: { createdAt: "desc" }
             }),
 
@@ -103,7 +109,7 @@ export default async function getOrders() {
                     createdAt: { gte: startOfToday }
                 }
             }),
-            
+
             // Yesterday's total users
             prisma.user.count({
                 where: {
@@ -125,6 +131,7 @@ export default async function getOrders() {
             allOrders,
             pendingOrders,
             completedOrders,
+            allUsers,
             analytics: {
                 completedOrders: {
                     today: todayCompletedOrders,
