@@ -80,6 +80,15 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
         setPreview(!preview);
     };
 
+    //Reset Function
+    const resetFileStates = () => {
+        setIndex(0);
+        setFiles([]);
+        setFileUrls([]);
+        setUploadedFilesUrl([]);
+        setPreview(false);
+    };
+
     // Data validation
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserOrder>({
         resolver: zodResolver(UserOrderSchema),
@@ -120,36 +129,42 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
             // Wait for all uploads to complete, throw a toast, and then
             await Promise.all(uploadPromises);
             setUploadedFilesUrl(prevUrls => [...prevUrls, ...newUploadedUrls]);
-            toast.message("Files uploaded successfully");
+            toast.success("Files uploaded successfully");
+            return { success: true }
 
         } catch (error) {
             console.error("Error uploading files:", error);
             toast.error("Failed to upload files");
+            return { success: false }
         }
     };
 
     // OnSubmit function
     const onSubmit: SubmitHandler<UserOrder> = async (data) => {
         try {
-            await uploadFiles(selectedUser?.name ?? "nameError");
+            //Upload Files to AWS
+            const success = await uploadFiles(selectedUser?.name ?? "nameError");
             toast.info("Creating Order...");
 
-            if (uploadedFilesUrl.length !== 0) {
+            if (success) {
                 const formData = { ...data, images: uploadedFilesUrl, user: selectedUser, email };
                 console.log({ formData })
 
+                //Save to the database
                 await makeApiRequest("/createOrder", "post", formData, {
-                  onSuccess: () => {
-                    toast.success(`Your order was created successfully.`);
-                    reset();
-                    router.push("/order");
-                  },
-                  onError: (error) => {
-                    toast.error(error.response.data);
-                  },
+                    onSuccess: () => {
+                        toast.success(`Your order was created successfully.`);
+                        reset();
+                        resetFileStates()
+                        //router.push("/orders");
+                    },
+                    onError: (error) => {
+                        toast.error(error.response.data);
+                        resetFileStates()
+                    },
                 });
             } else {
-                toast.error("No files were uploaded. Please upload at least one file.");
+                toast.error("Failed to upload files, kindly try again.");
             }
         } catch (error) {
             console.error("Error creating order:", error);
@@ -188,7 +203,7 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
                             <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
                         </div>
                         {fileUrls.length > 0 &&
-                            <button onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
+                            <button type="button" onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
                         }
                         <Button type="submit" text="Create Order" loading={isSubmitting} />
                     </div>

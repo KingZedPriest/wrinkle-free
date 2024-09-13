@@ -32,7 +32,7 @@ const fields = [
     { name: "pickupDay", placeholder: "The Pick up Date", type: "datetime-local", label: "Pick up Day" }
 ]
 
-const OrderForm = ({ email }: { email: string}) => {
+const OrderForm = ({ email }: { email: string }) => {
 
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
@@ -125,7 +125,7 @@ const OrderForm = ({ email }: { email: string}) => {
             // Wait for all uploads to complete, throw a toast, and then
             await Promise.all(uploadPromises);
             setUploadedFilesUrl(prevUrls => [...prevUrls, ...newUploadedUrls]);
-            toast.message("Files uploaded successfully");
+            toast.success("Files uploaded successfully");
             return { success: true }
 
         } catch (error) {
@@ -139,20 +139,21 @@ const OrderForm = ({ email }: { email: string}) => {
     const onSubmit: SubmitHandler<NewUserOrder> = async (data) => {
         try {
 
-            //Upload the images to AWS first
+            //Upload Files to AWS
             const success = await uploadFiles(data.name)
             if (success) {
 
                 toast.info("Creating Order...");
                 const formData = { ...data, images: uploadedFilesUrl, email };
 
+                console.log({ formData })
                 //Save to the database
                 await makeApiRequest("/createOrder", "post", formData, {
                     onSuccess: () => {
                         toast.success(`Your order was created successfully.`);
                         reset();
                         resetFileStates();
-                        router.push("/order");
+                        //router.push("/orders");
                     },
                     onError: (error) => {
                         toast.error(error.response.data);
@@ -196,7 +197,7 @@ const OrderForm = ({ email }: { email: string}) => {
                             <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
                         </div>
                         {fileUrls.length > 0 &&
-                            <button onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
+                            <button type="button" onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
                         }
                         <Button type="submit" text="Create Order" loading={isSubmitting} />
                     </div>
@@ -209,7 +210,7 @@ const OrderForm = ({ email }: { email: string}) => {
             </div>
             {preview && (
                 <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-wrap justify-center items-center z-50">
-                    <button onClick={handlePreviewToggle}
+                    <button type="button" onClick={handlePreviewToggle}
                         className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg z-10">
                         Close Preview
                     </button>

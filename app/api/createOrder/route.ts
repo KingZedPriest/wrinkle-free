@@ -8,25 +8,28 @@ import { generateOrderId } from '@/lib/generate';
 export async function POST(request: NextRequest) {
 
     const body = await request.json();
+    console.log({body})
 
     try {
 
         const { email, name, notes, amountPaid, images, price, quantity, service, pickupDay, user } = body;
         
         let orderId: string;
-        let adminUser: User;
+        let currentUser: User;
 
         if (!user) {
             //Create new user
-            adminUser = await prisma.user.create({
+            currentUser = await prisma.user.create({
                 data: {
                     name,
                     notes
                 }
             })
         } else {
-            adminUser = user;
+            currentUser = user;
         }
+
+        console.log({currentUser})
 
         // Generate a unique orderId
         do {
@@ -37,13 +40,15 @@ export async function POST(request: NextRequest) {
         const newOrder = await prisma.order.create({
             data: {
                 orderId,
-                userId: adminUser.id,
+                userId: currentUser.id,
                 price,
                 amountPaid,
                 pickupDay,
                 admin: email,
             }
         })
+
+        console.log({newOrder})
 
         //Create a new order item
         const newOrderItem = await prisma.orderItem.create({
@@ -54,6 +59,8 @@ export async function POST(request: NextRequest) {
                 service
             }
         })
+
+        console.log({newOrderItem})
 
         return NextResponse.json(newOrderItem);
 
