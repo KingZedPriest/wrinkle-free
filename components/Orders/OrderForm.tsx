@@ -38,7 +38,6 @@ const OrderForm = ({ email }: { email: string }) => {
     const [index, setIndex] = useState<number>(0)
     const [files, setFiles] = useState<File[]>([]);
     const [fileUrls, setFileUrls] = useState<string[]>([]);
-    const [uploadedFilesUrl, setUploadedFilesUrl] = useState<string[]>([]);
     const [preview, setPreview] = useState<boolean>(false);
 
     //Functions
@@ -81,7 +80,6 @@ const OrderForm = ({ email }: { email: string }) => {
         setIndex(0);
         setFiles([]);
         setFileUrls([]);
-        setUploadedFilesUrl([]);
         setPreview(false);
     };
 
@@ -124,14 +122,13 @@ const OrderForm = ({ email }: { email: string }) => {
 
             // Wait for all uploads to complete, throw a toast, and then
             await Promise.all(uploadPromises);
-            setUploadedFilesUrl(prevUrls => [...prevUrls, ...newUploadedUrls]);
             toast.success("Files uploaded successfully");
-            return { success: true }
+            return newUploadedUrls;
 
         } catch (error) {
             console.error("Error uploading files:", error);
             toast.error("Failed to upload files");
-            return { success: false }
+            return null;
         }
     };
 
@@ -140,11 +137,12 @@ const OrderForm = ({ email }: { email: string }) => {
         try {
 
             //Upload Files to AWS
-            const success = await uploadFiles(data.name)
-            if (success) {
+            const uploadedUrls = await uploadFiles(data.name);
+
+            if (uploadedUrls && uploadedUrls.length > 0) {
 
                 toast.info("Creating Order...");
-                const formData = { ...data, images: uploadedFilesUrl, email };
+                const formData = { ...data, images: uploadedUrls, email };
 
                 console.log({ formData })
                 //Save to the database

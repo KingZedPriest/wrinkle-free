@@ -38,7 +38,6 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
     const [selectedUser, setSelectedUser] = useState<User | null>(null)
     const [files, setFiles] = useState<File[]>([]);
     const [fileUrls, setFileUrls] = useState<string[]>([]);
-    const [uploadedFilesUrl, setUploadedFilesUrl] = useState<string[]>([]);
     const [preview, setPreview] = useState<boolean>(false);
 
     //Functions
@@ -85,7 +84,6 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
         setIndex(0);
         setFiles([]);
         setFileUrls([]);
-        setUploadedFilesUrl([]);
         setPreview(false);
     };
 
@@ -128,14 +126,13 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
 
             // Wait for all uploads to complete, throw a toast, and then
             await Promise.all(uploadPromises);
-            setUploadedFilesUrl(prevUrls => [...prevUrls, ...newUploadedUrls]);
             toast.success("Files uploaded successfully");
-            return { success: true }
+            return newUploadedUrls;
 
         } catch (error) {
             console.error("Error uploading files:", error);
             toast.error("Failed to upload files");
-            return { success: false }
+            return null;
         }
     };
 
@@ -143,11 +140,12 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
     const onSubmit: SubmitHandler<UserOrder> = async (data) => {
         try {
             //Upload Files to AWS
-            const success = await uploadFiles(selectedUser?.name ?? "nameError");
-            toast.info("Creating Order...");
+            const uploadedUrls = await uploadFiles(selectedUser?.name ?? "nameError");
 
-            if (success) {
-                const formData = { ...data, images: uploadedFilesUrl, user: selectedUser, email };
+            if (uploadedUrls && uploadedUrls.length > 0) {
+
+                toast.info("Creating Order...");
+                const formData = { ...data, images: uploadedUrls, user: selectedUser, email };
                 console.log({ formData })
 
                 //Save to the database
