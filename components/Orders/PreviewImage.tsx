@@ -48,7 +48,7 @@ const MediaPreview = ({ files, onClose }: MediaPreviewProps) => {
                             <Image src={selectedMedia.url} alt="Selected media" fill
                                 style={{ objectFit: 'cover' }} />
                         ) : (
-                            <video src={selectedMedia.url} controls className="w-full h-full"
+                            <video src={selectedMedia.url} controls autoPlay className="w-full h-full"
                                 style={{ maxHeight: '90vh' }} />
                         )}
                     </div>
