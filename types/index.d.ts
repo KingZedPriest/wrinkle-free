@@ -87,30 +87,29 @@ declare type User = {
 }
 
 declare type Order = {
-    id: string
-    orderId: string
-    user: User
-    userId: string
-    items: OrderItem[]
-    status: "pending" | "in_progress" | "completed" | "cancelled"
-    price: number
-    amountPaid: number | null
-    pickupDay: Date
-    dropOffDay: Date | null
-    admin: string
-    createdAt: Date
-    updatedAt: Date
+    id: string;
+    orderId: string;
+    user: User | null;
+    userId: string | null;
+    items: OrderItem[];
+    status: "pending" | "in_progress" | "completed" | "cancelled";
+    price: number;
+    amountPaid: number | null;
+    pickupDay: Date;
+    admin: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 declare type OrderItem = {
-    id: string
-    order: Order
-    orderId: string
-    picture: string[]
-    quantity: number
-    service: string
-    createdAt: Date
-    updatedAt: Date
+    id: string;
+    order?: Order;
+    orderId: string;
+    picture: string[];
+    quantity: number;
+    service: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 //For the AWS Upload

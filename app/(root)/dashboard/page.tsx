@@ -4,25 +4,27 @@ import Link from "next/link";
 import { getCurrentUser } from "@/actions/fetch/currentUser";
 import getAdmin from "@/actions/fetch/getAnyAdmin";
 import getUserAndOrders from "@/actions/fetch/ordersAndUsers";
-import { fetchOrders } from "@/actions/fetch/getTransactions";
+import fetchOrders from "@/actions/fetch/getTransactions";
+import getOrders from "@/actions/fetch/getOrders";
 
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
 import SummaryBox from "@/components/Dashboard/SummaryBox";
 import Chart from "@/components/Dashboard/Chart";
 import TransactionDetails from "@/components/Dashboard/TransactionDetails";
-import SelectDate from "@/components/Dashboard/SelectDate";
 import OrderTable from "@/components/Dashboard/OrderTable";
 
 //Icons
 import { ArrowDown2, Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";
+
 
 const page = async () => {
 
     const accessTokenUser = await getCurrentUser();
     const currentAdmin = await getAdmin(accessTokenUser.id);
     const { allOrders, allUsers, pendingOrders, completedOrders, analytics } = await getUserAndOrders();
-    const lastSixOrders = await fetchOrders(6)
+    const lastSixOrders = await fetchOrders(6);
+    const { lastTenOrders } = await getOrders();
 
     const summaryItems = [
         { title: "Total Order", icon: Bag2, color: "bg-[#516fff]/20 text-[#516fff]", amount: allOrders.length, icon1: analytics.totalOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.totalOrders.percentageChange },
@@ -53,7 +55,7 @@ const page = async () => {
                         </div>
                         <div className="mt-5 flex flex-col">
                             {lastSixOrders.map((order, index) => (
-                                <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid}/>
+                                <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
                             ))}
                             {currentAdmin.role === "super_admin" &&
                                 <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
@@ -69,11 +71,10 @@ const page = async () => {
                 <div key={"table"} className="border border-slate-200 dark:border-slate-800 p-4 rounded-xl mt-10">
                     <div className="flex flex-col gap-y-1 sm:flex-row sm:justify-between sm:items-center pb-2 border-b border-slate-200 dark:border-slate-800">
                         <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">Latest Orders<span className="text-[10px] md:text-xs xl:text-sm sm:hidden ml-6">Last 10 (Ten)</span></p>
-                        <SelectDate />
                         <p className="text-[10px] md:text-xs xl:text-sm hidden sm:block">Last 10 (Ten)</p>
                     </div>
                     <div className="mt-5">
-                        <OrderTable />
+                        <OrderTable initialOrders={lastTenOrders} />
                     </div>
                 </div>
             </ScrollReveal>

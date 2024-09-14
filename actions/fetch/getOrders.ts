@@ -3,19 +3,20 @@ import { prisma } from "@/lib/prismadb";
 export default async function getOrders() {
 
     try {
-        const getOrders = await prisma.order.findMany({
+        const allOrders = await prisma.order.findMany({
             include: {
+                user: true,
                 items: true
             },
-            orderBy: {
-                createdAt: "desc"
-            }
+            orderBy: { createdAt: "desc" }
         });
 
-        return getOrders;
+        const lastTenOrders = allOrders.slice(0, 10);
+
+        return { allOrders, lastTenOrders };
 
     } catch (error: any) {
-        console.error(`There was an error in fetching the orders ${error}`);
+        console.error('Error fetching all orders and last ten:', error);
         throw error;
     }
 }

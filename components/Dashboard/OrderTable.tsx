@@ -6,15 +6,8 @@ import { toast } from 'sonner';
 //Icons
 import { Trash, Edit } from "iconsax-react";
 
-const initialTransactions: Transaction[] = [
-    { id: 'T001', totalClothes: 5, amount: 150, status: 'Completed' },
-    { id: 'T002', totalClothes: 3, amount: 90, status: 'Pending' },
-    { id: 'T003', totalClothes: 7, amount: 210, status: 'Completed' },
-    { id: 'T004', totalClothes: 2, amount: 60, status: 'Cancelled' },
-]
-
-export default function OrderTable() {
-    const [orders, setOrders] = useState<Transaction[]>(initialTransactions)
+export default function OrderTable({ initialOrders }: { initialOrders : Order[]}) {
+    const [orders, setOrders] = useState<Order[]>(initialOrders)
     const [selectedIds, setSelectedIds] = useState<string[]>([])
 
 
@@ -68,18 +61,18 @@ export default function OrderTable() {
                                     <input type="checkbox" checked={selectedIds.includes(order.id)} onChange={() => handleSelect(order.id)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div>{order.id}</div>
+                                    <div>{order.orderId}</div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div>{order.totalClothes}</div>
+                                    <div>{order.items[0].quantity}</div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div className='text-black dark:text-white font-semibold'>₦{order.amount}</div>
+                                    <div className='text-black dark:text-white font-semibold'>₦{order.amountPaid}</div>
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            ${order.status === 'Completed' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
-                                            order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
+                                            ${order.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
+                                            order.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' :
                                                 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'}`}>
                                         {order.status}
                                     </span>
