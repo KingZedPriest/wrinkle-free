@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prismadb";
 //Libs
 import { dateConverter } from "@/lib/date";
 
-export async function fetchOrders() {
+export async function fetchOrders(limit?: number) {
     try {
         const orders = await prisma.order.findMany({
             select: {
@@ -19,7 +19,8 @@ export async function fetchOrders() {
             },
             orderBy: {
                 createdAt: 'desc'
-            }
+            },
+            ...(limit ? { take: limit } : {})
         });
 
         // Transform the data to match the requested format
