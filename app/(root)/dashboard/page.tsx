@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/actions/fetch/currentUser";
 import getAdmin from "@/actions/fetch/getAnyAdmin";
 import getUserAndOrders from "@/actions/fetch/ordersAndUsers";
+import { fetchOrders } from "@/actions/fetch/getTransactions";
 
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
@@ -20,7 +21,8 @@ const page = async () => {
 
     const accessTokenUser = await getCurrentUser();
     const currentAdmin = await getAdmin(accessTokenUser.id);
-    const { allOrders, allUsers, pendingOrders, completedOrders, analytics } = await getUserAndOrders()
+    const { allOrders, allUsers, pendingOrders, completedOrders, analytics } = await getUserAndOrders();
+    const lastSixOrders = await fetchOrders(6)
 
     const summaryItems = [
         { title: "Total Order", icon: Bag2, color: "bg-[#516fff]/20 text-[#516fff]", amount: allOrders.length, icon1: analytics.totalOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.totalOrders.percentageChange },
@@ -50,12 +52,9 @@ const page = async () => {
                             <p className="text-[10px] md:text-xs xl:text-sm">Last 6 (Six)</p>
                         </div>
                         <div className="mt-5 flex flex-col">
-                            <TransactionDetails />
-                            <TransactionDetails />
-                            <TransactionDetails />
-                            <TransactionDetails />
-                            <TransactionDetails />
-                            <TransactionDetails />
+                            {lastSixOrders.map((order, index) => (
+                                <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid}/>
+                            ))}
                             {currentAdmin.role === "super_admin" &&
                                 <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
                                     <Link href="/orders/transactions">View All Transactions</Link>

@@ -14,7 +14,7 @@ export const description = "A radial chart showing total orders between yesterda
 export default function Chart({ orderToday, orderYesterday, totalUsers6Months, orderMonthlyPercentChange }: ChartProps) {
 
     const [chartDay, setChartDay] = useState<string | null>(null);
-    const chartData = [{ yesterday: orderYesterday, today: 12 }]
+    const chartData = [{ yesterday: orderYesterday, today: orderToday }]
 
     const chartConfig = {
         yesterday: {
