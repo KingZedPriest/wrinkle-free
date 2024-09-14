@@ -12,7 +12,7 @@ const BackButton = () => {
 
     return (
         <main>
-            <BackSquare size="24" className='text-textRed' onClick={() => router.back()}/>
+            <BackSquare size="35" className='text-textRed cursor-pointer' variant='Bold' onClick={() => router.back()}/>
         </main>
     );
 }

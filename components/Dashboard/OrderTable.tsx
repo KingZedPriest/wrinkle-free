@@ -54,7 +54,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                                 Items
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase">
-                                Amount
+                                Price
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium uppercase">
                                 Status
@@ -76,7 +76,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                                     <p>{order.items[0].quantity}</p>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <Link href={`/orders/transactions/${order.orderId}`}><p className='text-black dark:text-white font-semibold'>₦{order.amountPaid}</p></Link>
+                                    <Link href={`/orders/transactions/${order.orderId}`}><p className='text-black dark:text-white font-semibold inline'>₦{order.price}</p><sup className='text-textRed'>-{order.amountPaid}</sup></Link>
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
