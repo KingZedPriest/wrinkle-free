@@ -156,7 +156,7 @@ const CreateOrder = ({ users, email }: { users: User[], email: string }) => {
                         toast.success(`Your order was created successfully.`);
                         reset();
                         resetFileStates()
-                        //router.push("/orders");
+                        router.push("/orders");
                     },
                     onError: (error) => {
                         toast.error(error.response.data);

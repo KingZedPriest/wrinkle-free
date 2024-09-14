@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,6 +16,7 @@ import { getSignedURL } from "@/actions/server/uploadFiles";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import ErrorText from "@/components/Auth/error-message";
+import MediaPreview from "./PreviewImage";
 
 //Icons
 import { ArrowLeft3, ArrowRight3 } from "iconsax-react";
@@ -37,7 +37,7 @@ const OrderForm = ({ email }: { email: string }) => {
     const router = useRouter();
     const [index, setIndex] = useState<number>(0)
     const [files, setFiles] = useState<File[]>([]);
-    const [fileUrls, setFileUrls] = useState<string[]>([]);
+    const [fileUrls, setFileUrls] = useState<MediaFile[]>([]);
     const [preview, setPreview] = useState<boolean>(false);
 
     //Functions
@@ -64,12 +64,16 @@ const OrderForm = ({ email }: { email: string }) => {
         setFiles(selectedFiles);
 
         // Revoke previous URLs
-        fileUrls.forEach(url => URL.revokeObjectURL(url));
+        fileUrls.forEach(file => URL.revokeObjectURL(file.url));
 
-        // Create new URLs
-        const newFileUrls = selectedFiles.map(file => URL.createObjectURL(file));
+        // Create new MediaFile objects
+        const newFileUrls: MediaFile[] = selectedFiles.map(file => ({
+            url: URL.createObjectURL(file),
+            type: file.type
+        }));
+
         setFileUrls(newFileUrls);
-    }
+    };
 
     const handlePreviewToggle = () => {
         setPreview(!preview);
@@ -153,7 +157,7 @@ const OrderForm = ({ email }: { email: string }) => {
                         toast.success(`Your order was created successfully.`);
                         reset();
                         resetFileStates();
-                        //router.push("/orders");
+                        router.push("/orders");
                     },
                     onError: (error) => {
                         toast.error(error.response.data);
@@ -209,23 +213,7 @@ const OrderForm = ({ email }: { email: string }) => {
                 <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/2 </p>
             </div>
             {preview && (
-                <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-wrap justify-center items-center z-50">
-                    <button type="button" onClick={handlePreviewToggle}
-                        className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg z-10">
-                        Close Preview
-                    </button>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto">
-                        {fileUrls.map((url, index) => (
-                            <div key={index} className="relative w-40 h-64">
-                                {files[index].type.startsWith("image/") ? (
-                                    <Image src={url} alt={`media-${index}`} fill className="object-cover rounded-lg" />
-                                ) : (
-                                    <video src={url} controls className="w-full h-full object-cover rounded-lg" />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <MediaPreview files={fileUrls} onClose={handlePreviewToggle} />
             )}
         </main>
     );

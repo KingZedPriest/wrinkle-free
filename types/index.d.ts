@@ -118,11 +118,15 @@ declare type SignedUrlResponse = {
     failure?: string;
 }
 
-declare type uploadProps = {
-    name: string,
-    upload: boolean,
-    onStateChange: (newState: string[]) => void;
-}
+//Preview Selected Images
+declare type MediaFile = {
+    url: string;
+};
+
+declare type MediaPreviewProps = {
+    files: MediaFile[];
+    onClose: () => void;
+};
 
 //Select User
 declare type SelectUserProps = {
