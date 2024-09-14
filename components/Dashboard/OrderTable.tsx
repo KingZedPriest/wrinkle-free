@@ -1,13 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+
+//Server Actions
+import { deleteOrder } from '@/actions/server/deleteOrder';
 
 //Icons
 import { Trash, Edit } from "iconsax-react";
 
 export default function OrderTable({ initialOrders }: { initialOrders : Order[]}) {
-    const [orders, setOrders] = useState<Order[]>(initialOrders)
+
+    const router = useRouter()
     const [selectedIds, setSelectedIds] = useState<string[]>([])
 
 
@@ -18,9 +23,13 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
         )
     }
 
-    const handleDelete = (id: string) => {
-        setOrders(prev => prev.filter(t => t.id !== id))
-        setSelectedIds(prev => prev.filter(i => i !== id))
+    const handleDelete = async (orderId: string) => {
+        const { success, message } = await deleteOrder(orderId)
+        if (success) {
+            return toast.success(message)
+        }else{
+            return toast.error("Order could not be deleted, kindly try again later")
+        }
     }
 
     const handleEdit = (id: string) => {
@@ -55,10 +64,10 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order, index) => (
+                        {initialOrders.map((order, index) => (
                             <tr key={order.id} className={`${index % 2 === 0 ? "bg-white dark:bg-black" : "bg-light-600 dark:bg-dark-600"} whitespace-nowrap`}>
                                 <td className="px-6 py-4">
-                                    <input type="checkbox" checked={selectedIds.includes(order.id)} onChange={() => handleSelect(order.id)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
+                                    <input type="checkbox" checked={selectedIds.includes(order.orderId)} onChange={() => handleSelect(order.orderId)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
                                 </td>
                                 <td className="px-6 py-4">
                                     <div>{order.orderId}</div>
@@ -78,10 +87,10 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button onClick={() => handleEdit(order.id)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
+                                    <button onClick={() => handleEdit(order.orderId)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
                                         <Edit className="h-5 w-5" />
                                     </button>
-                                    <button onClick={() => handleDelete(order.id)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
+                                    <button onClick={() => handleDelete(order.orderId)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
                                         <Trash className="h-5 w-5" />
                                     </button>
                                 </td>

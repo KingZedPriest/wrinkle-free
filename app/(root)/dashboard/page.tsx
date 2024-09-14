@@ -17,7 +17,8 @@ import OrderTable from "@/components/Dashboard/OrderTable";
 //Icons
 import { ArrowDown2, Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";
 
-
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 const page = async () => {
 
     const accessTokenUser = await getCurrentUser();

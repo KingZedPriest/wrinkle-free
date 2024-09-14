@@ -1,9 +1,7 @@
 //Actions
-import { getCurrentUser } from "@/actions/fetch/currentUser";
-
+import getOrders from "@/actions/fetch/getOrders";
 
 //Components
-import ScrollReveal from "@/components/RevelOnScroll";
 import OrderHeader from "@/components/Orders/OrderHeader";
 
 
@@ -11,11 +9,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 const page = async () => {
 
-    const currentAdmin = await getCurrentUser()
+    const { allOrders } = await getOrders()
 
     return ( 
         <main className="py-5 mb-20 lg:mb-10">
-            <OrderHeader totalOrders={20}/>
+            <OrderHeader totalOrders={allOrders.length}/>
         </main>
      );
 }
