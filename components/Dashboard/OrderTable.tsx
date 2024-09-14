@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 //Server Actions
@@ -12,7 +11,6 @@ import { Trash, Edit } from "iconsax-react";
 
 export default function OrderTable({ initialOrders }: { initialOrders : Order[]}) {
 
-    const router = useRouter()
     const [selectedIds, setSelectedIds] = useState<string[]>([])
 
 
@@ -26,9 +24,11 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
     const handleDelete = async (orderId: string) => {
         const { success, message } = await deleteOrder(orderId)
         if (success) {
-            return toast.success(message)
+            toast.success(message);
+            window.location.reload()
         }else{
-            return toast.error("Order could not be deleted, kindly try again later")
+            return toast.error("Order could not be deleted, kindly try again later");
+            window.location.reload()
         }
     }
 
