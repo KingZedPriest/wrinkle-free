@@ -121,6 +121,7 @@ declare type SignedUrlResponse = {
 //Preview Selected Images
 declare type MediaFile = {
     url: string;
+    type: string;
 };
 
 declare type MediaPreviewProps = {
