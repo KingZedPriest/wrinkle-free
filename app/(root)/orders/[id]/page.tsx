@@ -4,6 +4,9 @@ import getOrder from "@/actions/fetch/getAnOrder";
 //Components
 import BackButton from "@/components/Orders/BackButton";
 
+//Libs
+import { dateConverter, formatTimestamp } from "@/lib/date";
+
 //Icons
 import { Box, ClipboardText, UserTag } from "iconsax-react";
 
@@ -54,11 +57,19 @@ const page = async ({ params }: { params: { id: string } }) => {
                         <p>Amount Paid</p>
                         <p className="text-red-600 dark:text-red-400 font-semibold">-₦{order.amountPaid}</p>
                     </div>
+                    <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
+                        <p>Pick-Up Day</p>
+                        <p className="text-black dark:text-white font-semibold">{dateConverter(order.pickupDay)}</p>
+                    </div>
+                    <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
+                    <p>Order Creation Date</p>
+                    <p className="text-black dark:text-white font-semibold">{formatTimestamp(order.createdAt)}</p>
+                </div>
                     <hr />
                     <p className="text-sm md:text-base xl:text-lg flex items-center mt-6"><ClipboardText size="24" className="text-textGreen mr-2 font-semibold" />Order Items</p>
                     <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
                         <p>Quantity</p>
-                        <p className="text-black dark:text-white font-semibold">{order.items[0].quantity}</p>
+                        <p className="text-black dark:text-white font-semibold">{order.items[0].quantity} clothes</p>
                     </div>
                     <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
                         <p>Service</p>
@@ -71,7 +82,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                         <p className="text-black dark:text-white font-semibold">{order.user?.name}</p>
                     </div>
                     <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
-                        <p>Customer Notes?</p>
+                        <p>Customer Notes</p>
                         <p className="text-black dark:text-white font-semibold">{order.user?.notes ?? "No notes"}</p>
                     </div>
                 </div>

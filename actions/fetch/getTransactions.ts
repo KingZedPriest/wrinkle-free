@@ -28,7 +28,7 @@ export default async function fetchOrders(limit?: number) {
             price: order.price,
             orderId: order.orderId,
             amountPaid: order.amountPaid ?? 0,
-            createdAt: dateConverter(order.createdAt.toDateString()),
+            createdAt: dateConverter(order.createdAt),
             clientName: order.user?.name ?? 'Unknown'
         }));
 
