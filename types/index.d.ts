@@ -144,3 +144,8 @@ declare type TransactionProps = {
     createdAt: string;
     paidAmount: number;
 }
+
+//Order params page Image Viewer
+declare type ImageGalleryProps = {
+    images: string[];
+};
