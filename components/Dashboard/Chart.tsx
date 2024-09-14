@@ -1,36 +1,47 @@
 "use client"
 
-import { TrendingUp } from "lucide-react";
+import { useState, useEffect } from "react";
+import dayjs from 'dayjs';
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
-//UI Components
-
+//UI Components and Libs
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
-export const description = "A radial chart with stacked sections"
 
-const chartData = [{ month: "january", desktop: 1260, mobile: 570 }]
+export const description = "A radial chart showing total orders between yesterday and today.";
+export default function Chart({ orderToday, orderYesterday, totalUsers6Months, orderMonthlyPercentChange }: ChartProps) {
 
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig
+    const [chartDay, setChartDay] = useState<string | null>(null);
+    const chartData = [{ yesterday: orderYesterday, today: orderToday }]
 
-export default function Chart() {
-    const totalVisitors = chartData[0].desktop + chartData[0].mobile
+    const chartConfig = {
+        yesterday: {
+            label: "Yesterday",
+            color: "hsl(var(--chart-1))",
+        },
+        today: {
+            label: "Today",
+            color: "hsl(var(--chart-2))",
+        },
+    } satisfies ChartConfig
+    const totalVisitors = chartData[0].yesterday + chartData[0].today
+
+    //Functions
+    useEffect(() => {
+        const today = dayjs();
+        const todayFormatted = today.format("D MMM");
+        const yearFormatted = today.format("YYYY");
+
+        setChartDay(`Yesterday - Today (${todayFormatted}) ${yearFormatted}`);
+    }, []);
 
     return (
         <Card className="flex flex-col mt-5">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Radial Chart - Stacked</CardTitle>
-                <CardDescription>Yesterday - Today 2024</CardDescription>
+                <CardDescription>{chartDay}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-1 items-center pb-0">
                 <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full h-[300px]">
@@ -61,10 +72,10 @@ export default function Chart() {
             </CardContent>
             <CardFooter className="flex-col gap-2">
                 <div className="flex items-center gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-5 w-5" />
+                    Trending up by {orderMonthlyPercentChange} this month {orderMonthlyPercentChange > 0 ? <TrendingUp className="h-5 w-5" /> : <TrendingDown className="h-5 w-5" />}
                 </div>
                 <div className="leading-none">
-                    <span className="font-semibold text-sm md:text-base xl:text-lg">46</span> Total number of users for the last 6 months
+                    <span className="font-semibold text-sm md:text-base xl:text-lg">{totalUsers6Months}</span> Total number of users for the last 6 months
                 </div>
             </CardFooter>
         </Card>

@@ -130,3 +130,11 @@ declare type SelectUserProps = {
     users: User[]
     onSelectUser: (user: User | null) => void
 }
+
+//Dashboard Chart Data
+declare type ChartProps = {
+    orderToday: number;
+    orderYesterday: number;
+    totalUsers6Months: number;
+    orderMonthlyPercentChange: number;
+}
