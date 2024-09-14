@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prismadb";
 
 export default async function getUserAndOrders() {
-
     try {
         const now = new Date();
         const yesterday = new Date(now);
@@ -9,6 +8,9 @@ export default async function getUserAndOrders() {
 
         const startOfToday = new Date(now.setHours(0, 0, 0, 0));
         const startOfYesterday = new Date(yesterday.setHours(0, 0, 0, 0));
+        const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+        const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
         const [
             allOrders,
@@ -22,9 +24,11 @@ export default async function getUserAndOrders() {
             todayTotalOrders,
             yesterdayTotalOrders,
             todayUsers,
-            yesterdayUsers
+            yesterdayUsers,
+            usersLastSixMonths,
+            thisMonthOrders,
+            lastMonthOrders
         ] = await Promise.all([
-
             // All orders
             prisma.order.findMany({
                 include: { items: true },
@@ -118,6 +122,34 @@ export default async function getUserAndOrders() {
                         lt: startOfToday
                     }
                 }
+            }),
+
+            // Total users in the last 6 months
+            prisma.user.count({
+                where: {
+                    createdAt: {
+                        gte: sixMonthsAgo
+                    }
+                }
+            }),
+
+            // Total orders this month
+            prisma.order.count({
+                where: {
+                    createdAt: {
+                        gte: startOfThisMonth
+                    }
+                }
+            }),
+
+            // Total orders last month
+            prisma.order.count({
+                where: {
+                    createdAt: {
+                        gte: startOfLastMonth,
+                        lt: startOfThisMonth
+                    }
+                }
             })
         ]);
 
@@ -126,6 +158,7 @@ export default async function getUserAndOrders() {
         const pendingOrdersChange = calculatePercentageChange(yesterdayPendingOrders, todayPendingOrders);
         const totalOrdersChange = calculatePercentageChange(yesterdayTotalOrders, todayTotalOrders);
         const totalUsersChange = calculatePercentageChange(yesterdayUsers, todayUsers);
+        const monthlyOrdersChange = calculatePercentageChange(lastMonthOrders, thisMonthOrders);
 
         return {
             allOrders,
@@ -152,17 +185,23 @@ export default async function getUserAndOrders() {
                     today: todayUsers,
                     yesterday: yesterdayUsers,
                     percentageChange: totalUsersChange
+                },
+                usersLastSixMonths,
+                monthlyOrders: {
+                    thisMonth: thisMonthOrders,
+                    lastMonth: lastMonthOrders,
+                    percentageChange: monthlyOrdersChange
                 }
             }
         };
 
     } catch (error: any) {
-        console.error(`There was an error in fetching the orders: ${error}`);
+        console.error(`There was an error in fetching the orders and users: ${error}`);
         throw error;
     }
 }
 
-function calculatePercentageChange(yesterday: number, today: number): number {
-    if (yesterday === 0) return today > 0 ? 100 : 0;
-    return ((today - yesterday) / yesterday) * 100;
+function calculatePercentageChange(oldValue: number, newValue: number): number {
+    if (oldValue === 0) return newValue > 0 ? 100 : 0;
+    return ((newValue - oldValue) / oldValue) * 100;
 }

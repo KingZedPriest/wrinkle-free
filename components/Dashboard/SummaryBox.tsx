@@ -10,7 +10,7 @@ const SummaryBox = ({ title, icon: Icon, color, amount, icon1: Icon1, percent }:
             <p className="text-xl md:text-2xl xl:text-3xl font-semibold dark:text-white text-black">{amount}</p>
             <p className="flex items-center gap-x-1">
                 <Icon1 size="18" className={percent === 0 ? "text-textOrange" : percent < 0 ? "text-textRed" : "text-textGreen"} variant="Bold" />
-                {percent === 0 ? "No Record Yet" : percent < 0 ? `${percent}% lower than yesterday` : `${percent}% higher than yesterday`}
+                {percent === 0 ? "Equal / No Record Yet" : percent < 0 ? `${percent}% lower than yesterday` : `${percent}% higher than yesterday`}
             </p>
         </main>
     );

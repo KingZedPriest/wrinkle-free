@@ -26,7 +26,7 @@ const page = async () => {
         { title: "Total Order", icon: Bag2, color: "bg-[#516fff]/20 text-[#516fff]", amount: allOrders.length, icon1: analytics.totalOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.totalOrders.percentageChange },
         { title: "Total Pending Order", icon: Clock, color: "bg-[#f98838]/20 text-[#f98838]", amount: pendingOrders.length, icon1: analytics.pendingOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.pendingOrders.percentageChange },
         { title: "Total Completed Order", icon: TickCircle, color: "bg-[#9879f4]/20 text-[#9879f4]", amount: completedOrders.length, icon1: analytics.completedOrders.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.completedOrders.percentageChange },
-        { title: "Total Users", icon: User, color: "bg-[#f48fc7]/20 text-[#f48fc7]", amount: allUsers.length, icon1: analytics.totalUsers.percentageChange ? TrendUp : TrendDown, percent: analytics.totalUsers.percentageChange }
+        { title: "Total Users", icon: User, color: "bg-[#f48fc7]/20 text-[#f48fc7]", amount: allUsers.length, icon1: analytics.totalUsers.percentageChange > 0 ? TrendUp : TrendDown, percent: analytics.totalUsers.percentageChange }
     ]
 
     return (
@@ -42,7 +42,7 @@ const page = async () => {
                 <div key={"transactions"} className="flex flex-col lg:flex-row gap-5 mt-10">
                     <div className="w-full lg:w-[60%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
                         <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white pb-2 border-b border-slate-200 dark:border-slate-800">Today Transaction</p>
-                        <Chart />
+                        <Chart orderToday={analytics.totalOrders.today} orderYesterday={analytics.totalOrders.yesterday} totalUsers6Months={analytics.usersLastSixMonths} orderMonthlyPercentChange={analytics.monthlyOrders.percentageChange} />
                     </div>
                     <div className="w-full lg:w-[36%] border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
                         <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-800">

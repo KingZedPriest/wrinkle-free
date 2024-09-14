@@ -14,16 +14,16 @@ export const description = "A radial chart showing total orders between yesterda
 export default function Chart({ orderToday, orderYesterday, totalUsers6Months, orderMonthlyPercentChange }: ChartProps) {
 
     const [chartDay, setChartDay] = useState<string | null>(null);
-    const chartData = [{ yesterday: orderYesterday, today: orderToday }]
+    const chartData = [{ yesterday: orderYesterday, today: 12 }]
 
     const chartConfig = {
         yesterday: {
             label: "Yesterday",
-            color: "hsl(var(--chart-1))",
+            color: "hsl(var(--chart-2))",
         },
         today: {
             label: "Today",
-            color: "hsl(var(--chart-2))",
+            color: "hsl(var(--chart-1))",
         },
     } satisfies ChartConfig
     const totalVisitors = chartData[0].yesterday + chartData[0].today
@@ -65,8 +65,8 @@ export default function Chart({ orderToday, orderYesterday, totalUsers6Months, o
                                 }}
                             />
                         </PolarRadiusAxis>
-                        <RadialBar dataKey="desktop" stackId="a" cornerRadius={8} fill="var(--color-desktop)" className="stroke-transparent stroke-[4px]" />
-                        <RadialBar dataKey="mobile" fill="var(--color-mobile)" stackId="a" cornerRadius={8} className="stroke-transparent stroke-[4px]" />
+                        <RadialBar dataKey="today" stackId="a" cornerRadius={8} fill={chartConfig.today.color} className="stroke-transparent stroke-[4px]" />
+                        <RadialBar dataKey="yesterday" fill={chartConfig.yesterday.color} stackId="a" cornerRadius={8} className="stroke-transparent stroke-[4px]" />
                     </RadialBarChart>
                 </ChartContainer>
             </CardContent>
