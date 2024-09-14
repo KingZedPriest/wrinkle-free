@@ -138,3 +138,10 @@ declare type ChartProps = {
     totalUsers6Months: number;
     orderMonthlyPercentChange: number;
 }
+
+//Dashboard Transaction
+declare type TransactionProps = {
+    clientName: string;
+    createdAt: string;
+    paidAmount: number;
+}

@@ -1,7 +1,7 @@
 //Icons
 import { TickCircle } from "iconsax-react";
 
-const TransactionDetails = () => {
+const TransactionDetails = ({clientName, createdAt, paidAmount}: TransactionProps) => {
     return (
         <main className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 py-2.5">
             <div className="flex gap-x-2 items-center">
