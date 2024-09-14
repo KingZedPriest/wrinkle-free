@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -9,7 +10,7 @@ import { deleteOrder } from '@/actions/server/deleteOrder';
 //Icons
 import { Trash, Edit } from "iconsax-react";
 
-export default function OrderTable({ initialOrders }: { initialOrders : Order[]}) {
+export default function OrderTable({ initialOrders, role }: { initialOrders: Order[], role: string }) {
 
     const [selectedIds, setSelectedIds] = useState<string[]>([])
 
@@ -26,8 +27,8 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
         if (success) {
             toast.success(message);
             window.location.reload()
-        }else{
-            return toast.error("Order could not be deleted, kindly try again later");
+        } else {
+            toast.error("Order could not be deleted, kindly try again later");
             window.location.reload()
         }
     }
@@ -69,14 +70,13 @@ export default function OrderTable({ initialOrders }: { initialOrders : Order[]}
                                 <td className="px-6 py-4">
                                     <input type="checkbox" checked={selectedIds.includes(order.orderId)} onChange={() => handleSelect(order.orderId)} className="h-4 w-4 text-generalBlue dark:text-cloudBlue cursor-pointer" />
                                 </td>
-                                <td className="px-6 py-4">
-                                    <div>{order.orderId}</div>
+                                <td className="px-6 py-4"><Link href={`/orders/${order.orderId}`}>{order.orderId}</Link>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div>{order.items[0].quantity}</div>
+                                    <p>{order.items[0].quantity}</p>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <div className='text-black dark:text-white font-semibold'>₦{order.amountPaid}</div>
+                                    <Link href={`/orders/transactions/${order.orderId}`}><p className='text-black dark:text-white font-semibold'>₦{order.amountPaid}</p></Link>
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 

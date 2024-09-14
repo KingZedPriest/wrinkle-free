@@ -75,7 +75,7 @@ const page = async () => {
                         <p className="text-[10px] md:text-xs xl:text-sm hidden sm:block">Last 10 (Ten)</p>
                     </div>
                     <div className="mt-5">
-                        <OrderTable initialOrders={lastTenOrders} />
+                        <OrderTable initialOrders={lastTenOrders} role={currentAdmin.role} />
                     </div>
                 </div>
             </ScrollReveal>
