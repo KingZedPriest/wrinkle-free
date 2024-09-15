@@ -85,9 +85,11 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                                     <Link href={`/orders/${order.orderId}`} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
                                         <Edit className="h-5 w-5" />
                                     </Link>
-                                    <button onClick={() => handleDelete(order.orderId)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
-                                        <Trash className="h-5 w-5" />
-                                    </button>
+                                    {role === "super_admin" &&
+                                        <button onClick={() => handleDelete(order.orderId)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
+                                            <Trash className="h-5 w-5" />
+                                        </button>
+                                    }
                                 </td>
                             </tr>
                         ))}
@@ -97,10 +99,12 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
             {selectedIds.length > 0 &&
                 <div className="flex justify-between mt-6">
                     <p>Selected Transaction IDs: {selectedIds.join(', ')}</p>
-                    <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer">
-                        <p>Delete Item(s)</p>
-                        <Trash className="h- w-7" />
-                    </div>
+                    {role === "super_admin" &&
+                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer">
+                            <p>Delete Item(s)</p>
+                            <Trash className="h- w-7" />
+                        </div>
+                    }
                 </div>
             }
         </div>
