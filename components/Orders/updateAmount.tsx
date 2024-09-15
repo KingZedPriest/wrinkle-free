@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 // Server Actions
@@ -53,7 +52,7 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
             </p>
             {isOpen && (
                 <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-10">
-                    <div className="relative w-[90%] sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%] px-2 sm:px-4 py-6 md:p-6 rounded-lg bg-light-300 dark:bg-dark-700 z-30">
+                    <div className="relative w-[90%] sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%] px-2 sm:px-4 py-6 md:p-6 rounded-lg bg-light-300 dark:bg-dark-700 z-20">
                         <div className="flex flex-col gap-y-1">
                             <label className="cursor-pointer" htmlFor="amount">
                                 Amount

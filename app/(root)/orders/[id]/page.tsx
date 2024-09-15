@@ -53,7 +53,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
         return (
             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                {order.status}
+                {order.status === "in_progress" ? "in progress" : order.status}
             </span>
         );
     };
@@ -105,7 +105,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
                 <p className="text-orange-600 dark:text-orange-400 font-semibold mt-2">Quick Actions</p>
                 <div className="flex justify-between items-center mt-2">
-                    <UpdateStatus /> <UpdateAmount orderId={order.orderId} /> <DeleteOrder orderId={order.orderId} />
+                    <UpdateStatus orderId={order.orderId} /> <UpdateAmount orderId={order.orderId} /> <DeleteOrder orderId={order.orderId} />
                 </div>
             </div>
         </main>
