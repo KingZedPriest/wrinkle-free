@@ -93,7 +93,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                     </div>
                 </div>
                 <hr />
-                <p className="text-orange-600 dark:text-orange-400">Quick Actions</p>
+                <p className="text-orange-600 dark:text-orange-400 font-semibold">Quick Actions</p>
             </div>
         </main>
     );
