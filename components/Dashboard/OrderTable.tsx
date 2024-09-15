@@ -33,11 +33,6 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
         }
     }
 
-    const handleEdit = (id: string) => {
-        // Implement edit functionality here
-        console.log(`Editing order ${id}`)
-    }
-
     return (
         <div className="">
             <div className="overflow-x-auto">
@@ -86,10 +81,10 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                                         {order.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4">
-                                    <button onClick={() => handleEdit(order.orderId)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
+                                <td className="px-6 py-4 flex items-center">
+                                    <Link href={`/orders/${order.orderId}`} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200 mr-4">
                                         <Edit className="h-5 w-5" />
-                                    </button>
+                                    </Link>
                                     <button onClick={() => handleDelete(order.orderId)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
                                         <Trash className="h-5 w-5" />
                                     </button>

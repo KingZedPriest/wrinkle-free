@@ -14,8 +14,8 @@ const DeleteOrder = ({ orderId }: { orderId: string }) => {
     const router = useRouter()
 
     //Functions
-    const handleDeleteOrder = async (Id : string) => {
-        const { success, message } = await deleteOrder(Id)
+    const handleDeleteOrder = async () => {
+        const { success, message } = await deleteOrder(orderId)
         if(success){
             toast.success(message);
             router.back();
@@ -27,7 +27,7 @@ const DeleteOrder = ({ orderId }: { orderId: string }) => {
     }
 
     return (
-        <main onClick={() => handleDeleteOrder(orderId)} className="flex gap-x-2 items-center text-red-600 dark:text-red-400 hover:text-generalBlue hover:dark:text-cloudBlue duration-300">
+        <main onClick={handleDeleteOrder} className="flex gap-x-2 items-center text-red-600 dark:text-red-400 hover:text-generalBlue hover:dark:text-cloudBlue duration-300 cursor-pointer">
             <p>Delete</p>
             <Trash size="24" />
         </main>
