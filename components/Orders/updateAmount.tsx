@@ -7,8 +7,8 @@ import { toast } from "sonner";
 // Server Actions
 import { updateAmount } from "@/actions/server/updateAmount";
 
-//Components
-import Button from "../Button";
+//Icons
+import { Setting2 } from "iconsax-react";
 
 const UpdateAmount = ({ orderId }: { orderId: string }) => {
 
@@ -30,11 +30,17 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
     const handleCheckboxChange = () => setRemove(!remove);
 
     const handleUpdate = async () => {
-        const {success, message} = await updateAmount(orderId, parseInt(value), remove)
-        if(success){
+
+        setLoading(true);
+        toast.message("Updating...");
+
+        const { success, message } = await updateAmount(orderId, parseInt(value), remove)
+        if (success) {
+            setLoading(false);
             toast.success(message);
             window.location.reload();
-        }else{
+        } else {
+            setLoading(false);
             toast.error("Sorry, couldn't update amount now, try again later.");
             window.location.reload();
         }
@@ -46,8 +52,8 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
                 {isOpen ? "Close" : "Update Amount"}
             </p>
             {isOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-20 overflow-y-auto" onClick={toggleInput}>
-                    <div className="w-[90%] sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%] px-2 sm:px-4 py-6 md:p-6 rounded-lg bg-light-300 dark:bg-dark-700">
+                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-10">
+                    <div className="relative w-[90%] sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%] px-2 sm:px-4 py-6 md:p-6 rounded-lg bg-light-300 dark:bg-dark-700 z-30">
                         <div className="flex flex-col gap-y-1">
                             <label className="cursor-pointer" htmlFor="amount">
                                 Amount
@@ -62,7 +68,11 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
                             <input type="checkbox" id="remove" checked={remove} onChange={handleCheckboxChange} className="mr-2" />
                             <label htmlFor="remove" className="cursor-pointer">Remove</label>
                         </div>
-                        <Button type="button" text="Update Amount" loading={loading} onClick={handleUpdate} />
+                        <button onClick={handleUpdate} disabled={loading} className={"mt-4 text-white disabled:cursor-not-allowed py-3 w-full rounded-lg bg-generalBlue dark:bg-cloudBlue hover:bg-blue-600 hover:dark:bg-blue-600 duration-300"}>
+                            {loading ? <Setting2 size="32" className='animate-spin mx-auto' variant="Bold" /> : "Update Amount"}
+                        </button>
+
+                        <p onClick={toggleInput} className="mt-10 text-red-600 dark:text-red-400 text-[10px] md:text-xs xl:text-sm flex justify-end font-semibold cursor-pointer">Close</p>
                     </div>
                 </div>
             )}
