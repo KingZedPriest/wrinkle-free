@@ -7,11 +7,17 @@ import { toast } from "sonner";
 // Server Actions
 import { updateAmount } from "@/actions/server/updateAmount";
 
+//Components
+import Button from "../Button";
+
 const UpdateAmount = ({ orderId }: { orderId: string }) => {
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [remove, setRemove] = useState<boolean>(false);
     const [value, setValue] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
+    //Functions
     const toggleInput = () => setIsOpen(!isOpen);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +29,19 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
 
     const handleCheckboxChange = () => setRemove(!remove);
 
+    const handleUpdate = async () => {
+        const {success, message} = await updateAmount(orderId, parseInt(value), remove)
+        if(success){
+            toast.success(message);
+            window.location.reload();
+        }else{
+            toast.error("Sorry, couldn't update amount now, try again later.");
+            window.location.reload();
+        }
+    }
+
     return (
-        <main className="flex flex-col gap-y-1">
+        <main>
             <p className="text-generalBlue dark:text-cloudBlue cursor-pointer hover:font-semibold duration-300" onClick={toggleInput}>
                 {isOpen ? "Close" : "Update Amount"}
             </p>
@@ -45,6 +62,7 @@ const UpdateAmount = ({ orderId }: { orderId: string }) => {
                             <input type="checkbox" id="remove" checked={remove} onChange={handleCheckboxChange} className="mr-2" />
                             <label htmlFor="remove" className="cursor-pointer">Remove</label>
                         </div>
+                        <Button type="button" text="Update Amount" loading={loading} onClick={handleUpdate} />
                     </div>
                 </div>
             )}
