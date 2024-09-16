@@ -13,7 +13,7 @@ import { dateConverter, formatTimestamp } from "@/lib/date";
 import { OrderStatus } from "@prisma/client";
 
 // Icons
-import { Box, ClipboardText, UserTag } from "iconsax-react";
+import { Box, ClipboardText, Edit, Image as ImageIcon, UserTag } from "iconsax-react";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -21,7 +21,7 @@ export const revalidate = 0;
 const OrderDetail = ({ label, value, isCurrency = false }: { label: string, value: any, isCurrency?: boolean }) => (
     <div className="flex justify-between items-center gap-x-5 mt-4 text-dark-300 dark:text-light-300">
         <p>{label}</p>
-        <p className={`text-black dark:text-white font-semibold ${isCurrency && (value < 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400')}`}>
+        <p className={`text-black dark:text-white font-semibold ${isCurrency && (value < 0 ? 'text-red-600 dark:!text-red-400' : 'text-green-600 dark:!text-green-400')}`}>
             {isCurrency ? `₦${value}` : value}
         </p>
     </div>
@@ -59,53 +59,54 @@ const page = async ({ params }: { params: { id: string } }) => {
     };
 
     return (
-        <main className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-10 overflow-y-auto">
-            <div className="w-[90%] sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%] px-2 sm:px-4 py-6 md:p-6 rounded-lg bg-light-300 dark:bg-dark-700">
-                <div className="flex justify-between items-center mt-4 font-semibold">
-                    <p className="text-base sm:text-lg md:text-xl xl:text-2xl">Order details</p>
-                    <BackButton />
-                </div>
-
-                <section className="mt-4">
+        <main className="py-5 mb-20 lg:mb-10">
+            <div className="flex flex-col gap-y-5 lg:gap-y-0 lg:flex-row lg:justify-between">
+                <div className="lg:w-[40%] bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-[2rem]">
                     <p className="text-sm md:text-base xl:text-lg flex items-center font-semibold">
                         <Box size="24" className="text-textGreen mr-2" />Order Information
                     </p>
-                    <OrderDetail label="Order ID" value={order.orderId} />
-                    <OrderDetail label="Order Status" value={renderOrderStatus()} />
-                    <OrderDetail label="Price" value={`+${order.price}`} isCurrency />
-                    <OrderDetail label="Amount Paid" value={`-${order.amountPaid}`} isCurrency />
-                    <OrderDetail label="Amount Remaining" value={order.price - (order.amountPaid ?? 0)} isCurrency />
-                    <OrderDetail label="Pick-Up Day" value={dateConverter(order.pickupDay)} />
-                    <OrderDetail label="Order Creation Date" value={formatTimestamp(order.createdAt)} />
-                </section>
-
-                <hr />
-
-                <section className="mt-6">
+                    <section className="mt-4">
+                        <OrderDetail label="Order ID" value={order.orderId} />
+                        <OrderDetail label="Order Status" value={renderOrderStatus()} />
+                        <OrderDetail label="Price" value={`+${order.price}`} isCurrency />
+                        <OrderDetail label="Amount Paid" value={`-${order.amountPaid}`} isCurrency />
+                        <OrderDetail label="Amount Remaining" value={order.price - (order.amountPaid ?? 0)} isCurrency />
+                        <OrderDetail label="Pick-Up Day" value={dateConverter(order.pickupDay)} />
+                        <OrderDetail label="Order Creation Date" value={formatTimestamp(order.createdAt)} />
+                    </section>
+                </div>
+                <div className="lg:w-[59%] bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-[2rem] flex flex-col gap-y-5">
+                    <div>
+                        <p className="text-sm md:text-base xl:text-lg flex items-center font-semibold">
+                            <ClipboardText size="24" className="text-textGreen mr-2" />Order Items
+                        </p>
+                        <OrderDetail label="Quantity" value={`${order.items[0].quantity} clothes`} />
+                        <OrderDetail label="Service" value={order.items[0].service} />
+                    </div>
+                    <div>
+                        <p className="text-sm md:text-base xl:text-lg flex items-center font-semibold">
+                            <UserTag size="24" className="text-textGreen mr-2" />Customer Information
+                        </p>
+                        <OrderDetail label="Customer Name" value={order.user?.name} />
+                        <OrderDetail label="Customer Notes" value={order.user?.notes ?? "No notes"} />
+                        <OrderDetail label="Admin Email" value={order.admin} />
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col gap-y-5 lg:gap-y-0 lg:flex-row lg:justify-between mt-5">
+                <div className="lg:w-[59%] bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-[2rem] max-h-[30rem] overflow-y-auto">
                     <p className="text-sm md:text-base xl:text-lg flex items-center font-semibold">
-                        <ClipboardText size="24" className="text-textGreen mr-2" />Order Items
+                        <ImageIcon size="24" className="text-textGreen mr-2" />Customer Media Files
                     </p>
-                    <OrderDetail label="Quantity" value={`${order.items[0].quantity} clothes`} />
-                    <OrderDetail label="Service" value={order.items[0].service} />
                     <Gallery mediaUrls={order.items[0].picture} />
-                </section>
-
-                <hr />
-
-                <section className="mt-6">
+                </div>
+                <div className="lg:w-[40%] bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-[2rem]">
                     <p className="text-sm md:text-base xl:text-lg flex items-center font-semibold">
-                        <UserTag size="24" className="text-textGreen mr-2" />Customer Information
+                        <Edit size="24" className="text-textGreen mr-2" />Update Information
                     </p>
-                    <OrderDetail label="Customer Name" value={order.user?.name} />
-                    <OrderDetail label="Customer Notes" value={order.user?.notes ?? "No notes"} />
-                    <OrderDetail label="Admin Email" value={order.admin} />
-                </section>
-
-                <hr />
-
-                <p className="text-orange-600 dark:text-orange-400 font-semibold mt-2">Quick Actions</p>
-                <div className="flex justify-between items-center mt-2">
-                    <UpdateStatus orderId={order.orderId} /> <UpdateAmount orderId={order.orderId} /> <DeleteOrder orderId={order.orderId} />
+                    <div className="flex flex-col gap-y-5 mt-5 md:mt-10">
+                        <UpdateStatus orderId={order.orderId} /> <UpdateAmount orderId={order.orderId} /> <DeleteOrder orderId={order.orderId} />
+                    </div>
                 </div>
             </div>
         </main>

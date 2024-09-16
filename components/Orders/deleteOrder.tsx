@@ -27,9 +27,9 @@ const DeleteOrder = ({ orderId }: { orderId: string }) => {
     }
 
     return (
-        <main onClick={handleDeleteOrder} className="flex gap-x-2 items-center text-red-600 dark:text-red-400 hover:text-generalBlue hover:dark:text-cloudBlue duration-300 cursor-pointer">
-            <p>Delete</p>
-            <Trash size="24" />
+        <main onClick={handleDeleteOrder} className="flex gap-x-2 items-center text-red-600 dark:text-red-400 hover:text-red-400 hover:dark:text-red-600 duration-300 cursor-pointer">
+            <p className="hover:font-bold duration-300">Delete</p>
+            <Trash size="24" variant="Bold"/>
         </main>
     );
 }
