@@ -31,7 +31,7 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
 
     return (
         <div className="overflow-x-auto">
-            <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden mb-4">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>

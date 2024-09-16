@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-
-//Server Actions
-import { orderService } from '@/actions/fetch/orderService';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 //Components
 import MainOrderTable from './MainOrderTable';
@@ -11,72 +9,104 @@ import DateRangeSelect from './DateRangeSelect';
 import SelectDate from '../Dashboard/SelectDate';
 import { Button } from "@/components/ui/button";
 
+//Utils
+import { makeApiRequest } from '@/lib/apiUtils';
+
+//Icons
+import { ChartCircle } from 'iconsax-react';
+
 export default function OrderPage() {
 
+    const router = useRouter();
+    const searchParams = useSearchParams()
+    const [loading, setLoading] = useState<boolean>(false)
     const [orders, setOrders] = useState<MainOrder[]>([])
-    const [startDate, setStartDate] = useState<Date | null>(null)
-    const [endDate, setEndDate] = useState<Date | null>(null)
-    const [singleDate, setSingleDate] = useState<Date | null>(null)
-    const [currentPage, setCurrentPage] = useState(1)
+
+    //Params
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+    const currentPage = parseInt(searchParams.get('currentPage') || '1');
+
     const [totalPages, setTotalPages] = useState(1)
 
-    const loadOrders = async () => {
-        try {
-            const result = await orderService( singleDate || startDate, endDate, currentPage )
-            setOrders(result.orders)
-            setTotalPages(result.totalPages)
-        } catch (error) {
-            console.error('Error loading orders:', error)
-        }
-    }
+    //Functions
+    const updatePage = (newPage: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', newPage.toString());
+    
+        // Replace the current URL with the updated query parameters
+        router.replace(`?${params.toString()}`);
+    };
+    
 
     useEffect(() => {
-        loadOrders()
-    }, [startDate, endDate, singleDate, currentPage])
+        setLoading(true);
+
+        makeApiRequest(`/getOrders?startDate=${startDate}&page=${currentPage}&pageSize=20&endDate=${endDate}`, "get", "", {
+            onSuccess: (response) => {
+                setLoading(false);
+                setOrders(response.data.orders); // Ensure this matches the structure of the response
+                setTotalPages(response.data.totalPages);
+            },
+            onError: (error: any) => {
+                setLoading(false);
+                console.error('Error loading orders:', error);
+            },
+        });
+    }, [startDate, endDate, currentPage]);
+
 
     const handleDateRangeChange = (start: Date, end: Date) => {
-        setStartDate(start)
-        setEndDate(end)
-        setSingleDate(null)
-        setCurrentPage(1)
+
+        const params = new URLSearchParams(searchParams);
+        params.set('startDate', start.toDateString());
+        params.set('endDate', end.toDateString());
+        params.set('currentPage', "1")
+
+        // Push the new URL with updated query parameters
+        router.push(`?${params.toString()}`);
     }
 
     const handleSingleDateChange = (date: Date) => {
-        setSingleDate(date)
-        setStartDate(null)
-        setEndDate(null)
-        setCurrentPage(1)
+
+        const params = new URLSearchParams(searchParams);
+        params.set('startDate', date.toDateString());
+        params.set('endDate', "");
+        params.set('currentPage', "1")
+
+        // Push the new URL with updated query parameters
+        router.push(`?${params.toString()}`);
     }
 
     const handleEdit = async (id: string, data: Partial<MainOrder>) => {
         // Implement your edit logic here
         console.log('Editing order:', id, data)
-        await loadOrders()
     }
 
     const handleDelete = async (id: string) => {
         // Implement your delete logic here
         console.log('Deleting order:', id)
-        await loadOrders()
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-4">Orders</h1>
-            <div className="flex space-x-4 mb-4">
+        <main className='mt-5'>
+            <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-x-5 md:gap-x-10 mb-4">
                 <DateRangeSelect onDateRangeSelect={handleDateRangeChange} />
                 <SelectDate onDateSelect={handleSingleDateChange} />
             </div>
             <MainOrderTable orders={orders} onEdit={handleEdit} onDelete={handleDelete} />
             <div className="mt-4 flex justify-between">
-                <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                <Button onClick={() => updatePage((currentPage - 1))} disabled={currentPage === 1}>
                     Previous
                 </Button>
                 <span>Page {currentPage} of {totalPages}</span>
-                <Button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                <Button onClick={() => updatePage((currentPage + 1))} disabled={currentPage === totalPages}>
                     Next
                 </Button>
             </div>
-        </div>
+            {loading &&
+                <div className={`fixed inset-0 bg-black/90 z-20 flex items-center justify-center`}><ChartCircle size="40" className="text-generalBlue dark:text-cloudBlue animate-spin" /></div>
+            }
+        </main>
     )
 }

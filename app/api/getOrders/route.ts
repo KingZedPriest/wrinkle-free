@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { prisma } from '@/lib/prismadb';
 
 export async function GET(request: NextRequest) {
@@ -9,8 +9,16 @@ export async function GET(request: NextRequest) {
     const pageSize: number = parseInt(searchParams.get('pageSize') || '20', 10);
     const startDateParam = searchParams.get("startDate");
     const startDate: Date | null = startDateParam ? new Date(startDateParam) : null;
+    if (startDate && isNaN(startDate.getTime())) {
+        console.error("Invalid start date");
+    }
+
     const endDateParams = searchParams.get("endDate");
     const endDate: Date | null = endDateParams ? new Date(endDateParams) : null;
+    if (endDate && isNaN(endDate.getTime())) {
+        console.error("Invalid end date");
+    }
+
 
     try {
         const where = startDate && endDate ? {
@@ -43,11 +51,11 @@ export async function GET(request: NextRequest) {
             prisma.order.count({ where }),
         ]);
 
-        return {
-            orders: orders.map((order) => ({
+        return NextResponse.json({
+            orders: orders.map(order => ({
                 id: order.id,
                 orderId: order.orderId,
-                items: order.items.map((item) => ({
+                items: order.items.map(item => ({
                     service: item.service,
                     quantity: item.quantity,
                 })),
@@ -56,10 +64,9 @@ export async function GET(request: NextRequest) {
             })),
             totalCount,
             totalPages: Math.ceil(totalCount / pageSize),
-        };
-
+        });
     } catch (error) {
         console.error('Error fetching orders:', error);
-        throw error;
+        return NextResponse.error();
     }
 }
