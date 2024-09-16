@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
 
 //Components
 import MainOrderTable from './MainOrderTable';
@@ -22,9 +23,12 @@ export default function OrderPage() {
     const [loading, setLoading] = useState<boolean>(false)
     const [orders, setOrders] = useState<MainOrder[]>([])
 
+
+
+    const today = dayjs().format('YYYY-MM-DD');
     //Params
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
+    const startDate = searchParams.get('startDate') || today;
+    const endDate = searchParams.get('endDate') || today;
     const currentPage = parseInt(searchParams.get('currentPage') || '1');
 
     const [totalPages, setTotalPages] = useState(1)
@@ -33,11 +37,11 @@ export default function OrderPage() {
     const updatePage = (newPage: number) => {
         const params = new URLSearchParams(searchParams);
         params.set('page', newPage.toString());
-    
+
         // Replace the current URL with the updated query parameters
         router.replace(`?${params.toString()}`);
     };
-    
+
 
     useEffect(() => {
         setLoading(true);
@@ -45,7 +49,7 @@ export default function OrderPage() {
         makeApiRequest(`/getOrders?startDate=${startDate}&page=${currentPage}&pageSize=20&endDate=${endDate}`, "get", "", {
             onSuccess: (response) => {
                 setLoading(false);
-                setOrders(response.data.orders); // Ensure this matches the structure of the response
+                setOrders(response.data.orders);
                 setTotalPages(response.data.totalPages);
             },
             onError: (error: any) => {
@@ -105,7 +109,7 @@ export default function OrderPage() {
                 </Button>
             </div>
             {loading &&
-                <div className={`fixed inset-0 bg-black/90 z-20 flex items-center justify-center`}><ChartCircle size="40" className="text-generalBlue dark:text-cloudBlue animate-spin" /></div>
+                <div className={`fixed inset-0 bg-black/90 z-20 flex items-center justify-center`}><ChartCircle size="40" className="text-textOrange animate-spin" /></div>
             }
         </main>
     )

@@ -8,17 +8,10 @@ export async function GET(request: NextRequest) {
     const page: number = parseInt(searchParams.get('page') || '1', 10);
     const pageSize: number = parseInt(searchParams.get('pageSize') || '20', 10);
     const startDateParam = searchParams.get("startDate");
-    const startDate: Date | null = startDateParam ? new Date(startDateParam) : null;
-    if (startDate && isNaN(startDate.getTime())) {
-        console.error("Invalid start date");
-    }
+    const endDateParam = searchParams.get("endDate");
 
-    const endDateParams = searchParams.get("endDate");
-    const endDate: Date | null = endDateParams ? new Date(endDateParams) : null;
-    if (endDate && isNaN(endDate.getTime())) {
-        console.error("Invalid end date");
-    }
-
+    const startDate: Date | null = startDateParam && startDateParam !== 'null' ? new Date(startDateParam) : null;
+    const endDate: Date | null = endDateParam && endDateParam !== 'null' ? new Date(endDateParam) : null;
 
     try {
         const where = startDate && endDate ? {
