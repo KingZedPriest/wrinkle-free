@@ -61,7 +61,7 @@ const UpdateStatus = ({ orderId }: { orderId: string }) => {
                             </select>
                         </div>
                         <button onClick={handleUpdate} disabled={loading} className={"mt-4 text-white disabled:cursor-not-allowed py-3 w-full rounded-lg bg-generalBlue dark:bg-cloudBlue hover:bg-blue-600 hover:dark:bg-blue-600 duration-300"}>
-                            {loading ? <Setting2 size="32" className='animate-spin mx-auto' variant="Bold" /> : "Update Amount"}
+                            {loading ? <Setting2 size="32" className='animate-spin mx-auto' variant="Bold" /> : "Update Status"}
                         </button>
                         <p onClick={toggleInput} className="mt-10 text-red-600 dark:text-red-400 text-[10px] md:text-xs xl:text-sm flex justify-end font-semibold cursor-pointer">Close</p>
                     </div>
