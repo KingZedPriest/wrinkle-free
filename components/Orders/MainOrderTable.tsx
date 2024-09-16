@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 
+//Server Actions
+import { deleteOrder } from '@/actions/server/deleteOrder';
+
 //Components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 //Icons
 import { Edit, Trash2 } from 'lucide-react';
@@ -20,7 +23,6 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
         if (editingOrder) {
             const formData = new FormData(e.currentTarget)
             const updatedOrder = {
-                orderId: formData.get('orderId') as string,
                 price: Number(formData.get('price')),
                 status: formData.get('status') as MainOrder['status'],
             }
@@ -50,11 +52,11 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                     <div key={index}>{item.service} (x{item.quantity})</div>
                                 ))}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">${order.price.toFixed(2)}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">₦{order.price.toFixed(2)}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                    order.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
-                                        order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                    order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                        order.status === 'cancelled' ? 'bg-red-100 text-red-800' : order.status === "in_progress" ? "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100" :
                                             'bg-gray-100 text-gray-800'
                                     }`}>
                                     {order.status}
@@ -63,37 +65,34 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <Dialog>
                                     <DialogTrigger asChild>
-                                        <Button variant="ghost" size="sm" className="mr-2" onClick={() => setEditingOrder(order)}>
+                                        <Button variant="secondary" size="sm" className="mr-2" onClick={() => setEditingOrder(order)}>
                                             <Edit className="h-4 w-4" />
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent>
+                                    <DialogContent aria-describedby="edit-order-description">
                                         <DialogHeader>
                                             <DialogTitle>Edit Order</DialogTitle>
                                         </DialogHeader>
+                                        <p id="edit-order-description" className="sr-only">Edit the selected order&apos;s details.</p>
                                         <form onSubmit={handleEditSubmit} className="space-y-4">
-                                            <div>
-                                                <label htmlFor="orderId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Order ID</label>
-                                                <Input id="orderId" name="orderId" defaultValue={editingOrder?.orderId} />
-                                            </div>
                                             <div>
                                                 <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
                                                 <Input id="price" name="price" type="number" defaultValue={editingOrder?.price} />
                                             </div>
-                                            <div>
-                                                <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
-                                                <Select name="status" defaultValue={editingOrder?.status}>
-                                                    <option value="pending">Pending</option>
-                                                    <option value="in_progress">In Progress</option>
-                                                    <option value="completed">Completed</option>
-                                                    <option value="cancelled">Cancelled</option>
-                                                </Select>
-                                            </div>
+                                            <Select name="status" defaultValue={editingOrder?.status}>
+                                                <SelectTrigger>Status</SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="pending">Pending</SelectItem>
+                                                    <SelectItem value="in_progress">In Progress</SelectItem>
+                                                    <SelectItem value="completed">Completed</SelectItem>
+                                                    <SelectItem value="cancelled">Completed</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                             <Button type="submit">Save Changes</Button>
                                         </form>
                                     </DialogContent>
                                 </Dialog>
-                                <Button variant="ghost" size="sm" onClick={() => onDelete(order.id)}>
+                                <Button variant="destructive" size="sm" onClick={() => onDelete(order.id)}>
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             </td>
