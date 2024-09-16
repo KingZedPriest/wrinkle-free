@@ -1,6 +1,17 @@
-import { prisma } from "@/lib/prismadb";
+import type { NextRequest } from 'next/server';
+import { prisma } from '@/lib/prismadb';
 
-export async function orderService(startDate: Date | null, endDate: Date | null, page: number = 1, pageSize: number = 20) {
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+
+    //Fetch Params
+    const page: number = parseInt(searchParams.get('page') || '1', 10);
+    const pageSize: number = parseInt(searchParams.get('pageSize') || '20', 10);
+    const startDateParam = searchParams.get("startDate");
+    const startDate: Date | null = startDateParam ? new Date(startDateParam) : null;
+    const endDateParams = searchParams.get("endDate");
+    const endDate: Date | null = endDateParams ? new Date(endDateParams) : null;
+
     try {
         const where = startDate && endDate ? {
             createdAt:
@@ -46,6 +57,7 @@ export async function orderService(startDate: Date | null, endDate: Date | null,
             totalCount,
             totalPages: Math.ceil(totalCount / pageSize),
         };
+
     } catch (error) {
         console.error('Error fetching orders:', error);
         throw error;

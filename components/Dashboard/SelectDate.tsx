@@ -12,7 +12,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Calendar, ArrowDown2 } from 'iconsax-react';
 
 
-export default function SelectDate() {
+export default function SelectDate({ onDateSelect }: { onDateSelect: (date: Date) => void }) {
 
     const [currentDate, setCurrentDate] = useState(new Date())
     const [selectedDate, setSelectedDate] = useState<Date | null>(null)
@@ -24,7 +24,7 @@ export default function SelectDate() {
     const handleDateClick = (day: number) => {
         const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
         setSelectedDate(newDate)
-        //onDateSelect(newDate)
+        onDateSelect(newDate)
     }
 
     const handlePrevMonth = () => {

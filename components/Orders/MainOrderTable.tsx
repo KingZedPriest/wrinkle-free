@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Edit, Trash2 } from 'lucide-react';
 
 
-export default function OrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
+export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
     const [editingOrder, setEditingOrder] = useState<MainOrder | null>(null)
 
     const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,9 +53,9 @@ export default function OrderTable({ orders, onEdit, onDelete }: OrderTableProps
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">${order.price.toFixed(2)}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                        order.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
-                                            order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                                'bg-gray-100 text-gray-800'
+                                    order.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+                                        order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                            'bg-gray-100 text-gray-800'
                                     }`}>
                                     {order.status}
                                 </span>

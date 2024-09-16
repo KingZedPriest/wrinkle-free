@@ -2,7 +2,9 @@
 import getOrders from "@/actions/fetch/getOrders";
 
 //Components
+import ScrollReveal from "@/components/RevelOnScroll";
 import OrderHeader from "@/components/Orders/OrderHeader";
+import OrderPage from "@/components/Orders/OrderPage";
 
 
 export const dynamic = 'force-dynamic';
@@ -14,6 +16,9 @@ const page = async () => {
     return ( 
         <main className="py-5 mb-20 lg:mb-10">
             <OrderHeader totalOrders={allOrders.length}/>
+            <ScrollReveal>
+                <OrderPage />
+            </ScrollReveal>
         </main>
      );
 }

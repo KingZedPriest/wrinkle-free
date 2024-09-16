@@ -11,7 +11,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Calendar, ArrowDown2 } from 'iconsax-react';
 
 
-export default function DateRangeSelect() {
+export default function DateRangeSelect({ onDateRangeSelect }: { onDateRangeSelect: (start: Date, end: Date) => void }) {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [startDate, setStartDate] = useState<Date | null>(null)
     const [endDate, setEndDate] = useState<Date | null>(null)
@@ -26,7 +26,7 @@ export default function DateRangeSelect() {
             setEndDate(null)
         } else if (clickedDate > startDate) {
             setEndDate(clickedDate)
-            //onDateRangeSelect(startDate, clickedDate)
+            onDateRangeSelect(startDate, clickedDate)
         } else {
             setStartDate(clickedDate)
             setEndDate(null)
