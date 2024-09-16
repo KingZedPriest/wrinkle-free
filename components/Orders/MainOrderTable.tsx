@@ -2,13 +2,11 @@
 
 import { useState } from 'react';
 
-//Server Actions
-import { deleteOrder } from '@/actions/server/deleteOrder';
 
 //Components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 //Icons
@@ -24,6 +22,8 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
             const formData = new FormData(e.currentTarget)
             const updatedOrder = {
                 price: Number(formData.get('price')),
+                service: Number(formData.get('service')),
+                quantity: Number(formData.get('quantity')),
                 status: formData.get('status') as MainOrder['status'],
             }
             onEdit(editingOrder.id, updatedOrder)
@@ -69,15 +69,26 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                             <Edit className="h-4 w-4" />
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent aria-describedby="edit-order-description">
+                                    <DialogContent aria-describedby="edit-order-description" className='rounded-[2.rem]'>
                                         <DialogHeader>
                                             <DialogTitle>Edit Order</DialogTitle>
+                                            <DialogDescription>
+                                                Make changes to the order details below. Click save when you&apos;re done.
+                                            </DialogDescription>
                                         </DialogHeader>
                                         <p id="edit-order-description" className="sr-only">Edit the selected order&apos;s details.</p>
                                         <form onSubmit={handleEditSubmit} className="space-y-4">
                                             <div>
                                                 <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
                                                 <Input id="price" name="price" type="number" defaultValue={editingOrder?.price} />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Service</label>
+                                                <Input id="service" name="service" type="text" defaultValue={editingOrder?.items[0].service} />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
+                                                <Input id="quantity" name="quantity" type="number" defaultValue={editingOrder?.items[0].quantity} />
                                             </div>
                                             <Select name="status" defaultValue={editingOrder?.status}>
                                                 <SelectTrigger>Status</SelectTrigger>
@@ -92,7 +103,7 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                         </form>
                                     </DialogContent>
                                 </Dialog>
-                                <Button variant="destructive" size="sm" onClick={() => onDelete(order.id)}>
+                                <Button variant="destructive" size="sm" onClick={() => onDelete(order.orderId)}>
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             </td>

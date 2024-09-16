@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
+import { toast } from 'sonner';
+
+//Server Actions
+import { deleteOrder } from '@/actions/server/deleteOrder';
 
 //Components
 import MainOrderTable from './MainOrderTable';
@@ -88,8 +92,14 @@ export default function OrderPage() {
     }
 
     const handleDelete = async (id: string) => {
-        // Implement your delete logic here
-        console.log('Deleting order:', id)
+        const { success, message } = await deleteOrder(id)
+        if (success) {
+            toast.success(message);
+            window.location.reload()
+        } else {
+            toast.error("Order could not be deleted, kindly try again later");
+            window.location.reload()
+        }
     }
 
     return (
