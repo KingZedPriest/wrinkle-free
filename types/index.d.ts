@@ -1,4 +1,3 @@
-
 //Button
 declare type ButtonProps = {
     type: "submit" | "reset" | "button";
@@ -154,3 +153,18 @@ declare type TransactionProps = {
 declare type ImageGalleryProps = {
     images: string[];
 };
+
+//Main Order Props
+declare type MainOrder = {
+    id: string;
+    orderId: string;
+    items: { service: string; quantity: number }[];
+    price: number;
+    status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+};
+
+declare type OrderTableProps = {
+    orders: MainOrder[]
+    onEdit: (id: string, data: Partial<MainOrder>) => void
+    onDelete: (id: string) => void
+}

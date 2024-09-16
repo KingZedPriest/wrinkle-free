@@ -1,13 +1,5 @@
 import { prisma } from "@/lib/prismadb";
 
-type Order = {
-    id: string;
-    orderId: string;
-    items: { service: string; quantity: number }[];
-    price: number;
-    status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
-};
-
 export async function fetchOrders(startDate?: Date, endDate?: Date, page: number = 1, pageSize: number = 20) {
     try {
         const where = startDate && endDate
