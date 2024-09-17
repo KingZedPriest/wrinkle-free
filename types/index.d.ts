@@ -164,6 +164,7 @@ declare type MainOrder = {
     status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
 };
 
+//Order Page, data type
 declare type EditingProps = {
     price: number;
     service: string;
@@ -171,8 +172,18 @@ declare type EditingProps = {
     status: "pending" | "in_progress" | "completed" | "cancelled";
 }
 
+//Editing order table props (Main Order Table)
 declare type OrderTableProps = {
     orders: MainOrder[]
     onEdit: (id: string, data: EditingProps) => void
     onDelete: (id: string) => void
+}
+
+//Order Transaction Page
+declare type OrderTransaction = {
+    price: number,
+    orderId: string,
+    amountPaid: number,
+    createdAt: string,
+    clientName: string,
 }
