@@ -22,7 +22,7 @@ export const formatSubheading = (page: string) => {
 export const formatPlaceholder = (page: string) => {
     switch (page) {
         case "dashboard":
-            return "Search for a User or an Order";
+            return "Search for a User";
         case "orders":
             return "Search for an Order(s)";
         case "staff":
