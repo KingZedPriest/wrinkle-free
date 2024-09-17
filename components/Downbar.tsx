@@ -6,13 +6,14 @@ import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
 
 //Icons
-import { AddCircle, HomeHashtag, Profile2User, ProfileCircle, SearchNormal } from "iconsax-react";
+import { AddCircle, HomeHashtag, Logout, Profile2User, ProfileCircle } from "iconsax-react";
 
 const navItems = [
   { href: "/dashboard", icon: HomeHashtag, label: "Dashboard" },
   { href: "/orders", icon: AddCircle, label: "Orders" },
   { href: "/staff", icon: Profile2User, label: "Staff", role: "super_admin" },
   { href: "/profile", icon: ProfileCircle, label: "Profile" },
+  {href: "/logout", icon: Logout, label: "Log out"}
 ];
 
 const DownBar = ({ role }: { role: string }) => {
