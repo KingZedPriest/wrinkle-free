@@ -80,7 +80,8 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                         <form onSubmit={handleEditSubmit} className="space-y-4">
                                             <div>
                                                 <label htmlFor="price" className="block">Price</label>
-                                                <Input id="price" name="price" type="number" defaultValue={editingOrder?.price} />
+                                                <Input pattern="^\d*\.?\d*$"
+                                                    title="Please enter a positive number." id="price" name="price" type="number" defaultValue={editingOrder?.price} />
                                             </div>
                                             <div>
                                                 <label htmlFor="service" className="block">Service</label>
@@ -88,7 +89,8 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                             </div>
                                             <div>
                                                 <label htmlFor="quantity" className="block">Quantity</label>
-                                                <Input id="quantity" name="quantity" type="number" defaultValue={editingOrder?.items[0].quantity} />
+                                                <Input pattern="^\d*\.?\d*$"
+                                                    title="Please enter a positive number." id="quantity" name="quantity" type="number" defaultValue={editingOrder?.items[0].quantity} />
                                             </div>
                                             <Select name="status" defaultValue={editingOrder?.status}>
                                                 <SelectTrigger>Status</SelectTrigger>
