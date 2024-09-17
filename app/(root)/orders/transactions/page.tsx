@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 //Actions
 import { getCurrentUser } from "@/actions/fetch/currentUser";
-import getAdmins from "@/actions/fetch/getAdmins";
+import getAdmin from "@/actions/fetch/getAnyAdmin";
 
 //Components
 import ScrollReveal from "@/components/RevelOnScroll";
@@ -14,10 +14,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 const page = async () => {
 
-    const currentUser = await getCurrentUser()
+    const accessTokenUser = await getCurrentUser();
+    const currentAdmin = await getAdmin(accessTokenUser.id);
 
     //Redirect to Dashboard if it's not a super admin
-    if (currentUser.role !== "super_admin") {
+    if (currentAdmin.role !== "super_admin") {
         redirect(`/unauthorised`)
     }
 
