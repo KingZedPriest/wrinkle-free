@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/actions/fetch/currentUser";
 import getAdmin from "@/actions/fetch/getAnyAdmin";
 import getUserAndOrders from "@/actions/fetch/ordersAndUsers";
-import fetchOrders from "@/actions/fetch/getTransactions";
+import fetchPaymentOrders from "@/actions/fetch/getTransactions";
 import getOrders from "@/actions/fetch/getOrders";
 
 //Components
@@ -24,7 +24,7 @@ const page = async () => {
     const accessTokenUser = await getCurrentUser();
     const currentAdmin = await getAdmin(accessTokenUser.id);
     const { allOrders, allUsers, pendingOrders, completedOrders, analytics } = await getUserAndOrders();
-    const lastSixOrders = await fetchOrders(6);
+    const lastSixOrders = await fetchPaymentOrders(6);
     const { lastTenOrders } = await getOrders();
 
     const summaryItems = [

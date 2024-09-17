@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 //Server Actions
 import { deleteOrder } from '@/actions/server/deleteOrder';
+import { deleteSelectedOrders } from '@/actions/server/deleteOrders';
 
 //Icons
 import { Trash, Edit } from "iconsax-react";
@@ -23,12 +24,25 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
     }
 
     const handleDelete = async (orderId: string) => {
+        toast.message("Deleting...")
         const { success, message } = await deleteOrder(orderId)
         if (success) {
             toast.success(message);
             window.location.reload()
         } else {
             toast.error("Order could not be deleted, kindly try again later");
+            window.location.reload()
+        }
+    }
+
+    const handleMultipleDelete = async (orderIds: string[]) => {
+        toast.message("Deleting Orders...")
+        const { success, message } = await deleteSelectedOrders(orderIds)
+        if (success) {
+            toast.success(message);
+            window.location.reload()
+        } else {
+            toast.error("The orders could not be deleted, kindly try again later");
             window.location.reload()
         }
     }
@@ -100,7 +114,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                 <div className="flex justify-between mt-6">
                     <p>Selected Transaction IDs: {selectedIds.join(', ')}</p>
                     {role === "super_admin" &&
-                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer">
+                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer" onClick={() => handleMultipleDelete(selectedIds)}>
                             <p>Delete Item(s)</p>
                             <Trash className="h- w-7" />
                         </div>

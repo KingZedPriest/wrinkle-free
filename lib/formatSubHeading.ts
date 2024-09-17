@@ -25,16 +25,8 @@ export const formatPlaceholder = (page: string) => {
             return "Search for a User or an Order";
         case "orders":
             return "Search for an Order(s)";
-        case "profile":
-            return "Search Unavailable";
         case "staff":
             return "Search for a Staff";
-        case "staff/new":
-            return "Search Unavailable";
-        case "orders/new":
-            return "Search Unavailable";
-        case "unauthorised":
-            return "Search Unavailable";
         default:
             return "Search Unavailable";
     }
