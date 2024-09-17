@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
         };
 
         const [orderData, orderCount] = await Promise.all([
-            prisma.order.findMany({
+            prisma.order.findFirst({
                 where: { orderId: searchOptions },
                 include: { user: true },
                 take: limit,
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
         ]);
 
         const [userData, userCount] = await Promise.all([
-            prisma.user.findMany({
+            prisma.user.findFirst({
                 where: { name: searchOptions },
                 include: { order: true },
                 take: limit,
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         ]);
 
         const [staffData, staffCount] = await Promise.all([
-            prisma.admin.findMany({
+            prisma.admin.findFirst({
                 where: { name: searchOptions },
                 take: limit,
                 skip,
@@ -52,15 +52,15 @@ export async function GET(request: NextRequest) {
 
         let data, totalCount, type: string;
 
-        if (orderData.length > 0) {
+        if (orderData) {
             data = orderData;
             totalCount = orderCount;
             type = "order";
-        } else if (userData.length > 0) {
+        } else if (userData) {
             data = userData;
             totalCount = userCount;
             type = "user";
-        } else if (staffData.length > 0) {
+        } else if (staffData) {
             data = staffData;
             totalCount = staffCount;
             type = "admin"

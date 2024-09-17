@@ -80,7 +80,7 @@ declare type User = {
     id: string;
     name: string;
     notes: string | null;
-    orders?: Order[] | null;
+    order?: Order[] | null;
     createdAt: Date;
     updatedAt: Date;
 }

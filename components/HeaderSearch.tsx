@@ -8,29 +8,29 @@ import { toast } from "sonner";
 import { formatPlaceholder } from "@/lib/formatSubHeading";
 import { makeApiRequest } from "@/lib/apiUtils";
 
-//Icons
-import { ChartCircle, SearchNormal1 } from "iconsax-react";
-
 //Components
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import SearchResult from "./SearchResult";
 
+//Icons
+import { ChartCircle, SearchNormal1 } from "iconsax-react";
 
 const HeaderSearch = () => {
 
     const pathName = usePathname()
     const updatedPathname = pathName.replace(/^\//, "");
     const [searchText, setSearchText] = useState<string>("");
-    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [searchResults, setSearchResults] = useState<User | Order | Admin | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [type, setType] = useState<string>("")
+    const [type, setType] = useState<"user" | "admin" | "order" | null>(null)
     const [loading, setLoading] = useState<boolean>(false);
 
     const handleSearch = async () => {
         setLoading(true)
 
         if (searchText.trim() === "") {
-            setSearchResults([])
+            setSearchResults(null)
             return
         }
         try {
@@ -44,6 +44,7 @@ const HeaderSearch = () => {
                 onError: (error: any) => {
                     console.error('Search Error:', error);
                     setLoading(false)
+                    toast.warning("Search Error, kindly try again later.")
                 },
             });
         } catch (error) {
@@ -68,7 +69,7 @@ const HeaderSearch = () => {
                 <SearchNormal1 size="20" variant={searchText.length !== 0 ? "Bold" : "Outline"} />
                 <input type="search" className="bg-inherit focus:border-none focus:outline-none py-3 rounded-[2rem] w-full px-2 placeholder:text-xs md:placeholder:text-sm" placeholder={formatPlaceholder(updatedPathname)} onChange={handleChange} onKeyDown={handleKeyPress} value={searchText} disabled={formatPlaceholder(updatedPathname) === "Search Unavailable"} />
                 <Button variant="ghost" size="sm" onClick={handleSearch} className="ml-2">
-                    {loading ? <ChartCircle size="14" color="#FF8A65" className="animate-spin"/> : "Search"}
+                    {loading ? <ChartCircle size="14" color="#FF8A65" className="animate-spin" /> : "Search"}
                 </Button>
             </main>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -78,19 +79,8 @@ const HeaderSearch = () => {
                         <DialogDescription>Your {type} Result</DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
-                        {searchResults.length > 0 ? (
-                            <ul className="space-y-2">
-                                {searchResults.map((result, index) => (
-                                    <li key={index} className="p-2 bg-secondary rounded-md">
-                                        {Object.entries(result).map(([key, value]) => (
-                                            <p key={key}>
-                                                <span className="font-semibold">{key}:</span>{" "}
-                                                {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-                                            </p>
-                                        ))}
-                                    </li>
-                                ))}
-                            </ul>
+                        {searchResults !== null ? (
+                            <SearchResult data={searchResults} type={type} />
                         ) : (
                             <p>No results found.</p>
                         )}
