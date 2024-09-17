@@ -14,7 +14,7 @@ import SummaryBox from "@/components/Dashboard/SummaryBox";
 import Chart from "@/components/Dashboard/Chart";
 import TransactionDetails from "@/components/Dashboard/TransactionDetails";
 import OrderTable from "@/components/Dashboard/OrderTable";
-import { Fallback } from "@/components/Fallback";
+import Fallback from "@/components/Fallback";
 
 //Icons
 import { ArrowDown2, Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";

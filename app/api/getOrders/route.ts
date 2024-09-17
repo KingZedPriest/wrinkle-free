@@ -55,7 +55,6 @@ export async function GET(request: NextRequest) {
                 price: order.price,
                 status: order.status,
             })),
-            totalCount,
             totalPages: Math.ceil(totalCount / pageSize),
         });
     } catch (error) {

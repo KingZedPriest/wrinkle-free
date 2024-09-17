@@ -23,7 +23,7 @@ export default async function fetchPaymentOrders(limit?: number) {
             ...(limit ? { take: limit } : {})
         });
 
-        // Transform the data to match the requested format
+        // Format the data
         const formattedOrders = orders.map(order => ({
             price: order.price,
             orderId: order.orderId,
@@ -34,7 +34,7 @@ export default async function fetchPaymentOrders(limit?: number) {
 
         return formattedOrders;
     } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error('Error fetching transaction orders:', error);
         throw error;
     }
 }
