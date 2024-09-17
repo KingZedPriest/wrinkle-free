@@ -7,6 +7,8 @@ export const ProfileSchema = z
             .string({ required_error: "ID is required" }),
         name: z
             .string({ required_error: 'Name is required' }),
+        password: z
+            .string({ required_error: "Password is required" }),
         profilePicture: z
             .string().optional(),
     });

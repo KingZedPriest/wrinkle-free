@@ -10,7 +10,7 @@ import { decryptPassword } from '@/lib/token';
 import { makeApiRequest } from '@/lib/apiUtils';
 
 //Icons
-import { CloseSquare } from 'iconsax-react';
+import { CloseSquare, Lock, Unlock } from 'iconsax-react';
 import Button from '../Button';
 
 const EditProfile = ({ isOpen, onClose, admin }: EditProps) => {
@@ -18,13 +18,19 @@ const EditProfile = ({ isOpen, onClose, admin }: EditProps) => {
     const initialState: InitialFormProps = {
         id: admin.id,
         name: admin.name,
+        password: decryptPassword(admin.encryptedPassword),
         profilePicture: admin.profilePicture ?? "",
     };
 
+    const [seePassword, setSeePassword] = useState<boolean>(false);
     const [state, setState] = useState(initialState);
     const [loading, setLoading] = useState<boolean>(false)
 
     //Functions
+    const toggleShowPassword = () => {
+        setSeePassword((prev) => !prev);
+    }
+
     const handleFormChange = (event: any) => {
         setState({ ...state, [event.target.name]: event.target.value });
     };
@@ -72,6 +78,16 @@ const EditProfile = ({ isOpen, onClose, admin }: EditProps) => {
                                 <label htmlFor="name">Your Name</label>
                                 <input type="text" name='name' value={state["name"] as string} onChange={handleFormChange}
                                 className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" />
+                            </div>
+                            <div className="relative">
+                                <div className='flex flex-col gap-y-1'>
+                                <label htmlFor="password">Your Password</label>
+                                <input type={seePassword ? "text" : "password"} name='password' value={state["password"] as string} onChange={handleFormChange}
+                                className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800  focus:outline-none rounded-lg" />
+                            </div>
+                                <div className="p-1 md:p-1.5 xl:p-2 bg-light-600 dark:bg-dark-600 rounded-md cursor-pointer absolute right-1 top-6 md:top-7 xl:top-8" onClick={toggleShowPassword}>
+                                    {seePassword ? <Unlock className="text-5xl md:text-7xl xl:text-9xl text-generalBlue dark:text-cloudBlue" /> : <Lock className="text-5xl md:text-7xl xl:text-9xl text-generalBlue dark:text-cloudBlue" />}
+                                </div>
                             </div>
                             <Button type='submit' text='Update Profile' loading={loading} />
                         </form>

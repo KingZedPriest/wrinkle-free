@@ -1,16 +1,24 @@
+import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-//Schemas
+//Schemas and Lib
 import { Profile } from '@/schemas/profile.schema';
+import { encryptPassword } from '@/lib/token';
 
 export async function POST(request: NextRequest) {
     const body: Profile = await request.json();
 
     try {
 
-        const { id, name, profilePicture } = body;
+        const { id, name, password, profilePicture } = body;
+
+        //Hash the password
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        //Encrypt the password
+        const encryptedPassword = encryptPassword(password)
 
         //Edit your profile
         const editedProfile = await prisma.admin.update({
@@ -19,6 +27,8 @@ export async function POST(request: NextRequest) {
             },
             data: {
                 name,
+                hashedPassword,
+                encryptedPassword,
                 profilePicture
             }
         })

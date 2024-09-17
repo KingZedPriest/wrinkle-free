@@ -15,7 +15,7 @@ export const formatSubheading = (page: string) => {
         case "unauthorised":
             return "Insufficient Clearance.";
         default:
-            return "";
+            return "Seamless Laundry Operations.";
     }
 };
 
@@ -36,6 +36,6 @@ export const formatPlaceholder = (page: string) => {
         case "unauthorised":
             return "Search Unavailable";
         default:
-            return "";
+            return "Search Unavailable";
     }
 }
