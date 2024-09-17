@@ -144,6 +144,7 @@ declare type ChartProps = {
 
 //Dashboard Transaction
 declare type TransactionProps = {
+    orderId: string;
     clientName: string;
     createdAt: string;
     paidAmount: number;
@@ -164,9 +165,9 @@ declare type MainOrder = {
 };
 
 declare type EditingProps = {
-    price: number; 
-    service: string; 
-    quantity: number; 
+    price: number;
+    service: string;
+    quantity: number;
     status: "pending" | "in_progress" | "completed" | "cancelled";
 }
 

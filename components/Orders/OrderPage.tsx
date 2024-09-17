@@ -24,11 +24,9 @@ import { ChartCircle } from 'iconsax-react';
 export default function OrderPage() {
 
     const router = useRouter();
-    const searchParams = useSearchParams()
-    const [loading, setLoading] = useState<boolean>(false)
-    const [orders, setOrders] = useState<MainOrder[]>([])
-
-
+    const searchParams = useSearchParams();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [orders, setOrders] = useState<MainOrder[]>([]);
 
     const today = dayjs().format('YYYY-MM-DD');
     //Params

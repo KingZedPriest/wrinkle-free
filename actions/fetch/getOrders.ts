@@ -13,7 +13,7 @@ export default async function getOrders() {
 
         const lastTenOrders = allOrders.slice(0, 10);
 
-        return { lastTenOrders };
+        return { allOrders, lastTenOrders };
 
     } catch (error: any) {
         console.error('Error fetching all orders and last ten:', error);

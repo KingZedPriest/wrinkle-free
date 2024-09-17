@@ -2,7 +2,6 @@
 import getOrder from "@/actions/fetch/getAnOrder";
 
 // Components
-import BackButton from "@/components/Orders/BackButton";
 import DeleteOrder from "@/components/Orders/deleteOrder";
 import UpdateAmount from "@/components/Orders/updateAmount";
 import UpdateStatus from "@/components/Orders/updateStatus";

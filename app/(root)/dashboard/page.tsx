@@ -59,7 +59,7 @@ const page = async () => {
                         <Suspense fallback={<Fallback />}>
                             <div className="mt-5 flex flex-col">
                                 {lastSixOrders.map((order, index) => (
-                                    <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
+                                    <TransactionDetails key={`Order-${index}`} orderId={order.orderId} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
                                 ))}
                                 {currentAdmin.role === "super_admin" &&
                                     <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
