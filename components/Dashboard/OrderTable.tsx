@@ -114,7 +114,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                 <div className="flex justify-between mt-6">
                     <p>Selected Transaction IDs: {selectedIds.join(', ')}</p>
                     {role === "super_admin" &&
-                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer" onClick={() => handleMultipleDelete(selectedIds)}>
+                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex items-center gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer" onClick={() => handleMultipleDelete(selectedIds)}>
                             <p>Delete Item(s)</p>
                             <Trash className="h- w-7" />
                         </div>

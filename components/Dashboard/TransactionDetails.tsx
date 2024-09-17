@@ -5,7 +5,7 @@ import { TickCircle } from "iconsax-react";
 
 const TransactionDetails = ({ orderId, clientName, createdAt, paidAmount }: TransactionProps) => {
     return (
-        <Link href={`/orders/transactions/${orderId}`} className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 py-2.5">
+        <Link href={`/orders/${orderId}`} className="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 py-2.5">
             <div className="flex gap-x-2 items-center">
                 <TickCircle size="40" className="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100 p-2 rounded-full" />
                 <div className="flex flex-col gap-y-1">

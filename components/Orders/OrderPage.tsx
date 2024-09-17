@@ -30,7 +30,7 @@ export default function OrderPage() {
     const today = dayjs().format('YYYY-MM-DD');
     //Params
     const startDate = searchParams.get('startDate') || today;
-    const endDate = searchParams.get('endDate') || today;
+    const endDate = searchParams.get('endDate');
     const currentPage = parseInt(searchParams.get('currentPage') || '1');
 
     const [totalPages, setTotalPages] = useState(1)
