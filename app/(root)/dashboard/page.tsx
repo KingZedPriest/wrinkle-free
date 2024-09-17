@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from 'react';
 
 //Server actions
 import { getCurrentUser } from "@/actions/fetch/currentUser";
@@ -13,6 +14,7 @@ import SummaryBox from "@/components/Dashboard/SummaryBox";
 import Chart from "@/components/Dashboard/Chart";
 import TransactionDetails from "@/components/Dashboard/TransactionDetails";
 import OrderTable from "@/components/Dashboard/OrderTable";
+import { Fallback } from "@/components/Fallback";
 
 //Icons
 import { ArrowDown2, Bag2, Clock, TickCircle, TrendDown, TrendUp, User } from "iconsax-react";
@@ -54,17 +56,19 @@ const page = async () => {
                             <p className="text-sm md:text-base xl:text-lg font-semibold text-black dark:text-white">Transaction History</p>
                             <p className="text-[10px] md:text-xs xl:text-sm">Last 6 (Six)</p>
                         </div>
-                        <div className="mt-5 flex flex-col">
-                            {lastSixOrders.map((order, index) => (
-                                <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
-                            ))}
-                            {currentAdmin.role === "super_admin" &&
-                                <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
-                                    <Link href="/orders/transactions">View All Transactions</Link>
-                                    <ArrowDown2 size="20" />
-                                </div>
-                            }
-                        </div>
+                        <Suspense fallback={<Fallback />}>
+                            <div className="mt-5 flex flex-col">
+                                {lastSixOrders.map((order, index) => (
+                                    <TransactionDetails key={`Order-${index}`} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
+                                ))}
+                                {currentAdmin.role === "super_admin" &&
+                                    <div className="flex gap-x-3 items-center bg-light-600 dark:bg-dark-600 justify-center p-4 rounded-xl mt-5 hover:text-generalBlue dark:hover:text-cloudBlue duration-300">
+                                        <Link href="/orders/transactions">View All Transactions</Link>
+                                        <ArrowDown2 size="20" />
+                                    </div>
+                                }
+                            </div>
+                        </Suspense>
                     </div>
                 </div>
             </ScrollReveal>
