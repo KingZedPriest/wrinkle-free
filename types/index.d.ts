@@ -163,8 +163,15 @@ declare type MainOrder = {
     status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
 };
 
+declare type EditingProps = {
+    price: number; 
+    service: string; 
+    quantity: number; 
+    status: "pending" | "in_progress" | "completed" | "cancelled";
+}
+
 declare type OrderTableProps = {
     orders: MainOrder[]
-    onEdit: (id: string, data: Partial<MainOrder>) => void
+    onEdit: (id: string, data: EditingProps) => void
     onDelete: (id: string) => void
 }

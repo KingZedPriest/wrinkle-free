@@ -87,19 +87,20 @@ export default function OrderPage() {
         router.push(`?${params.toString()}`);
     }
 
-    const handleEdit = async (id: string, data: Partial<MainOrder>) => {
-
-        const { success, message } = await editOrder(id)
+    const handleEdit = async (id: string, data: EditingProps) => {
+        toast.message("Updating...")
+        const { success, message } = await editOrder(id, data.price, data.service, data.quantity, data.status)
         if (success) {
             toast.success(message);
             window.location.reload()
         } else {
-            toast.error("Order could not be deleted, kindly try again later");
+            toast.error("Order could not be updated now, kindly try again later");
             window.location.reload()
         }
     }
 
     const handleDelete = async (id: string) => {
+        toast.message("Deleting Order...")
         const { success, message } = await deleteOrder(id)
         if (success) {
             toast.success(message);

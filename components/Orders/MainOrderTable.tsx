@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react';
-
+import Link from 'next/link';
 
 //Components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select"
 
 //Icons
 import { Edit, Trash2 } from 'lucide-react';
@@ -22,7 +22,7 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
             const formData = new FormData(e.currentTarget)
             const updatedOrder = {
                 price: Number(formData.get('price')),
-                service: Number(formData.get('service')),
+                service: String(formData.get('service')),
                 quantity: Number(formData.get('quantity')),
                 status: formData.get('status') as MainOrder['status'],
             }
@@ -46,7 +46,7 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                     {orders.map((order) => (
                         <tr key={order.id}>
-                            <td className="px-6 py-4 whitespace-nowrap">{order.orderId}</td>
+                            <td className="px-6 py-4 whitespace-nowrap"><Link href={`/orders/${order.orderId}`}>{order.orderId}</Link></td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {order.items.map((item, index) => (
                                     <div key={index}>{item.service} (x{item.quantity})</div>

@@ -27,7 +27,7 @@ const MediaPreview = ({ files, onClose }: MediaPreviewProps) => {
                     <div key={index}
                         onClick={() => handleMediaClick(file)}>
                         {file.type.startsWith("image/") ? (
-                            <Image src={file.url} alt={`media-${index}`} width={320} height={320} className="w-full hover:scale-105 transition-transform duration-300 mb-4 cursor-pointer" />
+                            <Image src={file.url} alt={`media-${index}`} width={320} height={320} className="rounded-lg hover:scale-105 transition-transform duration-300 mb-4 cursor-pointer" />
                         ) : (
                             <video
                                 src={file.url}
@@ -42,8 +42,7 @@ const MediaPreview = ({ files, onClose }: MediaPreviewProps) => {
                 <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50" onClick={handleCloseFullscreen} >
                     <div>
                         {selectedMedia.type.startsWith("image/") ? (
-                            <Image src={selectedMedia.url} alt="Selected media" width={320} height={320}
-                                 />
+                            <Image src={selectedMedia.url} alt="Selected media" width={320} height={320} />
                         ) : (
                             <video src={selectedMedia.url} controls autoPlay className="w-full h-full"
                                 style={{ maxHeight: '90vh' }} />

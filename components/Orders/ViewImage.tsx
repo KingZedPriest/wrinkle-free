@@ -25,18 +25,14 @@ const Gallery = ({ mediaUrls }: GalleryProps) => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="overflow-y-auto columns-[100px] p-4">
         {mediaItems.map((item, index) => (
-          <div key={index} className="relative aspect-square">
+          <div key={index} onClick={() => setSelectedUrl(item.url)}>
             {item.type === 'image' ? (
-              <Image src={item.url} alt={`Media ${index + 1}`} fill style={{ objectFit: 'cover' }}
-                className="rounded-lg cursor-pointer"
-                onClick={() => setSelectedUrl(item.url)}
-              />
+              <Image src={item.url} alt={`Media ${index + 1}`} width={320} height={320}
+                className="hover:scale-105 transition-transform duration-300 mb-4 cursor-pointer rounded-lg" />
             ) : (
-              <video src={item.url}className="w-full h-full object-cover rounded-lg cursor-pointer"
-                onClick={() => setSelectedUrl(item.url)}
-              />
+              <video src={item.url} className="w-full h-full object-cover rounded-lg cursor-pointer" />
             )}
           </div>
         ))}
@@ -44,14 +40,11 @@ const Gallery = ({ mediaUrls }: GalleryProps) => {
       {selectedUrl && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
           onClick={() => setSelectedUrl(null)} >
-          <div className="relative w-3/4 h-3/4">
+          <div>
             {getMediaType(selectedUrl) === 'image' ? (
-              <Image src={selectedUrl} alt="Selected media" fill
-                style={{ objectFit: 'contain' }} />
+              <Image src={selectedUrl} alt="Selected media" width={320} height={320} />
             ) : (
-              <video src={selectedUrl} className="w-full h-full" style={{ objectFit: 'contain' }}
-                controls  autoPlay
-              />
+              <video src={selectedUrl} className="w-full h-full" style={{ objectFit: 'contain' }} controls autoPlay />
             )}
           </div>
         </div>
