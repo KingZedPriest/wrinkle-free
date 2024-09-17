@@ -11,7 +11,7 @@ const page = async () => {
 
     const accessTokenUser = await getCurrentUser();
     const currentAdmin = await getAdmin(accessTokenUser.id);
-    const users = await getUsers(false)
+    const users = await getUsers()
 
     return (
         <main className="py-5 mb-20 lg:mb-10">

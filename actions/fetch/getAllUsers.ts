@@ -1,12 +1,9 @@
 import { prisma } from "@/lib/prismadb";
 
-export default async function getUsers(addOrder: boolean) {
+export default async function getUsers() {
 
     try {
         const getUsers = await prisma.user.findMany({
-            include: {
-                order: addOrder
-            },
             orderBy: {
                 createdAt: "desc"
             }
