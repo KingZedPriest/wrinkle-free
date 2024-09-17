@@ -16,6 +16,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Wrinkle Free",
   description: "Wrinkle Free Laundry and Dry cleaning services Inventory PWA App.",
+  applicationName: "Wrinkle Free",
+  manifest: '/manifest.json',
+  icons: "/logo.png",
 };
 
 export default function RootLayout({ children }: Readonly<{

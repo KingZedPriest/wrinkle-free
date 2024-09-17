@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: !isProd,  // Disable PWA in development mode
+});
+
 const nextConfig = {
   experimental: { serverComponentsExternalPackages: [ '@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner' ] },
   images: {
@@ -13,4 +22,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = isProd ? withPWA(nextConfig) : nextConfig;
