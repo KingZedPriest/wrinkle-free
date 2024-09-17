@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 //Server Actions
 import { deleteOrder } from '@/actions/server/deleteOrder';
+import { editOrder } from '@/actions/server/editOrder';
 
 //Components
 import MainOrderTable from './MainOrderTable';
@@ -87,8 +88,15 @@ export default function OrderPage() {
     }
 
     const handleEdit = async (id: string, data: Partial<MainOrder>) => {
-        // Implement your edit logic here
-        console.log('Editing order:', id, data)
+
+        const { success, message } = await editOrder(id)
+        if (success) {
+            toast.success(message);
+            window.location.reload()
+        } else {
+            toast.error("Order could not be deleted, kindly try again later");
+            window.location.reload()
+        }
     }
 
     const handleDelete = async (id: string) => {
@@ -119,7 +127,7 @@ export default function OrderPage() {
                 </Button>
             </div>
             {loading &&
-                <div className={`fixed inset-0 bg-black/90 z-20 flex items-center justify-center`}><ChartCircle size="40" className="text-textOrange animate-spin" /></div>
+                <div className={`fixed inset-0 bg-black/90 z-20 flex items-center justify-center h-dvh`}><ChartCircle size="40" className="text-textOrange animate-spin" /></div>
             }
         </main>
     )

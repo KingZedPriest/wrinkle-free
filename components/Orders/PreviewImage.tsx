@@ -16,21 +16,18 @@ const MediaPreview = ({ files, onClose }: MediaPreviewProps) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/90 flex flex-col justify-center items-center p-4">
+        <div className="fixed inset-0 bg-black/90 flex flex-col justify-center items-center p-4 z-10">
             <button onClick={onClose}
                 className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg z-10 hover:bg-red-700 transition-colors">
                 Close
             </button>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 overflow-y-auto max-h-[80vh] w-full max-w-6xl">
+            <div className="overflow-y-auto columns-[100px] p-4">
                 {files.map((file, index) => (
                     <div key={index}
-                        className="relative aspect-square cursor-pointer overflow-hidden rounded-lg"
                         onClick={() => handleMediaClick(file)}>
                         {file.type.startsWith("image/") ? (
-                            <Image src={file.url} alt={`media-${index}`} fill
-                                style={{ objectFit: 'cover' }}
-                                className="hover:scale-105 transition-transform duration-300" />
+                            <Image src={file.url} alt={`media-${index}`} width={320} height={320} className="w-full hover:scale-105 transition-transform duration-300 mb-4 cursor-pointer" />
                         ) : (
                             <video
                                 src={file.url}
@@ -43,10 +40,10 @@ const MediaPreview = ({ files, onClose }: MediaPreviewProps) => {
 
             {selectedMedia && (
                 <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50" onClick={handleCloseFullscreen} >
-                    <div className="relative w-[80%] h-[80%] max-w-4xl max-h-4xl">
+                    <div>
                         {selectedMedia.type.startsWith("image/") ? (
-                            <Image src={selectedMedia.url} alt="Selected media" fill
-                                style={{ objectFit: 'cover' }} />
+                            <Image src={selectedMedia.url} alt="Selected media" width={320} height={320}
+                                 />
                         ) : (
                             <video src={selectedMedia.url} controls autoPlay className="w-full h-full"
                                 style={{ maxHeight: '90vh' }} />

@@ -46,14 +46,14 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                     {orders.map((order) => (
                         <tr key={order.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{order.orderId}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            <td className="px-6 py-4 whitespace-nowrap">{order.orderId}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
                                 {order.items.map((item, index) => (
                                     <div key={index}>{item.service} (x{item.quantity})</div>
                                 ))}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">₦{order.price.toFixed(2)}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            <td className="px-6 py-4 whitespace-nowrap">₦{order.price.toFixed(2)}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'completed' ? 'bg-green-100 text-green-800' :
                                     order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                         order.status === 'cancelled' ? 'bg-red-100 text-red-800' : order.status === "in_progress" ? "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100" :
@@ -62,14 +62,14 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                     {order.status}
                                 </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <td className="px-6 py-4 whitespace-nowrap">
                                 <Dialog>
                                     <DialogTrigger asChild>
                                         <Button variant="secondary" size="sm" className="mr-2" onClick={() => setEditingOrder(order)}>
                                             <Edit className="h-4 w-4" />
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent aria-describedby="edit-order-description" className='rounded-[2.rem]'>
+                                    <DialogContent aria-describedby="edit-order-description">
                                         <DialogHeader>
                                             <DialogTitle>Edit Order</DialogTitle>
                                             <DialogDescription>
@@ -79,15 +79,15 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                         <p id="edit-order-description" className="sr-only">Edit the selected order&apos;s details.</p>
                                         <form onSubmit={handleEditSubmit} className="space-y-4">
                                             <div>
-                                                <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
+                                                <label htmlFor="price" className="block">Price</label>
                                                 <Input id="price" name="price" type="number" defaultValue={editingOrder?.price} />
                                             </div>
                                             <div>
-                                                <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Service</label>
+                                                <label htmlFor="service" className="block">Service</label>
                                                 <Input id="service" name="service" type="text" defaultValue={editingOrder?.items[0].service} />
                                             </div>
                                             <div>
-                                                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
+                                                <label htmlFor="quantity" className="block">Quantity</label>
                                                 <Input id="quantity" name="quantity" type="number" defaultValue={editingOrder?.items[0].quantity} />
                                             </div>
                                             <Select name="status" defaultValue={editingOrder?.status}>
