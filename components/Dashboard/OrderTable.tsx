@@ -12,8 +12,8 @@ import { Trash, Edit, ChartCircle } from "iconsax-react";
 
 export default function OrderTable({ initialOrders, role }: { initialOrders: Order[], role: string }) {
 
-    const [selectedIds, setSelectedIds] = useState<string[]>([])
-    const [loading, setLoading] = useState<boolean>(false)
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     //Functions
     const handleSelect = (id: string) => {
@@ -34,12 +34,12 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
             onSuccess: () => {
                 toast.success(`The Order was deleted successfully.`);
                 setLoading(false);
-                //window.location.reload();
+                window.location.reload();
             },
             onError: () => {
                 toast.error("Couldn't delete order now, please try again later.");
                 setLoading(false);
-                //window.location.reload();
+                window.location.reload();
             },
         });
     }
@@ -96,7 +96,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                                         <Edit className="h-5 w-5" />
                                     </Link>
                                     {role === "super_admin" &&
-                                        <button onClick={() => handleDelete(order.orderId)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200">
+                                        <button onClick={() => handleDelete(order.orderId, undefined)} className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-200" disabled={loading}>
                                             {loading ? <ChartCircle size={14} color="#2ccce4" className="animate-spin" />
                                                 : <Trash className="h-5 w-5" />
                                             }
@@ -112,14 +112,14 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
                 <div className="flex justify-between mt-6">
                     <p>Selected Transaction IDs: {selectedIds.join(', ')}</p>
                     {role === "super_admin" &&
-                        <div className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex items-center gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer" onClick={() => handleDelete("", selectedIds)}>
+                        <button disabled={loading} className="bg-red-600 dark:bg-red-400 hover:bg-red-900 dark:hover:bg-red-200 flex items-center gap-x-5 text-white dark:text-black p-3 rounded-[2rem] cursor-pointer" onClick={() => handleDelete(undefined, selectedIds)}>
                             {loading ? <ChartCircle size={14} color="#2ccce4" className="animate-spin" />
                                 : <>
                                     <p>Delete Item(s)</p>
                                     <Trash className="h- w-7" />
                                 </>
                             }
-                        </div>
+                        </button>
                     }
                 </div>
             }

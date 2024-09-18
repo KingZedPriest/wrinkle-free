@@ -11,9 +11,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/u
 
 //Icons
 import { Edit, Trash2 } from 'lucide-react';
+import { ChartCircle } from 'iconsax-react';
 
 
-export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableProps) {
+export default function MainOrderTable({ orders, onEdit, onDelete, loading }: OrderTableProps) {
     const [editingOrder, setEditingOrder] = useState<MainOrder | null>(null)
 
     const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -106,7 +107,7 @@ export default function MainOrderTable({ orders, onEdit, onDelete }: OrderTableP
                                     </DialogContent>
                                 </Dialog>
                                 <Button variant="destructive" size="sm" onClick={() => onDelete(order.orderId)}>
-                                    <Trash2 className="h-4 w-4" />
+                                    {loading ? <ChartCircle size="24" color="#2ccce4" className="animate-spin" /> : <Trash2 className="h-4 w-4" />}
                                 </Button>
                             </td>
                         </tr>

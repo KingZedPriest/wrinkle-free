@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { toast } from 'sonner';
 
 //Server Actions
-import { deleteOrder } from '@/actions/server/deleteOrder';
 import { editOrder } from '@/actions/server/editOrder';
 
 //Components
@@ -14,20 +13,20 @@ import MainOrderTable from './MainOrderTable';
 import DateRangeSelect from './DateRangeSelect';
 import SelectDate from '../Dashboard/SelectDate';
 import { Button } from "@/components/ui/button";
+import Fallback from '../Fallback';
 
 //Utils
 import { makeApiRequest } from '@/lib/apiUtils';
 
-//Icons
-import { ChartCircle } from 'iconsax-react';
-
 export default function OrderPage() {
 
     const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
     const searchParams = useSearchParams();
     const [orders, setOrders] = useState<MainOrder[]>([]);
 
     const today = dayjs().format('YYYY-MM-DD');
+    
     //Params
     const startDate = searchParams.get('startDate') || today;
     const endDate = searchParams.get('endDate');
@@ -78,16 +77,24 @@ export default function OrderPage() {
         }
     }
 
-    const handleDelete = async (id: string) => {
-        toast.message("Deleting Order...")
-        const { success, message } = await deleteOrder(id)
-        if (success) {
-            toast.success(message);
-            window.location.reload()
-        } else {
-            toast.error("Order could not be deleted, kindly try again later");
-            window.location.reload()
-        }
+    const handleDelete = async (orderId: string) => {
+        toast.message("Deleting Order(s)...")
+        setLoading(true)
+
+        const formData = { orderId };
+
+        await makeApiRequest("/deleteOrder", "delete", formData, {
+            onSuccess: () => {
+                toast.success(`The Order was deleted successfully.`);
+                setLoading(false);
+                window.location.reload();
+            },
+            onError: () => {
+                toast.error("Couldn't delete order now, please try again later.");
+                setLoading(false);
+                window.location.reload();
+            },
+        });
     }
 
     useEffect(() => {
@@ -109,7 +116,9 @@ export default function OrderPage() {
                 <DateRangeSelect onDateRangeSelect={handleDateRangeChange} />
                 <SelectDate onDateSelect={handleSingleDateChange} />
             </div>
-            <MainOrderTable orders={orders} onEdit={handleEdit} onDelete={handleDelete} />
+            <Suspense fallback={<Fallback />}>
+                <MainOrderTable orders={orders} onEdit={handleEdit} onDelete={handleDelete} loading={loading} />
+            </Suspense>
             <div className="mt-4 flex justify-between">
                 <Button onClick={() => updatePage((currentPage - 1))} disabled={currentPage === 1 || orders.length === 0}>
                     Previous

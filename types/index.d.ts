@@ -174,9 +174,10 @@ declare type EditingProps = {
 
 //Editing order table props (Main Order Table)
 declare type OrderTableProps = {
-    orders: MainOrder[]
-    onEdit: (id: string, data: EditingProps) => void
-    onDelete: (id: string) => void
+    orders: MainOrder[];
+    onEdit: (id: string, data: EditingProps) => void;
+    onDelete: (id: string) => void;
+    loading: boolean;
 }
 
 //Order Transaction Page

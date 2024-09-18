@@ -2,13 +2,25 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { prisma } from '@/lib/prismadb';
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
-const s3Client = new S3Client({ region: process.env.AWS_REGION });
+
+const region = process.env.BUCKET_REGION!;
+const accessKey = process.env.ACCESS_KEY!;
+const secretKey = process.env.SECRET_ACCESS_KEY!;
+const bucketName = process.env.BUCKET_NAME!;
+
+const s3Client = new S3Client({
+    region: region,
+    credentials: {
+        accessKeyId: accessKey,
+        secretAccessKey: secretKey,
+    }
+});
 
 //Helper function for deleting images from the bucket
 async function deleteImagesFromS3(keys: string[]) {
     for (const key of keys) {
         const deleteObjectCommand = new DeleteObjectCommand({
-            Bucket: process.env.BUCKET_NAME!,
+            Bucket: bucketName,
             Key: key,
         });
         await s3Client.send(deleteObjectCommand);
@@ -43,6 +55,7 @@ async function getOrderKeys(orderIds: string[]) {
 export async function DELETE(request: NextRequest) {
 
     const body = await request.json();
+    console.log({ body })
 
     const { orderId, selectedIds } = body;
 
@@ -92,7 +105,7 @@ export async function DELETE(request: NextRequest) {
             await deleteImagesFromS3(keysToDelete);
 
             //Delete the orders from database
-            await prisma.order.deleteMany({ where: { id: { in: selectedIds } } });
+            await prisma.order.deleteMany({ where: { orderId: { in: selectedIds } } });
 
             return NextResponse.json("The order was deleted successfully.")
         } else {
