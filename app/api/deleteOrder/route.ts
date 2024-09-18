@@ -40,7 +40,7 @@ async function getOrderKeys(orderIds: string[]) {
     return keysToDelete;
 }
 
-export async function DELETE(request: NextRequest, response: NextResponse) {
+export async function DELETE(request: NextRequest) {
 
     const body = await request.json();
 
