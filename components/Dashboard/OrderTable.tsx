@@ -48,7 +48,7 @@ export default function OrderTable({ initialOrders, role }: { initialOrders: Ord
     }
 
     return (
-        <div className="">
+        <div>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-light-600 dark:bg-dark-600 shadow-md rounded-xl overflow-hidden mb-4">
                     <thead className="bg-gray-50 dark:bg-gray-700">
