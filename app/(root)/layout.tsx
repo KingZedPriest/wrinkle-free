@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     return (
         <main className="h-dvh overflow-y-auto" suppressHydrationWarning>
             <section className="mainWidth">
-                <Header />
+                <Header role={currentAdmin.role} />
                 <main className="px-2 md:px-4 xl:px-6">
                     {children}
                 </main>

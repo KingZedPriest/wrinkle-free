@@ -12,7 +12,7 @@ import { Add, Category2, UserAdd } from "iconsax-react";
 
 
 
-const HeaderSub = () => {
+const HeaderSub = ({ role }: { role: string }) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const baseClasses = "z-[5] absolute w-40 md:w-48 xl:w-56 top-10 bg-light-600 dark:bg-dark-600 right-2 sm:right-3 md:right-4 p-2 md:p-4 xl:p-6 rounded-xl flex flex-col duration-300"
@@ -30,10 +30,12 @@ const HeaderSub = () => {
                     <Add size="24" variant="Bold" />
                     <Link href="/orders/new" className="font-semibold">Create New Order</Link>
                 </div>
-                <div onClick={() => setIsOpen(false)} className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
-                    <UserAdd size="24" variant="Bold" />
-                    <Link href="/staff/new" className="font-semibold">Create New Staff</Link>
-                </div>
+                {role === "super_admin" &&
+                    <div onClick={() => setIsOpen(false)} className="flex gap-x-2 items-center hover:translate-x-2 duration-300 py-3 hover:text-generalBlue dark:hover:text-cloudBlue">
+                        <UserAdd size="24" variant="Bold" />
+                        <Link href="/staff/new" className="font-semibold">Create New Staff</Link>
+                    </div>
+                }
                 <DateInText />
                 <div className="flex justify-end my-3">
                     <ModeToggle />

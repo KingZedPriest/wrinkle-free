@@ -12,7 +12,7 @@ import { formatSubheading } from "@/lib/formatSubHeading";
 import HeaderSearch from "./HeaderSearch";
 import HeaderSub from "./HeaderSub";
 
-const Header = () => {
+const Header = ({ role }: { role: string }) => {
 
     const pathName = usePathname()
     const updatedPathname = pathName.replace(/^\//, "");
@@ -27,7 +27,7 @@ const Header = () => {
                     <p><ArrowRight2 size="18" /></p>
                     <p className="text-black dark:text-white font-semibold capitalize">{updatedPathname}</p>
                 </div>
-                <HeaderSub />
+                <HeaderSub role={role} />
             </div>
             <div className="flex justify-between mt-6">
                 <div className="flex flex-col gap-y-3 w-full">
