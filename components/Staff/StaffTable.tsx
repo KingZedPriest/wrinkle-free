@@ -106,16 +106,16 @@ const StaffTable = ({ admins }: { admins: Admin[] }) => {
                                             {admin.role === "super_admin" ? "super admin" : "admin"}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 flex items-center gap-x-5">
                                         <button onClick={() => handleSuspend(admin.id, `${admin.suspended ? 'unsuspend' : 'suspend'}`)} className={`mr-2 ${admin.suspended ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`}
                                             title={admin.suspended ? 'Unsuspend' : 'Suspend'}>
                                             <Ban className="h-5 w-5" strokeWidth={4} />
                                         </button>
-                                        <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400 mr-3"
+                                        <button onClick={() => handleCopy(`Email: ${admin.email}, Password: ${decryptPassword(admin.encryptedPassword)}`)} className="text-blue-600 dark:text-blue-400"
                                             title="Copy Details">
                                             <Copy className="h-5 w-5" />
                                         </button>
-                                        <button onClick={() => handleDelete(admin.id)} className="text-red-600 dark:text-red-400 mr-3"
+                                        <button onClick={() => handleDelete(admin.id)} className="text-red-600 dark:text-red-400"
                                             title="Delete Admin">
                                             <Trash2 className="h-5 w-5" />
                                         </button>
