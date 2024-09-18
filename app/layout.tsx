@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 
 //Import Needed Components
 import { ThemeProvider } from "@/components/theme-provider";
+import PWAInstaller from "@/components/PwaInstaller/pwaInstaller";
 
 //Import Styles
 import "../styles/globals.css";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{
       <body className={cn("h-dvh antialiased text-xs md:text-sm xl:text-base text-textLight dark:text-textDark", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
+          <PWAInstaller />
           <Toaster richColors position="top-right" closeButton />
         </ThemeProvider>
       </body>
