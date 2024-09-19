@@ -75,11 +75,11 @@ export async function DELETE(request: NextRequest) {
             // Handle single order deletion
             keysToDelete = await getOrderKeys([orderId]);
 
-            //Delete Images from S3 Bucket
-            await deleteImagesFromS3(keysToDelete);
-
             //Delete the order from database
             await prisma.order.delete({ where: { orderId } });
+
+            //Delete Images from S3 Bucket
+            await deleteImagesFromS3(keysToDelete);
 
             return NextResponse.json("The order was deleted successfully.")
 
@@ -101,11 +101,11 @@ export async function DELETE(request: NextRequest) {
             // Handle multiple orders deletion
             keysToDelete = await getOrderKeys(selectedIds);
 
-            //Delete Images from S3 Bucket
-            await deleteImagesFromS3(keysToDelete);
-
             //Delete the orders from database
             await prisma.order.deleteMany({ where: { orderId: { in: selectedIds } } });
+
+            //Delete Images from S3 Bucket
+            await deleteImagesFromS3(keysToDelete);
 
             return NextResponse.json("The order was deleted successfully.")
         } else {
