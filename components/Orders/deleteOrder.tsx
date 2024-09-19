@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 //Utils
@@ -11,6 +12,7 @@ import { ChartCircle, Trash } from "iconsax-react";
 
 const DeleteOrder = ({ orderId }: { orderId: string }) => {
 
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
 
     //Functions
@@ -24,12 +26,12 @@ const DeleteOrder = ({ orderId }: { orderId: string }) => {
             onSuccess: () => {
                 toast.success(`The Order was deleted successfully.`);
                 setLoading(false);
-                window.location.reload();
+                router.back();
             },
             onError: () => {
                 toast.error("Couldn't delete order now, please try again later.");
                 setLoading(false);
-                window.location.reload();
+                router.back();
             },
         });
     }
