@@ -90,7 +90,7 @@ export default function PWAInstaller() {
                     <DialogTitle>Install Our App</DialogTitle>
                 </DialogHeader>
                 {renderInstructions()}
-                <DialogFooter>
+                <DialogFooter className='flex gap-5'>
                     {(platform === 'windows' || platform === 'android') && (
                         <Button onClick={handleInstall}>Install</Button>
                     )}
