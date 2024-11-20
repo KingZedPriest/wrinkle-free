@@ -25,16 +25,10 @@ const OrderTransactions = () => {
     const limit = parseInt((searchParams.get('limit')) || "20");
 
     //Functions
-    const updatePage = (newPage: number, type: "add" | "remove") => {
-        let newLimit: number;
-        if (type === "add") {
-            newLimit = limit + 20
-        } else {
-            newLimit = limit - 20
-        }
+    const updatePage = (newPage: number) => {
+        
         const params = new URLSearchParams(searchParams);
         params.set('page', newPage.toString());
-        params.set('limit', newLimit.toString());
         // Replace the current URL with the updated query parameters
         router.replace(`?${params.toString()}`);
     };
@@ -57,24 +51,24 @@ const OrderTransactions = () => {
     return (
         <main className='mt-5'>
             {loading &&
-                <div className='h-dvh flex items-center justify-center'>
+                <div className='flex justify-center items-center h-dvh'>
                     <Fallback />
                 </div>
             }
             {transactions.length === 0 &&
-                <div className='h-dvh flex items-center justify-center'>
+                <div className='flex justify-center items-center h-dvh'>
                     <p>You don&apos;t have transactions yet.</p>
                 </div>
             }
             {transactions.map((order, index) => (
                 <TransactionDetails key={`Order-${index}`} orderId={order.orderId} clientName={order.clientName} createdAt={order.createdAt} paidAmount={order.amountPaid} />
             ))}
-            <div className="mt-4 flex justify-between">
-                <Button onClick={() => updatePage((page - 1), "remove")} disabled={page === 1 || transactions.length === 0}>
+            <div className="flex justify-between mt-4">
+                <Button onClick={() => updatePage(page - 1)} disabled={page === 1 || transactions.length === 0}>
                     Previous
                 </Button>
                 <span>Page {page} of {totalPages}</span>
-                <Button onClick={() => updatePage((page + 1), "add")} disabled={page === totalPages || transactions.length === 0}>
+                <Button onClick={() => updatePage(page + 1)} disabled={page === totalPages || transactions.length === 0}>
                     Next
                 </Button>
             </div>
