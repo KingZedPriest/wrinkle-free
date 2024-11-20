@@ -30,7 +30,7 @@ export default function OrderPage() {
     //Params
     const startDate = searchParams.get('startDate') || today;
     const endDate = searchParams.get('endDate');
-    const currentPage = parseInt(searchParams.get('currentPage') || '1');
+    const currentPage = parseInt(searchParams.get('page') || '1');
 
     const [totalPages, setTotalPages] = useState(1)
 
@@ -48,7 +48,7 @@ export default function OrderPage() {
         const params = new URLSearchParams(searchParams);
         params.set('startDate', start.toDateString());
         params.set('endDate', end.toDateString());
-        params.set('currentPage', "1")
+        params.set('page', "1")
 
         // Push the new URL with updated query parameters
         router.push(`?${params.toString()}`);
@@ -59,7 +59,7 @@ export default function OrderPage() {
         const params = new URLSearchParams(searchParams);
         params.set('startDate', date.toDateString());
         params.set('endDate', "");
-        params.set('currentPage', "1")
+        params.set('page', "1")
 
         // Push the new URL with updated query parameters
         router.push(`?${params.toString()}`);
@@ -112,14 +112,14 @@ export default function OrderPage() {
 
     return (
         <main className='mt-5'>
-            <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-x-5 md:gap-x-10 mb-4">
+            <div className="flex sm:flex-row flex-col gap-y-5 sm:gap-x-5 md:gap-x-10 mb-4">
                 <DateRangeSelect onDateRangeSelect={handleDateRangeChange} />
                 <SelectDate onDateSelect={handleSingleDateChange} />
             </div>
             <Suspense fallback={<Fallback />}>
                 <MainOrderTable orders={orders} onEdit={handleEdit} onDelete={handleDelete} loading={loading} />
             </Suspense>
-            <div className="mt-4 flex justify-between">
+            <div className="flex justify-between mt-4">
                 <Button onClick={() => updatePage((currentPage - 1))} disabled={currentPage === 1 || orders.length === 0}>
                     Previous
                 </Button>
