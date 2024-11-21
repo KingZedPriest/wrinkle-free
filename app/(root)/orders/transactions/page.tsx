@@ -9,6 +9,7 @@ import getAdmin from "@/actions/fetch/getAnyAdmin";
 import ScrollReveal from "@/components/RevelOnScroll";
 import OrderTransactions from "@/components/Orders/OrderTransactions";
 import Fallback from "@/components/Fallback";
+import OrderAnalytics from "@/components/Orders/OrderAnalytics";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -24,7 +25,12 @@ const page = async () => {
 
 
     return (
-        <main className="py-5 mb-20 lg:mb-10">
+        <main className="mb-20 lg:mb-10 py-5">
+            <Suspense fallback={<Fallback />}>
+                <ScrollReveal>
+                    <OrderAnalytics />
+                </ScrollReveal>
+            </Suspense>
             <Suspense fallback={<Fallback />}>
                 <ScrollReveal>
                     <OrderTransactions />

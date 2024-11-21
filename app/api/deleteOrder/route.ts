@@ -55,7 +55,6 @@ async function getOrderKeys(orderIds: string[]) {
 export async function DELETE(request: NextRequest) {
 
     const body = await request.json();
-    console.log({ body })
 
     const { orderId, selectedIds } = body;
 
