@@ -150,7 +150,6 @@ const OrderForm = ({ email }: { email: string }) => {
                 toast.info("Creating Order...");
                 const formData = { ...data, images: uploadedUrls, email };
 
-                console.log({ formData })
                 //Save to the database
                 await makeApiRequest("/createOrder", "post", formData, {
                     onSuccess: () => {
@@ -175,8 +174,8 @@ const OrderForm = ({ email }: { email: string }) => {
     };
 
     return (
-        <main className="h-dvh flex items-center justify-center">
-            <div className="bg-light-600 dark:bg-dark-600 border border-slate-200 dark:border-slate-800 p-4 sm:p-6 md:p-8 xl:p-10 rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
+        <main className="flex justify-center items-center h-dvh">
+            <div className="border-slate-200 dark:border-slate-800 bg-light-600 dark:bg-dark-600 p-4 sm:p-6 md:p-8 xl:p-10 border rounded-lg w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={`${index === 0 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         {fields.map((field) => (
@@ -198,10 +197,10 @@ const OrderForm = ({ email }: { email: string }) => {
                     <div className={`${index === 1 ? "flex flex-col gap-y-5 mt-4" : "hidden"}`}>
                         <div className="flex flex-col gap-y-1">
                             <label htmlFor="media">Select Image(s) or Video(s)</label>
-                            <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="bg-white dark:bg-black px-2 xl:px-4 py-3 duration-300 focus:border-slate-200 focus:dark:border-slate-800 focus:outline-none rounded-lg" />
+                            <input onChange={handleChange} type="file" id="media" name="media" accept="image/jpeg, image/png, image/webp, image/gif, video/mp4, video/webm" multiple className="focus:border-slate-200 focus:dark:border-slate-800 bg-white dark:bg-black px-2 xl:px-4 py-3 rounded-lg duration-300 focus:outline-none" />
                         </div>
                         {fileUrls.length > 0 &&
-                            <button type="button" onClick={handlePreviewToggle} className="text-generalBlue dark:text-cloudBlue text-left">{preview ? 'Close Preview' : 'Preview Media'}</button>
+                            <button type="button" onClick={handlePreviewToggle} className="text-generalBlue text-left dark:text-cloudBlue">{preview ? 'Close Preview' : 'Preview Media'}</button>
                         }
                         <Button type="submit" text="Create Order" loading={isSubmitting} />
                     </div>
@@ -210,7 +209,7 @@ const OrderForm = ({ email }: { email: string }) => {
                     <p onClick={() => indexFunction("remove")} className={`${index === 0 ? "text-inherit cursor-not-allowed" : "text-textOrange cursor-pointer"} flex gap-x-1 items-center hover:-translate-x-1 duration-300`}><ArrowLeft3 size="36" variant="Bold" /><span>Prev</span></p>
                     <p onClick={() => indexFunction("add")} className={`${index === 1 ? "text-inherit cursor-not-allowed" : "text-generalBlue dark:text-cloudBlue cursor-pointer"} flex gap-x-1 items-center hover:translate-x-1 duration-300`}><ArrowRight3 size="36" variant="Bold" /><span>Next</span></p>
                 </div>
-                <p className=" text-textGreen text-[10px] md:text-xs xl:text-sm text-center font-semibold">Steps {index + 1}/2 </p>
+                <p className="font-semibold text-[10px] text-center text-textGreen xl:text-sm md:text-xs">Steps {index + 1}/2 </p>
             </div>
             {preview && (
                 <MediaPreview files={fileUrls} onClose={handlePreviewToggle} />
