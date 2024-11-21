@@ -1,6 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+
+//Utils
+import formatAmount from '@/lib/formatAmount';
+
+//Components
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -12,6 +17,7 @@ const periods = [
 ]
 
 export default function OrderAnalytics() {
+
     const [paidAmount, setPaidAmount] = useState<number | null>(null)
     const [chargedAmount, setChargedAmount] = useState<number | null>(null)
     const [paidPeriod, setPaidPeriod] = useState('today')
@@ -54,15 +60,6 @@ export default function OrderAnalytics() {
         }
     }
 
-    const formatAmount = (amount: number | null) => {
-        if (amount === null) return 'N/A';
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: 'NGN',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }).format(amount);
-    }
 
     return (
         <div className="gap-4 grid md:grid-cols-2">
