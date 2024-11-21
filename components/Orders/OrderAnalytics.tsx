@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-//Utils
-import formatAmount from '@/lib/formatAmount';
-
 //Components
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+//utils
+import formatAmount from '@/lib/formatAmount'
 
 const periods = [
     { value: 'today', label: 'Today' },
@@ -17,13 +17,13 @@ const periods = [
 ]
 
 export default function OrderAnalytics() {
-
     const [paidAmount, setPaidAmount] = useState<number | null>(null)
     const [chargedAmount, setChargedAmount] = useState<number | null>(null)
     const [paidPeriod, setPaidPeriod] = useState('today')
     const [chargedPeriod, setChargedPeriod] = useState('today')
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const fetchData = async (type: 'paid' | 'charged', period: string) => {
         setIsLoading(true)
@@ -58,8 +58,8 @@ export default function OrderAnalytics() {
         } else {
             setChargedPeriod(value)
         }
+        setIsDropdownOpen(false)
     }
-
 
     return (
         <div className="gap-4 grid md:grid-cols-2">
@@ -69,7 +69,7 @@ export default function OrderAnalytics() {
                 </CardHeader>
                 <CardContent>
                     <div className="mb-4 font-bold text-2xl">{formatAmount(paidAmount)}</div>
-                    <Select value={paidPeriod} onValueChange={(value) => handlePeriodChange('paid', value)}>
+                    <Select value={paidPeriod} onValueChange={(value) => handlePeriodChange('paid', value)} onOpenChange={setIsDropdownOpen}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select period" />
                         </SelectTrigger>
@@ -89,7 +89,7 @@ export default function OrderAnalytics() {
                 </CardHeader>
                 <CardContent>
                     <div className="mb-4 font-bold text-2xl">{formatAmount(chargedAmount)}</div>
-                    <Select value={chargedPeriod} onValueChange={(value) => handlePeriodChange('charged', value)}>
+                    <Select value={chargedPeriod} onValueChange={(value) => handlePeriodChange('charged', value)} onOpenChange={setIsDropdownOpen}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select period" />
                         </SelectTrigger>
@@ -105,6 +105,9 @@ export default function OrderAnalytics() {
             </Card>
             {isLoading && <div className="col-span-2 text-center">Loading...</div>}
             {error && <div className="col-span-2 text-center text-red-500">{error}</div>}
+            {isDropdownOpen && (
+                <div className="z-40 fixed inset-0 bg-black/50" onClick={() => setIsDropdownOpen(false)} />
+            )}
         </div>
     )
 }
