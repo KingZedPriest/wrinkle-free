@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 
-//Components
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+//Utils
+import formatAmount from '@/lib/formatAmount';
 
-//utils
-import formatAmount from '@/lib/formatAmount'
+//Components
+import { Toggle } from "@/components/ui/toggle";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const periods = [
     { value: 'today', label: 'Today' },
@@ -17,13 +17,13 @@ const periods = [
 ]
 
 export default function OrderAnalytics() {
+
     const [paidAmount, setPaidAmount] = useState<number | null>(null)
     const [chargedAmount, setChargedAmount] = useState<number | null>(null)
     const [paidPeriod, setPaidPeriod] = useState('today')
     const [chargedPeriod, setChargedPeriod] = useState('today')
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const fetchData = async (type: 'paid' | 'charged', period: string) => {
         setIsLoading(true)
@@ -58,8 +58,8 @@ export default function OrderAnalytics() {
         } else {
             setChargedPeriod(value)
         }
-        setIsDropdownOpen(false)
     }
+
 
     return (
         <div className="gap-4 grid md:grid-cols-2">
@@ -69,18 +69,13 @@ export default function OrderAnalytics() {
                 </CardHeader>
                 <CardContent>
                     <div className="mb-4 font-bold text-2xl">{formatAmount(paidAmount)}</div>
-                    <Select value={paidPeriod} onValueChange={(value) => handlePeriodChange('paid', value)} onOpenChange={setIsDropdownOpen}>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select period" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {periods.map((period) => (
-                                <SelectItem key={period.value} value={period.value}>
-                                    {period.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <div className='flex flex-wrap gap-3'>
+                        {periods.map((period) => (
+                            <div className={`${paidPeriod === period.value ? "dark:bg-green-600 bg-green-400" : "dark:bg-gray-600 bg-gray-400"} px-2 py-1 rounded-md cursor-pointer`} key={period.value} aria-label={`Toggle ${period.label}`} onClick={() => handlePeriodChange('paid', period.value)}>
+                                {period.label}
+                            </div>
+                        ))}
+                    </div>
                 </CardContent>
             </Card>
             <Card>
@@ -89,25 +84,17 @@ export default function OrderAnalytics() {
                 </CardHeader>
                 <CardContent>
                     <div className="mb-4 font-bold text-2xl">{formatAmount(chargedAmount)}</div>
-                    <Select value={chargedPeriod} onValueChange={(value) => handlePeriodChange('charged', value)} onOpenChange={setIsDropdownOpen}>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select period" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {periods.map((period) => (
-                                <SelectItem key={period.value} value={period.value}>
-                                    {period.label}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <div className='flex flex-wrap gap-3'>
+                        {periods.map((period) => (
+                            <div className={`${chargedPeriod === period.value ? "dark:bg-green-600 bg-green-400" : "dark:bg-gray-600 bg-gray-400"} px-2 py-1 rounded-md cursor-pointer`} key={period.value} aria-label={`Toggle ${period.label}`} onClick={() => handlePeriodChange('charged', period.value)}>
+                                {period.label}
+                            </div>
+                        ))}
+                    </div>
                 </CardContent>
             </Card>
             {isLoading && <div className="col-span-2 text-center">Loading...</div>}
             {error && <div className="col-span-2 text-center text-red-500">{error}</div>}
-            {isDropdownOpen && (
-                <div className="z-40 fixed inset-0 bg-black/50" onClick={() => setIsDropdownOpen(false)} />
-            )}
         </div>
     )
 }
