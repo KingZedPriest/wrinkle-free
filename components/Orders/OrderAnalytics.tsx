@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import formatAmount from '@/lib/formatAmount';
 
 //Components
-import { Toggle } from "@/components/ui/toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const periods = [
